@@ -27,6 +27,10 @@ MyOpenMuWeb - это система управления контентом (CMS
 - PHP 8.1 или выше
   - Расширения: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
   - Модули: *json*, *session*, *cookie*
+  - Composer
+    - twig
+    - intl-extra
+    - extra-bundle
 - HTML (*Базовый шаблон OpenMu*)
   - Bootstrap 5.3.2 
 
