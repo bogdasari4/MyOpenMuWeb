@@ -1,0 +1,24 @@
+<h4 class="title">{{ main.text.title }}</h4>
+
+<div class="news">
+    {% for item in main.items %}
+    <div class="d-flex item my-5">
+        <div class="image">
+            <img class="border border-3 rounded-circle" src="{{ item.media }}"/>
+        </div>
+        <div class="ms-3 w-100">
+            <h3 class="border-bottom border-light pb-3 mb-3">
+                <a href="{{ item.link }}"  class="link text-decoration-none">
+                    {{ item.title }}
+                </a>
+            </h3>
+            <div class="description border-bottom pb-3">
+                {{ item.description }}
+            </div>
+            <div class="py-2">
+                Добавил <span class="text-custom-1">{{ item.auth }}</span> {{ item.date }} 
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

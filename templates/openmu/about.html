@@ -1,0 +1,107 @@
+<h4 class="title">{{ about.text.title }}</h4>
+
+{% for key, server in about.serverInfo %}
+    {% set info = about.info[key] %}
+    <div class="shadow-sm p-3 mb-3 bg-body-tertiary rounded">
+        <div class="d-flex justify-content-center server">
+            <div class="jewel-{{ server[0] }} m-auto">
+            </div>
+            <div class="info" style="width: 400px !important;">
+                <div class="d-flex justify-content-between border-bottom">
+                    <div class="name">
+                        {{ server[1] }}
+                    </div>
+                    <div class="rate">
+                        x{{ server[2] }}
+                    </div>
+                </div>
+                <div>
+                    {% if server[4] %}
+                    <span style="color: #5dbe23">{{ about.text.status.online }}</span>
+                    {% else %}
+                    <span style="color:#fe4f4f">{{ about.text.status.offline }}</span>
+                    {% endif %}
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.max_level }}
+            </span>
+            <span>
+                {{ info[0] }} Lv.
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.max_master_level }}
+            </span>
+            <span>
+                {{ info[1] }} Lv.
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.experience }}
+            </span>
+            <span>
+               x{{ info[2] }}
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.min_monster_level_up_master_level }}
+            </span>
+            <span>
+                {{ info[3] }} Lv.
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.maximum_zen_in_inventory }}
+            </span>
+            <span>
+                {{ info[4]|format_number }} zen
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.maximum_zen_in_vault }}
+            </span>
+            <span>
+                {{ info[5]|format_number }} zen
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.max_character }}
+            </span>
+            <span>
+                {{ info[6] }}
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.max_character_party }}
+            </span>
+            <span>
+                {{ info[7] }}
+            </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                {{ about.text.info.expires_drop_item }}
+            </span>
+            <span>
+                {{ info[8] }}
+            </span>
+        </li>
+    </ul>
+{% endfor %}
+<div class="caption-buttom p-3">
+    <caption>{{ about.text.lifetime }}</caption>
+</div>

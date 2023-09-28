@@ -1,0 +1,26 @@
+{
+
+    "name": "bogdanreva/openmuweb",
+    "type": "project",
+    "description": "Website for OpenMu",
+    "keywords": ["openmu", "Website", "MUnique", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bogdan Reva",
+            "email": "tip-bodya@yandex.com"
+        }
+    ],
+
+    "require": {
+        "php": "^8.0",
+        "twig/twig": "^3.7",
+        "twig/intl-extra": "^3.7",
+        "twig/extra-bundle": "^3.7"
+    },
+
+    "config": {
+        "vendor-dir": "app/packets",
+        "optimize-autoloader": true
+    }
+}

@@ -1,0 +1,45 @@
+<div class="bg-white p-3 mb-2 d-flex align-items-baseline rounded-2" style="justify-content: space-between">
+    <h5 class="block-title mb-0 text-uppercase">
+        {{ template.block.rankingInfo.text.title }}
+    </h4>
+    <a href="/ranking" class="link-secondary">
+        {{ template.block.rankingInfo.text.subtitle }}
+    </a>
+    </span>
+</div>
+
+<div class="bg-white rounded-2 p-3 overflow-x-auto">
+    <table class="table w-100 m-0 caption-buttom" style="border-collapse: collapse; border-spacing: 0;">
+        <thead>
+            <tr>
+                <th class="text-custom-1">{{ template.block.rankingInfo.text.table.rank }}</th>
+                <th class="text-custom-1 w-50">{{ template.block.rankingInfo.text.table.name }}</th>
+                <th class="text-custom-1 text-center">{{ template.block.rankingInfo.text.table.level }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if template.block.rankingInfo.row is empty %}
+            <tr>
+                <td colspan="4" class="text-center">
+                    {{ template.block.rankingInfo.text.empty }}
+                </td>
+            </tr>
+            {% else %}
+            {% for key, row in template.block.rankingInfo.row %}
+            <tr>
+                <td>
+                    {{ key }}.
+                </td>
+                <td title="{{ row[0] }}">
+                    {{ row[0] }}
+                </td>
+                <td class="text-center">
+                    {{ row[2] }} Lv.
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+        <caption>{{ template.block.rankingInfo.text.lifetime }}</caption>
+    </table>
+</div>

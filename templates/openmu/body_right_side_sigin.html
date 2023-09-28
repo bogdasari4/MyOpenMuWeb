@@ -1,0 +1,29 @@
+<div class="bg-white p-3 mb-2 d-flex align-items-baseline rounded-2" style="justify-content: space-between">
+    <h5 class="block-title mb-0 text-uppercase">
+        {{ template.block.siginForm.text.title }}
+    </h4>
+    <a href="/signup" class="link-secondary">
+        {{ template.block.siginForm.text.subtitle }}
+    </a>
+    </span>
+</div>
+
+<div class="bg-white rounded-2 p-3">
+    <form autocomplete="on" method="post">
+        <div class="mb-3">
+            <label for="siginLogin" class="form-label">{{ template.block.siginForm.text.form.login }}</label>
+            <input type="text" class="form-control" id="siginLogin" required>
+        </div>
+        <div class="mb-3">
+            <label for="siginPassword" class="form-label">{{ template.block.siginForm.text.form.password }}</label>
+            <input type="password" class="form-control" id="siginPassword" required>
+        </div>
+        <div class="d-flex align-items-baseline" style="justify-content: space-between">
+            <button type="submit" class="btn btn-md text-decoration-none my-auto" style="background-color: #c7ede6;">{{ template.block.siginForm.text.form.submit }}</button>
+            <div>
+                <a href="/forgotpassword" class="d-block link-secondary">{{ template.block.siginForm.text.form.forgot_password }}</a>
+                <a href="/signup" class="d-block link-secondary">{{ template.block.siginForm.text.form.register }}</a>
+            </div>
+        </div>
+    </form>
+</div>

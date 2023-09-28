@@ -1,0 +1,127 @@
+{
+    "localization": "Русский",
+    "html": "ru",
+    "alt": "ruRu",
+    "body": {
+        "block": {
+            "serverInfo": {
+                "status": {
+                    "online": "Включен",
+                    "offline": "Выключен"
+                }
+            },
+            "siginForm": {
+                "title": "Авторизация",
+                "subtitle": "Регистрация",
+                "form": {
+                    "login": "Логин",
+                    "password": "Пароль",
+                    "submit": "Вход",
+                    "forgot_password": "Забыли пароль?",
+                    "register": "Регистрация"
+                }
+            },
+            "rankingInfo": {
+                "title": "Рейтинг",
+                "subtitle": "Больше",
+                "table": {
+                    "empty": "Рейтинг пуст",
+                    "rank": "#",
+                    "name": "Имя",
+                    "level": "Уровень"
+                },
+                "lifetime": "Обновлено в %s"
+            }
+        },
+        "page": {
+            "main": {
+                "title": "Новости"
+            },
+            "ranking": {
+                "character": {
+                    "title": "Рейтинг",
+                    "subtitle": "Персонажи",
+                    "table": {
+                        "rank": "#",
+                        "character": "Персонаж",
+                        "class": "Класс",
+                        "level":"Уровень",
+                        "empty":"Рейтинг пуст"
+                    },
+                    "lifetime": "Обновлено в %s"
+                },
+                "guild": {
+                    "title": "Рейтинг",
+                    "subtitle": "Гильдии",
+                    "table": {
+                        "rank": "#",
+                        "name": "Название",
+                        "score": "Очки",
+                        "members":"Участников",
+                        "empty":"Рейтинг пуст"
+                    },
+                    "lifetime": "Обновлено в %s"
+                }
+            },
+            "downloads": {
+                "title": "Загрузки",
+                "download": "Загрузить"
+            },
+            "about": {
+                "title": "О сервере",
+                "status": {
+                    "online": "Включен",
+                    "offline": "Выключен"
+                },
+                "info": {
+                    "max_level": "Максимальный уровень",
+                    "max_master_level": "Максимальный Мастер уровень",
+                    "experience": "Опыт",
+                    "min_monster_level_up_master_level": "Минимальный уровень монстров для получения Мастер опыта",
+                    "maximum_zen_in_inventory": "Максимум zen в инвенторе",
+                    "maximum_zen_in_vault": "Максимум zen в тайнике",
+                    "max_character": "Персонажей на одном аккаунте",
+                    "max_character_party": "Персонажей в пати",
+                    "expires_drop_item": "Время жизни выпавших вещей"
+                },
+                "lifetime":"Обновлено в %s"
+            },
+            "character": {
+                "title": "Персонаж",
+                "name": "Имя",
+                "class": "Класс",
+                "guild": "Гильдия",
+                "level":"Уровень",
+                "strength": "Сила",
+                "agility": "Ловкасть",
+                "vitality": "Живучесть",
+                "energy": "Энергия",
+                "leadership": "Команда",
+                "lifetime": "Обновлено в %s"
+            },
+            "guild": {
+                "title": "Гильдия",
+                "info": {
+                    "name": "Название",
+                    "master": "Мастер",
+                    "members": "Участников",
+                    "alliance": "Альянс",
+                    "score": "Очки"
+                },
+                "member_guild": "Участники гильдии",
+                "status": {
+                    "1": "Member",
+                    "2": "Guild Master"
+                },
+                "table": {
+                    "rank": "#",
+                    "character":"Персонаж",
+                    "class":"Класс",
+                    "level":"Уровень",
+                    "status": "Должность"
+                },
+                "lifetime":"Обновлено в %s"
+            }
+        }
+    }
+}
