@@ -28,11 +28,11 @@ MyOpenMuWeb - это система управления контентом (CMS
   - Расширения: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
   - Модули: *json*, *session*, *cookie*
   - Composer
-    - twig
+    - [Twig](https://twig.symfony.com/)
     - intl-extra
     - extra-bundle
 - HTML (*Базовый шаблон OpenMu*)
-  - Bootstrap 5.3.2 
+  - [Bootstrap](https://getbootstrap.com/)
 
 ### Скриншоты
 ![2](https://i.imgur.com/eiMRJyT.png)
