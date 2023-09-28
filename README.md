@@ -36,5 +36,15 @@ MyOpenMuWeb - это система управления контентом (CMS
 
 ### Скриншоты
 ![2](https://i.imgur.com/eiMRJyT.png)
+
+### На кофе :coffee:
+Благодарность разрабу :relaxed:
+
+:small_blue_diamond: Toncoin: UQCAP5ywtqtW0Vz5PX9hhsZeHhJ0XN00FiP3qBs92KlW05oq
+
+:dollar: USDT: TH6QEamrEcQArqfpWUV3PPz6TVXpNnSvbv
+
+:moneybag: BTC: 1NzHox3KdeHVtgXaQQWpqi1WJQ29Mf81eM
+
 [^1]: Количество строк в запросе, *устанавливается пользователем*.
 [^2]: Только страницы использующие запросы в базу данных. Время жизни кэша *устанавливаются пользователем* для каждой страницы.
