@@ -34,7 +34,7 @@ MyOpenMuWeb - это система управления контентом (CMS
 - Apache mod_rewrite
 - PHP 8.1 или выше
   - Расширения: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
-  - Модули: *json*, *session*, *cookie*
+  - Модули: *json*, *session*, *cookie*, *libxml(используется для парсинга новостей rss ленты)*
   - Composer
     - [Twig](https://twig.symfony.com/)
     - intl-extra
