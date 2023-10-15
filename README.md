@@ -39,7 +39,7 @@ MyOpenMuWeb - это система управления контентом (CMS
     - [Twig](https://twig.symfony.com/)
     - intl-extra
     - extra-bundle
-- HTML (*Базовый шаблон OpenMu*)
+- [HTML5](https://html.spec.whatwg.org/multipage/) (*Базовый шаблон OpenMu*)
   - [Bootstrap](https://getbootstrap.com/)
 
 ### Скриншоты
