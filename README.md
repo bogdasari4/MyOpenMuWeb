@@ -42,7 +42,11 @@ MyOpenMuWeb - это система управления контентом (CMS
   - [Bootstrap](https://getbootstrap.com/)
 
 ### Скриншоты
-![2](https://i.imgur.com/RHNgnVg.png)
+> Адаптация шаблона для настольного компьютера
+![2](https://i.imgur.com/EYHAUnm.png)
+> Адаптация шаблона для смартфонов
+![2](https://i.imgur.com/HjOQtzM.jpg)
+
 
 ### На кофе :coffee:
 Благодарность разрабу :relaxed:
