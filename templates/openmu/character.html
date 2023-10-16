@@ -48,6 +48,14 @@
             </li>
             <li class="list-group-item d-flex justify-content-between">
                 <span>
+                    {{ character.text.resets }}
+                </span>
+                <span>
+                    {{ character.info[2][1] }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
                     {{ character.text.level }}
                 </span>
                 <span>
@@ -59,7 +67,7 @@
                     {{ character.text.strength }}
                 </span>
                 <span>
-                    {{ character.info[2][1]|format_number }}
+                    {{ character.info[2][2]|format_number }}
                 </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
@@ -67,7 +75,7 @@
                     {{ character.text.agility }}
                 </span>
                 <span>
-                    {{ character.info[2][2]|format_number }}
+                    {{ character.info[2][3]|format_number }}
                 </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
@@ -75,7 +83,7 @@
                     {{ character.text.vitality }}
                 </span>
                 <span>
-                    {{ character.info[2][3]|format_number }}
+                    {{ character.info[2][4]|format_number }}
                 </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
@@ -83,16 +91,16 @@
                     {{ character.text.energy }}
                 </span>
                 <span>
-                    {{ character.info[2][4]|format_number }}
+                    {{ character.info[2][5]|format_number }}
                 </span>
             </li>
-            {% if character.info[2][5] %}
+            {% if character.info[2][6] %}
             <li class="list-group-item d-flex justify-content-between">
                 <span>
                     {{ character.text.leadership }}
                 </span>
                 <span>
-                    {{ character.info[2][5]|format_number }}
+                    {{ character.info[2][6]|format_number }}
                 </span>
             </li>
             {% endif %}

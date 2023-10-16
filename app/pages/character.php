@@ -7,24 +7,45 @@ use APP\Core\PostgreSQL\Query;
 
 class Character {
 
-    private $data = array();
+    /**
+     * Summary of data
+     * @var array
+     */
+    private $data = ['page' => []];
 
-    public function __get($info) {
+    /**
+     * Summary of __get
+     * @param string $info
+     * @return array
+     */
+    public function __get(string $info): array {
         $this->setInfo();
         return $this->data[$info];
     }
 
+    /**
+     * Summary of getInfo
+     * @return Character
+     */
     public static function getInfo() {
         $info = new Character;
         return $info;
     }
 
-    private function setInfo() {
+    /**
+     * Summary of setInfo
+     * @return void
+     */
+    private function setInfo(): void {
 
         if(!isset($_GET['subpage']) || $_GET['subpage'] == '') Util::redirect('/ranking');
         $char[1][] = Util::trimSChars($_GET['subpage']);
 
-        $config = Util::config();
+        $config  = [
+            'body' => Util::config('body'),
+            'openmu' => Util::config('openmu')
+        ];
+        
         $config['body']['page']['character']['cache']['name'] = sprintf($config['body']['page']['character']['cache']['name'], $char[1][0]);
         $cache = Util::readCache($config['body']['page']['character']['cache']);
 

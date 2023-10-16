@@ -23,7 +23,7 @@ class Connect {
     }
 
     protected static function connect() {
-        $config = Util::config('core');
+        $config = Util::config('cdb');
 
         $connectString = 'pgsql:host=' . $config['cdb']['host'] . ' port=' . $config['cdb']['port'] . ' dbname=' . $config['cdb']['dbname'];
         $pdo = new PDO($connectString, $config['cdb']['user'], $config['cdb']['password']);

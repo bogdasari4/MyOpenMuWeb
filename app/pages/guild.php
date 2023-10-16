@@ -7,19 +7,36 @@ use App\Core\PostgreSQL\Query;
 
 class Guild {
 
-    private $data = [];
+    /**
+     * Summary of data
+     * @var array
+     */
+    private $data = ['page' => []];
 
-    public function __get($info) {
+    /**
+     * Summary of __get
+     * @param string $info
+     * @return array
+     */
+    public function __get(string $info): array {
         $this->setInfo();
         return $this->data[$info];
     }
 
+    /**
+     * Summary of getInfo
+     * @return Guild
+     */
     public static function getInfo() {
         $info = new Guild;
         return $info;
     }
 
-    private function setInfo() {
+    /**
+     * Summary of setInfo
+     * @return void
+     */
+    private function setInfo(): void {
 
         if(!isset($_GET['subpage']) || $_GET['subpage'] == '') Util::redirect('/ranking/guild');
         $guildName = Util::trimSChars($_GET['subpage']);
@@ -30,7 +47,11 @@ class Guild {
             ]
         ];
 
-        $config = Util::config();
+        $config  = [
+            'body' => Util::config('body'),
+            'openmu' => Util::config('openmu')
+        ];
+        
         $config['body']['page']['guild']['cache']['name'] = sprintf($config['body']['page']['guild']['cache']['name'], $guildName);
 
         $cache = Util::readCache($config['body']['page']['guild']['cache']);

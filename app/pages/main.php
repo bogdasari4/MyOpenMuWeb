@@ -6,19 +6,36 @@ use App\Util;
 
 class Main {
 
-    private $data = array();
+    /**
+     * Summary of data
+     * @var array
+     */
+    private $data = ['page' => []];
 
-    public function __get($info) {
+    /**
+     * Summary of __get
+     * @param string $info
+     * @return array
+     */
+    public function __get(string $info): array {
         $this->setInfo();
         return $this->data[$info];
     }
 
+    /**
+     * Summary of getInfo
+     * @return Main
+     */
     public static function getInfo() {
         $info = new Main;
         return $info;
     }
 
-    private function setInfo() {
+    /**
+     * Summary of setInfo
+     * @return void
+     */
+    private function setInfo(): void {
         $config = Util::config('body');
 
         $this->data['page'] = [

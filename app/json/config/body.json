@@ -1,0 +1,299 @@
+{
+    "block": {
+        "accountMenu": {
+            "status": true,
+            "menu": [
+                {
+                    "information": {
+                        "link": "/account"
+    
+                    },
+                    "changepass": {
+                        "link": "/account/changepass"
+                    }
+                },
+                {
+                    "reset": {
+                        "link": "/account/reset"
+                    },
+                    "addstats": {
+                        "link": "/account/addstats"
+                    },
+                    "teleport": {
+                        "link": "/account/teleport"
+                    } 
+                }
+            ]
+        },
+        "serverInfo": {
+            "status": true,
+            "parse": [
+                {
+                    "host": "127.0.0.1",
+                    "port": 55901,
+                    "timeout": 5
+                },
+                {
+                    "host": "127.0.0.1",
+                    "port": 55902,
+                    "timeout": 5
+                },
+                {
+                    "host": "127.0.0.1",
+                    "port": 55903,
+                    "timeout": 5
+                }
+            ],
+            "cache": {
+                "name": "server.cache",
+                "lifetime": 1800
+            }
+        },
+        "siginForm": {
+            "status": true
+        },
+        "rankingInfo": {
+            "status": true,
+            "row": 5,
+            "cache": {
+                "name": "ranking/character.cache"
+            }
+        }
+    },
+    "page": {
+        "main": {
+            "url": "https://munique.net/rss/"
+        },
+        "ranking": {
+            "character": {
+                "row": 50,
+                "cache": {
+                    "name": "ranking/character.cache",
+                    "lifetime":900
+                }
+            },
+            "guild": {
+                "row": 50,
+                "cache": {
+                    "name": "ranking/guild.cache",
+                    "lifetime":900
+                }
+            }
+        },
+        "about": {
+            "cache": {
+                "name": "about.cache",
+                "lifetime": 43200
+            }
+        },
+        "downloads": {
+            "files": {
+                "fullclient": {
+                    "visibility": true,
+                    "name": "Полный клиент",
+                    "size": "700МБ",
+                    "link": "/file1"
+                },
+                "patch": {
+                    "visibility": true,
+                    "name": "Патч 0.3.4",
+                    "size": "5МБ",
+                    "link": "/file2"
+                }
+            }
+        },
+        "character": {
+            "cache": {
+                "name": "character/%s.cache",
+                "lifetime": 900
+            }
+        },
+        "guild": {
+            "cache": {
+                "name": "guild/%s.cache",
+                "lifetime":900
+            }
+        },
+        "signup": {
+            "validator": {
+                "loginName": {
+                    "min_length": 4,
+                    "max_length": 10
+                },
+                "password": {
+                    "min_length": 4,
+                    "max_length": 10
+                },
+                "email": {
+                    "max_length": 50
+                }
+            }
+        },
+        "sigin": {
+            "validator": {
+                "loginName": {
+                    "min_length": 4,
+                    "max_length": 10
+                },
+                "password": {
+                    "min_length": 4,
+                    "max_length": 10
+                }
+            }
+        },
+        "account": {
+            "information": {
+                
+            },
+            "changepass": {
+                "validator": {
+                    "password": {
+                        "min_length": 4,
+                        "max_length": 10
+                    }
+                }  
+            },
+            "reset": {
+                "requirements":[
+                    {
+                        "level": 400,
+                        "reset": 0,
+                        "resetmax": 50,
+                        "zen": 10000000,
+                        "resetstats": true,
+                        "addpoints": true,
+                        "pointsforclass": {
+                            "00000040-0000-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0002-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0003-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0004-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0006-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0007-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0008-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000a-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000b-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000c-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000d-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0010-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0011-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0014-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0016-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0017-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0018-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0019-0000-0000-000000000000": {
+                                "point": 500
+                            }
+                        }
+                    },
+                    {
+                        "level": 400,
+                        "reset": 51,
+                        "resetmax": 100,
+                        "zen": 20000000,
+                        "resetstats": true,
+                        "addpoints": true,
+                        "pointsforclass": {
+                            "00000040-0000-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0002-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0003-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0004-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0006-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0007-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0008-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000a-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000b-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000c-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-000d-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0010-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0011-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0014-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0016-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0017-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0018-0000-0000-000000000000": {
+                                "point": 500
+                            },
+                            "00000040-0019-0000-0000-000000000000": {
+                                "point": 500
+                            }
+                        }
+                    }
+                ]
+            },
+            "addstats": {
+                "max": {
+                    "strength": 32767,
+                    "agility": 32767,
+                    "vitality": 32767,
+                    "energy": 32767,
+                    "leadership": 32767
+                }
+            }
+        }
+    }
+}

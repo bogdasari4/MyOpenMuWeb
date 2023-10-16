@@ -7,6 +7,23 @@ use App\Core\PostgreSQL\Query;
 
 class Block {
 
+    protected function accountMenu(): array {
+        $data = [];
+
+        if(isset($_SESSION['user']['isLogin'])) {
+            $data = [
+                'text' => __LANG['body']['block']['accountMenu']
+            ];
+
+            $config = Util::config('body');
+            $data['menu'] = $config['block']['accountMenu']['menu'];
+
+            $data['text']['menu'][0]['subheader'] = $_SESSION['user']['loginName'];
+            $data['text']['menu'][1]['subheader'] = isset($_SESSION['user']['character']) && ($_SESSION['user']['character']['name'] != '') ? $_SESSION['user']['character']['name'] : $data['text']['menu'][1]['noСharacters'];
+        }
+        return $data;
+    }
+    
     /**
      * Summary of serverInfo
      * @param array $config
@@ -23,7 +40,7 @@ class Block {
                         FROM config."GameServerDefinition"',
                         []
                 ),
-                'status' => Util::parseStatusServer()
+                'status' => Util::parseStatusServer($config['parse'])
             ];
 
             foreach($servers['list'] as $key => $value) {
@@ -47,7 +64,14 @@ class Block {
      * @return array
      */
     protected function siginForm(): array {
-        $data['text'] = __LANG['body']['block']['siginForm'];
+
+        $config = Util::config('body');
+
+        $data = [
+            'text' => __LANG['body']['block']['siginForm'],
+            'config' => $config['page']['sigin']['validator']
+        ];
+        
         return $data;
     }
 
@@ -72,7 +96,6 @@ class Block {
         }
         return $data;
     }
-
 }
 
 ?>

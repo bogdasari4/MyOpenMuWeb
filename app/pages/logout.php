@@ -4,8 +4,8 @@ namespace App\Pages;
 
 use App\Util;
 
-class Downloads {
-
+class LogOut {
+    
     /**
      * Summary of data
      * @var array
@@ -24,10 +24,10 @@ class Downloads {
 
     /**
      * Summary of getInfo
-     * @return Downloads
+     * @return LogOut
      */
     public static function getInfo() {
-        $info = new Downloads;
+        $info = new LogOut;
         return $info;
     }
 
@@ -36,17 +36,7 @@ class Downloads {
      * @return void
      */
     private function setInfo(): void {
-
-        $config = Util::config('body');
-
-        $this->data['page'] = [
-            'downloads' => [
-                'text' => __LANG['body']['page']['downloads'],
-                'files' => $config['page']['downloads']['files']
-            ]
-        ];
+        session_destroy();
+        Util::redirect();
     }
-
 }
-
-?>

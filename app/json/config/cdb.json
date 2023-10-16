@@ -1,0 +1,9 @@
+{
+    "cdb": {
+        "host": "localhost",
+        "port": 5432,
+        "dbname": "openmu",
+        "user": "postgres",
+        "password": 123321
+    }
+}

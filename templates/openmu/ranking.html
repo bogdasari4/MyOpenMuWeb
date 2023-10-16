@@ -19,6 +19,7 @@
             <th scope="col" class="text-custom-1">{{ ranking.character.text.table.character }}</th>
             <th scope="col" class="text-custom-1">{{ ranking.character.text.table.class }}</th>
             <th scope="col" class="text-custom-1">{{ ranking.character.text.table.level }}</th>
+            <th scope="col" class="text-custom-1">{{ ranking.character.text.table.reset }}</th>
         </tr>
     </thead>
     <tbody>
@@ -37,8 +38,9 @@
                 {% endif %}
             </td>
             <td><a href="/character/{{ char[0] }}" class="text-decoration-none fw-bold" style="color: #587c95;">{{ char[0] }}</a></td>
-            <td class="class-{{ char[3] }}">{{ char[1] }}</td>
+            <td class="class-{{ char[4] }}">{{ char[1] }}</td>
             <td>{{ char[2] }} Lv.</td>
+            <td>{{ char[3] }}</td>
         </tr>
         {% endfor %}
         {% endif %}

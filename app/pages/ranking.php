@@ -11,7 +11,7 @@ class Ranking {
      * Summary of data
      * @var array
      */
-    private $data = [];
+    private $data = ['page' => []];
 
     /**
      * Summary of config
@@ -19,19 +19,35 @@ class Ranking {
      */
     private $config = [];
 
-    public function __get($info) {
+    /**
+     * Summary of __get
+     * @param string $info
+     * @return array
+     */
+    public function __get(string $info): array {
         $this->setInfo();
         return $this->data[$info];
     }
 
+    /**
+     * Summary of getInfo
+     * @return Ranking
+     */
     public static function getInfo() {
         $info = new Ranking;
         return $info;
     }
 
+    /**
+     * Summary of setInfo
+     * @return void
+     */
     private function setInfo(): void {
 
-        $this->config = Util::config();
+        $this->config = [
+            'body' => Util::config('body'),
+            'openmu' => Util::config('openmu')
+        ];
 
         $subpage = (isset($_GET['subpage']) && $_GET['subpage'] != '' && (isset($this->config['body']['page']['ranking'][$_GET['subpage']]))) ? $_GET['subpage'] : 'character';
         $subpage = strtolower($subpage);
@@ -71,25 +87,33 @@ class Ranking {
         $this->data['page']['ranking'][$subpage]['row'] = $cache ? $cache : $data;
     }
 
+    /**
+     * Summary of character
+     * @return array
+     */
     private function character(): array {
-
             $chars = Query::getRowAll(
-                'SELECT character."Name", character."CharacterClassId", statattribute."Value"
-                FROM data."Character" character, data."StatAttribute" statattribute 
-                WHERE character."Id" = statattribute."CharacterId" 
-                AND statattribute."DefinitionId" = :level 
-                ORDER BY statattribute."Value" DESC
-                LIMIT :limit', 
-            [
-                'level' => $this->config['openmu']['attribute_definition']['level'],
-                'limit' => $this->config['body']['page']['ranking']['character']['row']
-            ]);
-
+                'SELECT c."Name" , c."CharacterClassId",
+                    COALESCE(r."Value", 0) AS resets,
+                    COALESCE(l."Value", 0) AS levels
+                 FROM data."Character" c
+                    left outer join "data"."StatAttribute" r ON c."Id" = r."CharacterId" AND r."DefinitionId" = :resets
+                    left outer join "data"."StatAttribute" l ON c."Id" = l."CharacterId" AND l."DefinitionId" = :level
+                ORDER BY resets DESC, levels DESC
+                LIMIT :limit
+                 ',
+                 [
+                    'resets' => $this->config['openmu']['attribute_definition']['resets'],
+                    'level' => $this->config['openmu']['attribute_definition']['level'],
+                    'limit' => $this->config['body']['page']['ranking']['character']['row']
+                 ]
+            );
             $i = 1;
             foreach($chars as $char) {
                 $data[$i++] = [
                     $char[0],
                     $this->config['openmu']['character']['class'][$char[1]]['name'],
+                    $char[3],
                     $char[2],
                     $this->config['openmu']['character']['class'][$char[1]]['number']
                 ];
@@ -98,12 +122,16 @@ class Ranking {
             return $data;
     }
 
+    /**
+     * Summary of guild
+     * @return array
+     */
     private function guild(): array {
         $guilds = Query::getRowAll(
             'SELECT guild."Id", guild."Name", guild."Logo"::TEXT, guild."Score", COUNT(guildmember."Id")
              FROM guild."Guild" guild, guild."GuildMember" guildmember
              WHERE guildmember."GuildId" = guild."Id"
-             GROUP BY(guild."Id")
+             GROUP BY (guild."Id")
              ORDER BY guild."Score" DESC
              LIMIT :limit
             ',

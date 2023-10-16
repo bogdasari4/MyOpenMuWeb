@@ -1,25 +1,24 @@
-<div class="bg-white p-3 mb-2 d-flex align-items-baseline rounded-2" style="justify-content: space-between">
+<div class="bg-white p-3 mb-2 d-flex justify-content-between rounded-2">
     <h5 class="block-title mb-0 text-uppercase">
         {{ template.block.siginForm.text.title }}
     </h4>
     <a href="/signup" class="link-secondary">
         {{ template.block.siginForm.text.subtitle }}
     </a>
-    </span>
 </div>
 
 <div class="bg-white rounded-2 p-3">
-    <form autocomplete="on" method="post">
+    <form autocomplete="on" method="post" name="sigin" action="/sigin">
         <div class="mb-3">
-            <label for="siginLogin" class="form-label">{{ template.block.siginForm.text.form.login }}</label>
-            <input type="text" class="form-control" id="siginLogin" required>
+            <label for="loginName" class="form-label">{{ template.block.siginForm.text.form.login }}</label>
+            <input type="text" id="loginName" name="sigin[loginName]" class="form-control" minlength="{{ template.block.siginForm.config.loginName.min_length }}" maxlength="{{ template.block.siginForm.config.loginName.max_length }}" pattern="^[A-Za-z0-9]+$" autocomplete="username" required>
         </div>
         <div class="mb-3">
-            <label for="siginPassword" class="form-label">{{ template.block.siginForm.text.form.password }}</label>
-            <input type="password" class="form-control" id="siginPassword" required>
+            <label for="password" class="form-label">{{ template.block.siginForm.text.form.password }}</label>
+            <input type="password" id="password" name="sigin[password]" class="form-control" minlength="{{ template.block.siginForm.config.password.min_length }}" maxlength="{{ template.block.siginForm.config.password.max_length }}" pattern="^[A-Za-z0-9]+$" autocomplete="current-password" required>
         </div>
-        <div class="d-flex align-items-baseline" style="justify-content: space-between">
-            <button type="submit" class="btn btn-md text-decoration-none my-auto" style="background-color: #c7ede6;">{{ template.block.siginForm.text.form.submit }}</button>
+        <div class="d-flex align-items-baseline justify-content-between">
+            <button type="submit" class="btn btn-md text-decoration-none my-auto" style="background-color: #c7ede6;" name="submit">{{ template.block.siginForm.text.form.submit }}</button>
             <div>
                 <a href="/forgotpassword" class="d-block link-secondary">{{ template.block.siginForm.text.form.forgot_password }}</a>
                 <a href="/signup" class="d-block link-secondary">{{ template.block.siginForm.text.form.register }}</a>

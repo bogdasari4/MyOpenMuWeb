@@ -1,0 +1,29 @@
+{
+    "pages": {
+        "main": "App\\Pages\\Main",
+        "ranking": "App\\Pages\\Ranking",
+        "about": "App\\Pages\\About",
+        "downloads": "App\\Pages\\Downloads",
+        "character": "App\\Pages\\Character",
+        "guild": "App\\Pages\\Guild",
+        "signup": "App\\Pages\\SignUp",
+        "sigin": "App\\Pages\\SigIn",
+        "account": "App\\Pages\\Account",
+        "logout": "App\\Pages\\LogOut"
+    },
+    "langugage": {
+        "code": {
+            "570": {
+                "iso": "rus"
+            },
+            "45": {
+                "iso": "eng"
+            }
+        },
+        "default": 570,
+        "expires": 2419200
+    },
+    "other": {
+        "template": "openmu"
+    }
+}

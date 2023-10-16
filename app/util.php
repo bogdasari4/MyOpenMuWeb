@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Exception;
+
 class Util {
 
     /**
@@ -17,17 +19,20 @@ class Util {
         return $string;
     }
 
+ 
     /**
      * Summary of config
-     * @param string|null $key
-     * @param bool|null $associative
-     * @return mixed
+     * @param string $file
+     * @param bool $associative
+     * @throws \Exception
+     * @return array|object
      */
-    public static function config(string|null $key = null, bool|null $associative = true): mixed {
-        $config = json_decode(file_get_contents(__ROOT . 'app/json/config.json'), $associative);
+    public static function config(string $file = 'core', bool $associative = true): array|object {
+        $configDir = __ROOT . 'app/json/config/' . $file . '.json';
+        if(!@file_exists($configDir)) throw new Exception(sprintf('Cannot find %s configuration file.', $file));
 
-        if($key == null) return $config;
-        return $config[$key];
+        $config = json_decode(file_get_contents($configDir), $associative);
+        return $config;
     }
 
     /**
@@ -80,13 +85,12 @@ class Util {
 
     /**
      * Summary of parseStatusServer
+     * @param array $config
      * @return array
      */
-    public static function parseStatusServer() {
+    public static function parseStatusServer(array $parse): array {
 
-        $config = self::config('body');
-
-        foreach($config['block']['serverInfo']['parse'] as $key => $value) {
+        foreach($parse as $key => $value) {
             
             $data[$key] = [0];
             $fp = @fsockopen ($value['host'], $value['port'], $errno, $errstr, $value['timeout']);
@@ -102,9 +106,14 @@ class Util {
     /**
      * Summary of redirect
      * @param string $page
+     * @param int $time
      * @return void
      */
-    public static function redirect(string $page = '/'): void {
+    public static function redirect(string $page = '/', int $time = 0): void {
+        if($time) {
+            header('Refresh:' . $time . '; url=' . $page);
+        }
+
         header('Location:' . $page);
     }
 
@@ -116,33 +125,5 @@ class Util {
      */
     public static function binaryToImageGuildLogo(string $binary, int $size = 40): string {
         return '<img src="/api/guildmark.php?data=' . $binary . '&size=' . urlencode($size) . '" width="' . $size . '" height="' . $size .'"/>';
-    }
-
-    /**
-     * Summary of getLanguage
-     * @param int $code
-     * @return array|bool
-     */
-    public static function getLanguage(int $code = 0): bool {
-        if(!$code) {
-            if(isset($_COOKIE['language_code']) || $_COOKIE['language_code'] == '') {
-                $config = self::config('core');
-                setcookie('language_code', $config['langugage']['default'], time() + $config['langugage']['expires'], '/');
-                $code = $config['langugage']['default'];
-            } else {
-                $code = $_COOKIE['language_code'];
-            }
-        }
-
-        $langFile = __ROOT . 'app/json/language/' . $code . '/main.json';
-        if(file_exists($langFile)) {
-            $lang = json_decode(file_get_contents($langFile), true);
-            if($lang) {
-                define('__LANG', $lang);
-                return true;
-            }
-        }
-
-        return false;
     }
 }

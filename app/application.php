@@ -1,5 +1,6 @@
 <?php
     error_reporting(E_ALL);
+    #error_reporting(E_ERROR | E_PARSE);
     date_default_timezone_set('Europe/Moscow');
     @ini_set('default_charset', 'utf-8');
     ob_start();
@@ -12,17 +13,19 @@
     define('__BASE_URL_ALT', __SERVER_PROTOCOL.__HTTP_HOST);
     define('__ACTUAL_URL', __SERVER_PROTOCOL.__HTTP_HOST.$_SERVER['REQUEST_URI']);
 
-    if(!@require_once('packets/autoload.php')) throw new Exception('5');
 
-    if(!@require_once('util.php')) throw new Exception('4');
-    if(!@\App\Util::getLanguage()) throw new Exception('z');
+    if(!@require_once(__ROOT . 'app/packets/autoload.php')) throw new Exception('The autoload file used by composer could not be loaded.');
 
+    session_start();
 
+    if(!@include_once(__ROOT . 'app/util.php')) throw new Exception('Failed to load Util class.');
 
-    if(!@include_once('core/handler.php')) throw new Exception('1');
-    if(!@include_once('core/postgresql/database.php')) throw new Exception('2');
-    if(!@include_once(__ROOT . 'app/core/template/main.php')) throw new Exception('');
-    
+    if(!@include_once(__ROOT . 'app/core/handler.php')) throw new Exception('The page handler file failed to execute.');
+    if(!@include_once(__ROOT . 'app/core/postgresql/database.php')) throw new Exception(__LANG['exception']['application']['database']);
+    if(!@include_once(__ROOT . 'app/core/template/main.php')) throw new Exception(__LANG['exception']['application']['main']);
+    if(!@include_once(__ROOT . 'app/core/auth/controller.php')) throw new Exception(__LANG['exception']['application']['auth']);
+
     $Handler = new App\Core\Handler;
     $Handler->renderPage();
+    
 ?>
