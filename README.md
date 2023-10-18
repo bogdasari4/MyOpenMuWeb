@@ -52,6 +52,8 @@ MyOpenMuWeb - это система управления контентом (CMS
 
 ![Адаптация шаблона для смартфонов](https://i.imgur.com/HjOQtzM.jpg)
 
+### Быстрая помощь
+[MyOpenMuWeb Telegram](https://t.me/myopenmuweb)
 
 ### На кофе :coffee:
 Благодарность разрабу :relaxed:
