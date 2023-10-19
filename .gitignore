@@ -14,9 +14,9 @@ ehthumbs_vista.db
 # Folder
 .vscode/
 app/cache/*.cache
-# app/cache/character/*.cache
-# app/cache/guild/*.cache
-# app/cache/ranking/*.cache
+app/cache/character/*.cache
+app/cache/guild/*.cache
+app/cache/ranking/*.cache
 
 # Folder config file
 [Dd]esktop.ini
