@@ -36,10 +36,13 @@ MyOpenMuWeb - это система управления контентом (CMS
 - PHP 8.1 или выше
   - Расширения: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
   - Модули: *json*, *session*, *cookie*, *libxml(используется для парсинга новостей rss ленты)*
-  - Composer
-    - [Twig](https://twig.symfony.com/)
-    - intl-extra
-    - extra-bundle
+  - [Composer](https://getcomposer.org/)
+    - [Symfony](https://symfony.com/)
+      - [Uid/Uuid](https://symfony.com/doc/current/components/uid.html)
+      - [Cache](https://symfony.com/doc/current/cache.html)
+      - [Twig](https://twig.symfony.com/)
+        - intl-extra
+        - extra-bundle
 - [HTML5](https://html.spec.whatwg.org/multipage/) (*Базовый шаблон OpenMu*)
   - [Bootstrap](https://getbootstrap.com/)
 
