@@ -14,6 +14,8 @@
 
     "require": {
         "php": "^8.0",
+        "symfony/uid": "^6.3",
+        "symfony/cache":"^6.3",
         "twig/twig": "^3.7",
         "twig/intl-extra": "^3.7",
         "twig/extra-bundle": "^3.7"
@@ -21,6 +23,9 @@
 
     "config": {
         "vendor-dir": "app/packets",
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     }
 }

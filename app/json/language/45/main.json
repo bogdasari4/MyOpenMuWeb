@@ -45,7 +45,7 @@
                             "name": "Reset"
                         },
                         "addstats": {
-                            "name": "Distribute stats"
+                            "name": "Add stats"
                         },
                         "teleport": {
                             "name": "Teleport"
@@ -56,15 +56,15 @@
             },
             "serverInfo": {
                 "status": {
-                    "online": "Included",
-                    "offline": "Switched off"
+                    "online": "Online",
+                    "offline": "Offline"
                 }
             },
             "siginForm": {
                 "title": "Authorization",
                 "subtitle": "Registration",
                 "form": {
-                    "login": "Login",
+                    "username": "Username",
                     "password": "Password",
                     "submit": "LogIn",
                     "forgot_password": "Forgot your password?",
@@ -72,10 +72,10 @@
                 }
             },
             "rankingInfo": {
-                "title": "Rating",
+                "title": "Ranking",
                 "subtitle": "More",
                 "table": {
-                    "empty": "Rating is empty",
+                    "empty": "Ranking is empty",
                     "rank": "#",
                     "name": "Name",
                     "level": "Level",
@@ -90,7 +90,7 @@
             },
             "ranking": {
                 "character": {
-                    "title": "Rating",
+                    "title": "Ranking",
                     "subtitle": "Characters",
                     "table": {
                         "rank": "#",
@@ -98,19 +98,19 @@
                         "class": "Class",
                         "level": "Level",
                         "reset": "Reset",
-                        "empty": "Rating is empty"
+                        "empty": "Ranking is empty"
                     },
                     "lifetime": "Updated in %s"
                 },
                 "guild": {
-                    "title": "Rating",
+                    "title": "Ranking",
                     "subtitle": "Guilds",
                     "table": {
                         "rank": "#",
                         "name": "Name",
-                        "score": "Glasses",
-                        "members": "Participants",
-                        "empty": "Rating is empty"
+                        "score": "Score",
+                        "members": "Members",
+                        "empty": "Ranking is empty"
                     },
                     "lifetime": "Updated in %s"
                 }
@@ -122,8 +122,8 @@
             "about": {
                 "title": "About the server",
                 "status": {
-                    "online": "Included",
-                    "offline": "Switched off"
+                    "online": "Online",
+                    "offline": "Offline"
                 },
                 "info": {
                     "max_level": "Maximum level",
@@ -131,8 +131,8 @@
                     "experience": "Experience",
                     "min_monster_level_up_master_level": "Minimum monster level to obtain Master experience",
                     "maximum_zen_in_inventory": "Maximum zen in inventory",
-                    "maximum_zen_in_vault": "Maximum zen in stash",
-                    "max_character": "Characters on one account",
+                    "maximum_zen_in_vault": "Maximum zen in vault",
+                    "max_character": "Maximum number of characters on one account",
                     "max_character_party": "Characters in the party",
                     "expires_drop_item": "Lifetime of dropped items"
                 },
@@ -143,13 +143,14 @@
                 "name": "Name",
                 "class": "Class",
                 "guild": "Guild",
+                "noguild": "Not guilds",
                 "level": "Level",
                 "resets": "Reset",
-                "strength": "Force",
-                "agility": "Dexterity",
+                "strength": "Strength",
+                "agility": "Agility",
                 "vitality": "Vitality",
                 "energy": "Energy",
-                "leadership": "Team",
+                "leadership": "Leadership",
                 "lifetime": "Updated in %s"
             },
             "guild": {
@@ -157,9 +158,9 @@
                 "info": {
                     "name": "Name",
                     "master": "Master",
-                    "members": "Participants",
+                    "members": "Members",
                     "alliance": "Alliance",
-                    "score": "Glasses"
+                    "score": "Score"
                 },
                 "member_guild": "Guild Members",
                 "status": {
@@ -171,6 +172,7 @@
                     "character": "Character",
                     "class": "Class",
                     "level": "Level",
+                    "reset":"Reset",
                     "status": "Job title"
                 },
                 "lifetime": "Updated in %s"
@@ -219,7 +221,7 @@
                         "alert": "The password is incorrect."
                     },
                     "button": {
-                        "submit": "Entrance"
+                        "submit": "LogIn"
                     }
                 }
             },
@@ -266,7 +268,7 @@
                             "label": "New Password"
                         },
                         "renewpassword": {
-                            "label": "repeat new password",
+                            "label": "Repeat new password",
                             "help": "Your password must consist of %d-%d Latin characters and must not contain spaces, special characters or emojis."
                         },
                         "button": {
@@ -310,7 +312,7 @@
                     }
                 },
                 "addstats": {
-                    "title": "Distribute stats",
+                    "title": "Add stats",
                     "subtitle": "Account",
                     "description": "The stat distribution makes it much easier for you to assign stats to your character. If you have a lot of free stats, then here you can immediately add them in the required quantity.",
                     "form": {
@@ -323,7 +325,7 @@
                             "leadership": "Command: %s"
                         },
                         "button": {
-                            "submit": "Distribute"
+                            "submit": "Add stats"
                         },
                         "alert": {
                             "successfuladdpoints": "Points are added to the character.",
@@ -373,6 +375,27 @@
             "is_array": "The page data is not an array.",
             "template": "Cannot find pattern %s.",
             "page": "The body of page %s cannot be found."
+        },
+        "core": {
+            "auth": {
+                "controller": {
+                    "validation": "Unable to execute handler file: validation.",
+                    "sigin": "Page core handler file cannot be executed: sigin.",
+                    "signup": "Page core handler file cannot be executed: signup."
+                }
+            },
+            "postgresql": {
+                "database": {
+                    "connect": "The database connection core handler file could not be executed: connect.",
+                    "query": "The query engine file cannot be executed: query."
+                }
+            },
+            "template": {
+                "main": {
+                    "block": "Cannot execute template block file: block",
+                    "body": "Unable to execute handler body file: body"
+                }
+            }
         }
     }
 }

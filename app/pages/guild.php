@@ -4,19 +4,29 @@ namespace App\Pages;
 
 use App\Util;
 use App\Core\PostgreSQL\Query;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class Guild {
 
     /**
-     * Summary of data
+     * An array of data prepared in this class.
      * @var array
      */
-    private $data = ['page' => []];
+    private array $data = ['page' => []];
 
     /**
-     * Summary of __get
+     * Array of configuration in this class.
+     * @var array
+     */
+    private array $config = [];
+
+    /**
+     * When the __get() magic method is called, data will be read from this class.
      * @param string $info
+     * The parameter takes the value 'page' automatically in the handler class.
+     * 
      * @return array
+     * We return an array of data.
      */
     public function __get(string $info): array {
         $this->setInfo();
@@ -24,94 +34,89 @@ class Guild {
     }
 
     /**
-     * Summary of getInfo
-     * @return Guild
-     */
-    public static function getInfo() {
-        $info = new Guild;
-        return $info;
-    }
-
-    /**
-     * Summary of setInfo
+     * Preparing a data array.
      * @return void
      */
     private function setInfo(): void {
 
         if(!isset($_GET['subpage']) || $_GET['subpage'] == '') Util::redirect('/ranking/guild');
-        $guildName = Util::trimSChars($_GET['subpage']);
 
-        $this->data['page'] = [
-            'guild' => [
-                'text' => __LANG['body']['page']['guild']
-            ]
-        ];
-
-        $config  = [
+        $this->config = [
             'body' => Util::config('body'),
             'openmu' => Util::config('openmu')
         ];
-        
-        $config['body']['page']['guild']['cache']['name'] = sprintf($config['body']['page']['guild']['cache']['name'], $guildName);
 
-        $cache = Util::readCache($config['body']['page']['guild']['cache']);
-        $this->data['page']['guild']['text']['lifetime'] = sprintf($this->data['page']['guild']['text']['lifetime'], date('H:i', $cache[0][0]));
+        $this->data['page'] = [
+            'guild' => [
+                'text' => __LANG['body']['page']['guild'],
+                'info' => []
+            ]
+        ];
 
-        if($cache[0][0] < time() - $config['body']['page']['guild']['cache']['lifetime']) {
-            if($guild = Query::getRow(
-                'SELECT "Id", "AllianceGuildId", "Name", "Logo"::TEXT, "Score"
-                 FROM guild."Guild"
-                 WHERE "Name" = :name
-                ',
-                [
-                    'name' => $guildName
-                ]
-                )) {
-                    $data[1] = [
-                        $guild[2],
-                        Util::binaryToImageGuildLogo($guild[3], 128),
-                        $guild[4],
-                        0
+        $this->data['page']['guild']['info'] = Util::cache($this->config['body']['page']['guild']['cache']['subdir'])->get(
+            sprintf($this->config['body']['page']['guild']['cache']['name'], Util::trimSChars($_GET['subpage'])),
+            function(ItemInterface $item) {
+                $item->expiresAfter($this->config['body']['page']['guild']['cache']['lifetime']);
+
+                if($guild = Query::getRow('SELECT "Id", "AllianceGuildId", "Name", "Logo"::TEXT, "Score" FROM guild."Guild" WHERE "Name" = :name', [ 'name' => Util::trimSChars($_GET['subpage'])])) {
+                    $data = [
+                        'name' => $guild[2],
+                        'logo' => Util::binaryToImageGuildLogo($guild[3], 128),
+                        'score' => $guild[4]
                     ];
 
+                    $i = 1;
                     foreach(Query::getRowAll(
-                        'SELECT character."Name", character."CharacterClassId", statattribute."Value", guildmember."Status"
-                        FROM guild."GuildMember" guildmember, data."Character" character, data."StatAttribute" statattribute
+                        'SELECT 
+                            character."Name", 
+                            character."CharacterClassId", 
+                            COALESCE(l."Value", 0) AS level, 
+                            COALESCE(r."Value", 0) AS reset, 
+                            guildmember."Status"
+                        FROM guild."GuildMember" guildmember, data."Character" character
+                            left outer join "data"."StatAttribute" l ON character."Id" = l."CharacterId" AND l."DefinitionId" = :level
+                            left outer join "data"."StatAttribute" r ON character."Id" = r."CharacterId" AND r."DefinitionId" = :resets
                         WHERE guildmember."GuildId" = :guild
                         AND character."Id" = guildmember."Id"
-                        AND statattribute."CharacterId" = character."Id"
-                        AND statattribute."DefinitionId" = :level
                         ORDER BY guildmember."Status" DESC
                         ',
                         [
-                            'guild' => $guild[0],
-                            'level' => $config['openmu']['attribute_definition']['level']
+                            'level' => $this->config['openmu']['attribute_definition']['level'],
+                            'resets' => $this->config['openmu']['attribute_definition']['resets'],
+                            'guild' => $guild[0]
                         ]
                         ) as $char) {
-                            $data[] = [
-                                $char[0],
-                                $config['openmu']['character']['class'][$char[1]]['name'],
-                                $config['openmu']['character']['class'][$char[1]]['number'],
-                                $char[2],
-                                __LANG['body']['page']['guild']['status'][$char[3]]
+                            $data['members'][] = [
+                                'rank' => $i++,
+                                'name' => $char[0],
+                                'class' => [
+                                    'id' => $this->config['openmu']['character']['class'][$char[1]]['number'],
+                                    'name' => $this->config['openmu']['character']['class'][$char[1]]['name']
+                                ],
+                                'stats' => [
+                                    'level' => $char[2],
+                                    'reset' => $char[3]
+                                ],
+                                'status' => __LANG['body']['page']['guild']['status'][$char[4]]
                             ];
 
-                            $data[1][3]++;
-
                     }
+
+                    $data['master'] = $data['members'][0]['name'];
+
                     if($guild[1] != null) {
 
                     }
 
-                    Util::writeCache(
-                        $config['body']['page']['guild']['cache'],
-                        $data
-                    );
+                    return $data;
                 }
-        }
+            }
+        );
 
-        unset($cache[0]);
-        $this->data['page']['guild']['info'] = $cache ? $cache : $data;
+        if($this->data['page']['guild']['info'] == null) {
+            Util::cache($this->config['body']['page']['guild']['cache']['subdir'])->deleteItem(sprintf($this->config['body']['page']['guild']['cache']['name'], Util::trimSChars($_GET['subpage'])));
+            Util::redirect('/ranking/guild');
+        }
     }
 }
 

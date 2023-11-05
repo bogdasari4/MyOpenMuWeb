@@ -24,6 +24,7 @@
         "expires": 2419200
     },
     "other": {
+        "default_timezone": "Europe/Moscow",
         "template": "openmu"
     }
 }

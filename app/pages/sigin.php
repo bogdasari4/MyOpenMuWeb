@@ -7,16 +7,20 @@ use App\Core\Auth\Validation;
 use \Exception;
 
 class SigIn extends \App\Core\Auth\SigIn {
-    /**
-     * Summary of data
+    
+     /**
+     * An array of data prepared in this class.
      * @var array
      */
-    private $data = ['page' => []];
-
+    private array $data = ['page' => []];
+    
     /**
-     * Summary of __get
+     * When the __get() magic method is called, data will be read from this class.
      * @param string $info
+     * The parameter takes the value 'page' automatically in the handler class.
+     * 
      * @return array
+     * We return an array of data.
      */
     public function __get(string $info): array {
         $this->setInfo();
@@ -24,16 +28,8 @@ class SigIn extends \App\Core\Auth\SigIn {
     }
 
     /**
-     * Summary of getInfo
-     * @return SigIn
-     */
-    public static function getInfo() {
-        $info = new SigIn;
-        return $info;
-    }
-
-    /**
-     * Summary of setInfo
+     * Preparing a data array.
+     * @throws Exception
      * @return void
      */
     private function setInfo(): void {

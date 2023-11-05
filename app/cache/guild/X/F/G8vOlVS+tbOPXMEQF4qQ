@@ -1,0 +1,4 @@
+1699208445
+cache.MuMaster
+O:1:"©":1:{s:6:"v9
+z";a:5:{s:4:"name";s:8:"MuMaster";s:4:"logo";s:137:"<img src="/api/guildmark.php?data=\x3333333333333333344334434443344444444444443443444433334444333344&size=128" width="128" height="128"/>";s:5:"score";i:0;s:7:"members";a:2:{i:0;a:5:{s:4:"rank";i:1;s:4:"name";s:9:"test300Dl";s:5:"class";a:2:{s:2:"id";i:16;s:4:"name";s:9:"Dark Lord";}s:5:"stats";a:2:{s:5:"level";s:3:"300";s:5:"reset";s:1:"0";}s:6:"status";s:12:"Guild Master";}i:1;a:5:{s:4:"rank";i:2;s:4:"name";s:9:"test400Dk";s:5:"class";a:2:{s:2:"id";i:7;s:4:"name";s:12:"Blade Master";}s:5:"stats";a:2:{s:5:"level";s:3:"400";s:5:"reset";s:1:"0";}s:6:"status";s:6:"Member";}}s:6:"master";s:9:"test300Dl";}}

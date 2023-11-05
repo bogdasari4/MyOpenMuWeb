@@ -5,35 +5,31 @@ namespace App\Core;
 use App\Util;
 use Exception;
 use App\Core\Template\Body;
-use App\Session;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extra\Intl\IntlExtension;
 
-class Handler {
+interface THandler {
+    public function getLanguage(): bool;
+    public function renderPage(): void;
+}
+
+class Handler implements THandler {
 
     /**
-     * Summary of page
      * @var string
+     * A formatted string containing the name page.
      */
     private string $page = '';
 
-    private function getLanguage(): bool {
+    /**
+     * Public function: getLanguage
+     * Language handler.
+     * @return bool
+     */
+    public function getLanguage(): bool {
 
         $code = 0;
-
-        if($this->page == 'getlang') {
-            if(isset($_GET['subpage']) && $_GET['subpage'] != '' && is_numeric($_GET['subpage'])) {
-                $code = Util::trimSChars($_GET['subpage']);
-                if(isset(__CONFIG['langugage']['code'][$code])) {
-                    if((isset($_COOKIE['language_code']) && $_COOKIE['language_code'] != $code) || __CONFIG['langugage']['default'] != $code) {
-                        setcookie('language_code', $code, time() + __CONFIG['langugage']['expires'], '/');
-                    }
-
-                    Util::redirect();
-                }
-            }
-        }
 
         if(!$code) $code = isset($_COOKIE['language_code']) ? $_COOKIE['language_code'] : __CONFIG['langugage']['default'];
 
@@ -50,9 +46,10 @@ class Handler {
     }
 
     /**
-     * Summary of renderPage
+     * Public function: renderPage
      * @throws \Exception
      * @return void
+     * Render the page before output.
      */
     public function renderPage(): void {
         switch(access) {
@@ -61,9 +58,18 @@ class Handler {
                 $this->page = strtolower($this->page);
                 $this->page = Util::trimSChars($this->page);
 
-                define('__CONFIG', Util::config('core'));
-
-                if(!$this->getLanguage()) throw new Exception('Failed to load language pack.');
+                if($this->page == 'getlang') {
+                    if(isset($_GET['subpage']) && $_GET['subpage'] != '' && is_numeric($_GET['subpage'])) {
+                        $code = Util::trimSChars($_GET['subpage']);
+                        if(isset(__CONFIG['langugage']['code'][$code])) {
+                            if((isset($_COOKIE['language_code']) && $_COOKIE['language_code'] != $code) || __CONFIG['langugage']['default'] != $code) {
+                                setcookie('language_code', $code, time() + __CONFIG['langugage']['expires'], '/');
+                            }
+        
+                            Util::redirect();
+                        }
+                    }
+                }
 
                 $templateData = Body::getInfo()->core;
 
@@ -100,9 +106,11 @@ class Handler {
     }
 
     /**
-     * Summary of getPageData
+     * Private function: getPageData
+     * Used only within its class.
      * @throws \Exception
      * @return array
+     * We generate the page data.
      */
     private function getPageData(): array {
         
@@ -111,10 +119,11 @@ class Handler {
             
         if(!@include_once(__ROOT . 'app/pages/' . $this->page . '.php')) throw new Exception(sprintf(__LANG['exception']['handler']['include'], $this->page));
         if(!@class_exists(__CONFIG['pages'][$this->page])) throw new Exception(sprintf(__LANG['exception']['handler']['class'], __CONFIG['pages'][$this->page]));
-
-        $pageData = __CONFIG['pages'][$this->page]::getInfo()->page;
+        $pageClass =__CONFIG['pages'][$this->page];
+        $pageClass = new $pageClass;
+        $pageData = $pageClass->__get('page');
         if(!@is_array($pageData)) throw new Exception(__LANG['exception']['handler']['is_array']);
-
+ 
         return $pageData;
     }
 }

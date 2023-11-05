@@ -27,25 +27,25 @@
         },
         "serverInfo": {
             "status": true,
-            "parse": [
-                {
+            "parse": {
+                "55901": {
                     "host": "127.0.0.1",
                     "port": 55901,
                     "timeout": 5
                 },
-                {
+                "55902": {
                     "host": "127.0.0.1",
                     "port": 55902,
                     "timeout": 5
                 },
-                {
+                "55903": {
                     "host": "127.0.0.1",
                     "port": 55903,
                     "timeout": 5
                 }
-            ],
+            },
             "cache": {
-                "name": "server.cache",
+                "name": "cache.server",
                 "lifetime": 1800
             }
         },
@@ -56,7 +56,9 @@
             "status": true,
             "row": 5,
             "cache": {
-                "name": "ranking/character.cache"
+                "subdir": "ranking",
+                "name": "cache.character",
+                "lifetime": 900
             }
         }
     },
@@ -68,21 +70,23 @@
             "character": {
                 "row": 50,
                 "cache": {
-                    "name": "ranking/character.cache",
+                    "subdir": "ranking",
+                    "name": "cache.character",
                     "lifetime":900
                 }
             },
             "guild": {
                 "row": 50,
                 "cache": {
-                    "name": "ranking/guild.cache",
+                    "subdir": "ranking",
+                    "name": "cache.guild",
                     "lifetime":900
                 }
             }
         },
         "about": {
             "cache": {
-                "name": "about.cache",
+                "name": "cache.about",
                 "lifetime": 43200
             }
         },
@@ -104,13 +108,15 @@
         },
         "character": {
             "cache": {
-                "name": "character/%s.cache",
+                "subdir": "character",
+                "name": "cache.%s",
                 "lifetime": 900
             }
         },
         "guild": {
             "cache": {
-                "name": "guild/%s.cache",
+                "subdir": "guild",
+                "name": "cache.%s",
                 "lifetime":900
             }
         },

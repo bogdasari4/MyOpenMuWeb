@@ -2,11 +2,18 @@
 
 namespace App\Core\Auth;
 
-class Validation {
+interface TValidation {
+    public static function LoginName(string $login, array $config): bool;
+    public static function password(string $password, array $config): bool;
+    public static function EMail(string $email, array $config): bool;
+}
+
+class Validation implements TValidation {
 
     
     /**
-     * Summary of chars
+     * Private function of chars.
+     * Perform a regular expression match.
      * @param string $string
      * @return bool
      */
@@ -18,7 +25,8 @@ class Validation {
 	}
 
     /**
-     * Summary of LoginName
+     * Public function LoginName
+     * Checks for a matching username.
      * @param string $login
      * @param array $config
      * @return bool
@@ -34,7 +42,8 @@ class Validation {
     }
 
     /**
-     * Summary of password
+     * Public function password.
+     * Checks if the user's password matches.
      * @param string $password
      * @param array $config
      * @return bool
@@ -49,7 +58,8 @@ class Validation {
     }
 
     /**
-     * Summary of EMail
+     * Public function EMail.
+     * Checks to see if the user's e-mail address is appropriate.
      * @param string $email
      * @param array $config
      * @return bool

@@ -4,19 +4,29 @@ namespace App\Pages;
 
 use App\Util;
 use APP\Core\PostgreSQL\Query;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class Character {
 
     /**
-     * Summary of data
+     * An array of data prepared in this class.
      * @var array
      */
-    private $data = ['page' => []];
+    private array $data = ['page' => []];
 
     /**
-     * Summary of __get
+     * Array of configuration in this class.
+     * @var array
+     */
+    private array $config = [];
+
+    /**
+     * When the __get() magic method is called, data will be read from this class.
      * @param string $info
+     * The parameter takes the value 'page' automatically in the handler class.
+     * 
      * @return array
+     * We return an array of data.
      */
     public function __get(string $info): array {
         $this->setInfo();
@@ -24,93 +34,96 @@ class Character {
     }
 
     /**
-     * Summary of getInfo
-     * @return Character
-     */
-    public static function getInfo() {
-        $info = new Character;
-        return $info;
-    }
-
-    /**
-     * Summary of setInfo
+     * Preparing a data array.
      * @return void
      */
     private function setInfo(): void {
 
         if(!isset($_GET['subpage']) || $_GET['subpage'] == '') Util::redirect('/ranking');
-        $char[1][] = Util::trimSChars($_GET['subpage']);
 
-        $config  = [
+        $this->config = [
             'body' => Util::config('body'),
             'openmu' => Util::config('openmu')
         ];
         
-        $config['body']['page']['character']['cache']['name'] = sprintf($config['body']['page']['character']['cache']['name'], $char[1][0]);
-        $cache = Util::readCache($config['body']['page']['character']['cache']);
+        $this->data['page'] = [
+            'character' => [
+                'text' => __LANG['body']['page']['character'],
+                'info' => []
+            ]
+        ];
 
-        $this->data['page']['character']['text'] = __LANG['body']['page']['character'];
-        $this->data['page']['character']['text']['lifetime'] = sprintf($this->data['page']['character']['text']['lifetime'], date('H:i', $cache[0][0]));
+        $this->data['page']['character']['info'] = Util::cache($this->config['body']['page']['character']['cache']['subdir'])->get(
+            sprintf($this->config['body']['page']['character']['cache']['name'], Util::trimSChars($_GET['subpage'])),
+            function(ItemInterface $item) {
+                $item->expiresAfter($this->config['body']['page']['character']['cache']['lifetime']);
 
-        if($cache[0][0] < time() - $config['body']['page']['character']['cache']['lifetime']) {
-            if($charData = Query::getRow(
-                'SELECT "Id", "CharacterClassId", "CurrentMapId", "PositionX", "PositionY"
-                FROM data."Character"
-                WHERE "Name" = :name
-                ',
-                [
-                    'name' => $char[1][0]
-                ]
-            )) {
-                $charStat = Query::getRowAll(
-                    'SELECT "DefinitionId", "Value"
-                    FROM data."StatAttribute"
-                    WHERE "CharacterId" = :id
+                if($charData = Query::getRow(
+                    'SELECT "Id", "Name", "CharacterClassId", "CurrentMapId", "PositionX", "PositionY"
+                    FROM data."Character"
+                    WHERE "Name" = :name
                     ',
                     [
-                        'id' => $charData[0]
-                    ]
-                );
-                
-                $char[1][] = $config['openmu']['character']['class'][$charData[1]]['name'];
-                $char[1][] = $config['openmu']['character']['class'][$charData[1]]['number'];
-
-                $char[1][] = $config['openmu']['game_map'][$charData[2]]['name'];
-                $char[1][] = $charData[3];
-                $char[1][] = $charData[4];
-
-                foreach($config['openmu']['attribute_definition'] as $attr) {
-                    foreach($charStat as $stat) {
-                        if($attr == $stat[0]) {
-                            $char[2][] = $stat[1];
-                        }
-                    }
-                }
-
-                if($charGuild = Query::getRow(
-                    'SELECT guild."Name", guild."Logo"::TEXT
-                    FROM guild."GuildMember" guildmember, guild."Guild" guild
-                    WHERE guildmember."Id" = :id
-                    ',
-                    [
-                        'id' => $charData[0]
+                        'name' => Util::trimSChars($_GET['subpage'])
                     ]
                 )) {
-                    $char[3][] = $charGuild[0];
-                    $char[3][] = $charGuild[1];
+                    if($charStat = Query::getRowAll(
+                        'SELECT "DefinitionId", "Value"
+                        FROM data."StatAttribute"
+                        WHERE "CharacterId" = :id
+                        ',
+                        [
+                            'id' => $charData[0]
+                        ]
+                    )) {
+                        $data = [
+                            'name' => $charData[1],
+                            'class' => [
+                                'id' => $this->config['openmu']['character']['class'][$charData[2]]['number'],
+                                'name' => $this->config['openmu']['character']['class'][$charData[2]]['name']
+                            ],
+                            'location' => [
+                                'map' => $this->config['openmu']['game_map'][$charData[3]]['name'],
+                                'x' => $charData[4],
+                                'y' => $charData[5]
+                            ],
+                            'guild' => false
+                        ];
+
+                        foreach($this->config['openmu']['attribute_definition'] as $key => $attr) {
+                            foreach($charStat as $stat) {
+                                if($attr == $stat[0]) {
+                                    $data['stats'][$key] = $stat[1];
+                                }
+                            }
+                        }
+
+                        if($charGuild = Query::getRow(
+                            'SELECT guild."Name", guild."Logo"::TEXT
+                            FROM guild."GuildMember" guildmember, guild."Guild" guild
+                            WHERE guildmember."Id" = :id
+                            ',
+                            [
+                                'id' => $charData[0]
+                            ]
+                        )) {
+                            $data['guild'] = [
+                                'name' => $charGuild[0],
+                                'logo' => Util::binaryToImageGuildLogo($charGuild[1], 16)
+                            ];
+                        }
+
+                    }
+
+                    return $data;
                 }
-
-                $char[3][1] = isset($char[3][0]) ? Util::binaryToImageGuildLogo($char[3][1], 16) : 'Не в гильдии';
-                
-                Util::writeCache(
-                    $config['body']['page']['character']['cache'],
-                    $char
-                );
             }
-        }
+        );
 
-        unset($cache[0]);
-        $this->data['page']['character']['info'] = $cache ? $cache : $char;
+        if($this->data['page']['character']['info'] == null) {
+            Util::cache($this->config['body']['page']['character']['cache']['subdir'])->deleteItem(sprintf($this->config['body']['page']['character']['cache']['name'], Util::trimSChars($_GET['subpage'])));
+            Util::redirect('/ranking');
+        }
     }
 
 }

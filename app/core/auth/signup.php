@@ -3,7 +3,7 @@
 namespace App\Core\Auth;
 
 use App\Core\PostgreSQL\Query;
-use App\Core\PostgreSQL\Support;
+use Symfony\Component\Uid\Uuid;
 
 class SignUp {
 
@@ -24,8 +24,8 @@ class SignUp {
      * Summary of createVault
      * @return string
      */
-    private function createVault() {
-        $uuid = Support::uuidv4();
+    private function createVault(): string {
+        $uuid = Uuid::v4();
         Query::insertRow('data."ItemStorage"', ['Id' => $uuid, 'Money' => 0]);
         return $uuid;
     }
@@ -39,7 +39,7 @@ class SignUp {
 
         if($this->userCheck($data['loginName'])) {
             $data = [
-                'Id' => Support::uuidv4(),
+                'Id' => Uuid::v4(),
                 'VaultId' => self::createVault(),
                 'LoginName' => $data['loginName'],
                 'PasswordHash' => password_hash($data['password'], PASSWORD_BCRYPT),

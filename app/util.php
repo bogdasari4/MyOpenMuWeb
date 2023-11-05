@@ -3,13 +3,21 @@
 namespace App;
 
 use Exception;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Util {
 
     /**
-     * Summary of trimSChars
+     * Public static function: trimSChars
+     * Static function, converts special characters to HTML entities and preserves spaces (or other characters) at the beginning and end of the string.
      * @param string $string
+     * String.
+     * 
      * @param int $optional
+     * A bitmask of one or more of the following flags, which specify how to handle quotes, 
+     * invalid code unit sequences and the used document type. The default is ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401.
+     * https://www.php.net/manual/en/function.htmlspecialchars.php
+     * 
      * @return string
      */
     public static function trimSChars(string $string, int|null $flag = 0): string {
@@ -21,9 +29,14 @@ class Util {
 
  
     /**
-     * Summary of config
+     * Public static function: config
+     * Reads the file configuration in the transform and converts it into an array of data.
      * @param string $file
+     * Specify $file to open the desired configuration file (cdb, core, head, body, openmu)
+     * 
      * @param bool $associative
+     * If $associative is set to true, JSON objects will be returned as associative arrays; if false, JSON objects will be returned as objects.
+     * 
      * @throws \Exception
      * @return array|object
      */
@@ -36,47 +49,14 @@ class Util {
     }
 
     /**
-     * Summary of readCache
-     * @param array $config
-     * @return array|bool
-     */
-    public static function readCache(array $config): array|bool {
-        if(file_exists(__ROOT . 'app/cache/' . $config['name'])) {
-
-            $result = [];
-            $cache = explode('#', file_get_contents(__ROOT . 'app/cache/' . $config['name']));
-
-            foreach($cache as $row) {
-                $result[] = explode('|', $row);
-            }
-        }
-
-        $result[0][0] = isset($result[0][0]) ? $result[0][0] : 0;
-        return $result;
-    }
-
-    /**
-     * Summary of writeCache
-     * @param array $config
-     * @param array $data
+     * Summary of parseStatusServer
+     * @param array $parse
      * @return bool
      */
-    public static function writeCache(array $config, array $data): bool {
-
-        $cache = time() . '#';
-        if($data != null) {
-
-            $countData = count($data);
-            $i = 0;
-            foreach($data as $row) {
-                $cache .= implode('|', $row);
-                if(++$i !== $countData) {
-                    $cache .= '#';
-                }
-            }
-        }
-        
-        if(file_put_contents(__ROOT . 'app/cache/' . $config['name'], $cache)) {
+    public static function parseStatusServer(array $parse): bool {
+        $fp = @fsockopen ($parse['host'], $parse['port'], $errno, $errstr, $parse['timeout']);
+        if($fp) {
+            fclose($fp);
             return true;
         }
 
@@ -84,29 +64,13 @@ class Util {
     }
 
     /**
-     * Summary of parseStatusServer
-     * @param array $config
-     * @return array
-     */
-    public static function parseStatusServer(array $parse): array {
-
-        foreach($parse as $key => $value) {
-            
-            $data[$key] = [0];
-            $fp = @fsockopen ($value['host'], $value['port'], $errno, $errstr, $value['timeout']);
-            if($fp) {
-                $data[$key] = [1];
-                fclose($fp);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Summary of redirect
+     * Public static function: redirect
      * @param string $page
+     * Redirect to the specified page.
+     * 
      * @param int $time
+     * When specifying $time greater than 0, redirection to the page is triggered after $time seconds.
+     * 
      * @return void
      */
     public static function redirect(string $page = '/', int $time = 0): void {
@@ -118,12 +82,43 @@ class Util {
     }
 
     /**
-     * Summary of binaryToImageGuildLogo
+     * Public static function: binaryToImageGuildLogo
      * @param string $binary
+     * A binary string containing the guild logo.
+
      * @param int $size
+     * Proportional image size.
+     * 
      * @return string
+     * Returns an html <img> tag with an image of the guild.
      */
     public static function binaryToImageGuildLogo(string $binary, int $size = 40): string {
         return '<img src="/api/guildmark.php?data=' . $binary . '&size=' . urlencode($size) . '" width="' . $size . '" height="' . $size .'"/>';
+    }
+
+    /**
+     * Summary of cache
+     * @param string $subdir
+     * A string used as the subdirectory of the root cache directory, 
+     * where cache items will be stored.
+     * 
+     * @param int $expires
+     * The default lifetime (in seconds) for cache items that do not define their own lifetime, 
+     * with a value 0 causing items to be stored indefinitely (i.e. until the files are deleted).
+     * 
+     * @return FilesystemAdapter
+     * Stores the cache item expiration and content as regular files in a collection of directories on a locally mounted filesystem.
+     * https://symfony.com/doc/current/components/cache/adapters/filesystem_adapter.html
+     */
+    public static function cache(string $subdir = '', int $expires = 0): FilesystemAdapter {
+
+        /**
+         * @var string
+         * The main cache directory (the application needs read-write permissions on it),
+         * if none is specified, a directory is created inside the system temporary directory.
+         */
+        (string) $directory = __ROOT . 'app/cache/';
+
+        return new FilesystemAdapter($subdir, $expires, $directory);
     }
 }

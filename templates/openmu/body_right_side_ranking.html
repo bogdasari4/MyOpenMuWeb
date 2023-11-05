@@ -8,7 +8,7 @@
 </div>
 
 <div class="bg-white rounded-2 p-3 overflow-x-auto">
-    <table class="table w-100 m-0 caption-buttom" style="border-collapse: collapse; border-spacing: 0;">
+    <table class="table w-100 m-0" style="border-collapse: collapse; border-spacing: 0;">
         <thead>
             <tr>
                 <th class="text-custom-1">{{ template.block.rankingInfo.text.table.rank }}</th>
@@ -21,28 +21,29 @@
             {% if template.block.rankingInfo.row is empty %}
             <tr>
                 <td colspan="4" class="text-center">
-                    {{ template.block.rankingInfo.text.empty }}
+                    {{ template.block.rankingInfo.text.table.empty }}
                 </td>
             </tr>
             {% else %}
-            {% for key, row in template.block.rankingInfo.row %}
+            {% for char in template.block.rankingInfo.row %}
             <tr>
                 <td>
-                    {{ key }}.
+                    {{ char.rank }}.
                 </td>
-                <td title="{{ row[0] }}">
-                    {{ row[0] }}
+                <td title="{{ row.name }}">
+                    <a href="/character/{{ char.name }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ char.name }}
+                    </a>
                 </td>
                 <td class="text-center">
-                    {{ row[2] }} Lv.
+                    {{ char.level }} Lv.
                 </td>
                 <td class="text-center">
-                    {{ row[3] }}
+                    {{ char.reset }}
                 </td>
             </tr>
             {% endfor %}
             {% endif %}
         </tbody>
-        <caption>{{ template.block.rankingInfo.text.lifetime }}</caption>
     </table>
 </div>

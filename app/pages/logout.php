@@ -7,15 +7,18 @@ use App\Util;
 class LogOut {
     
     /**
-     * Summary of data
+     * An array of data prepared in this class.
      * @var array
      */
-    private $data = ['page' => []];
-
+    private array $data = ['page' => []];
+    
     /**
-     * Summary of __get
+     * When the __get() magic method is called, data will be read from this class.
      * @param string $info
+     * The parameter takes the value 'page' automatically in the handler class.
+     * 
      * @return array
+     * We return an array of data.
      */
     public function __get(string $info): array {
         $this->setInfo();
@@ -23,16 +26,7 @@ class LogOut {
     }
 
     /**
-     * Summary of getInfo
-     * @return LogOut
-     */
-    public static function getInfo() {
-        $info = new LogOut;
-        return $info;
-    }
-
-    /**
-     * Summary of setInfo
+     * Preparing a data array.
      * @return void
      */
     private function setInfo(): void {

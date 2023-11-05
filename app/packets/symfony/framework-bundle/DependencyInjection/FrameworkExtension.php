@@ -1867,6 +1867,10 @@ class FrameworkExtension extends Extension
             $container->removeDefinition('serializer.normalizer.mime_message');
         }
 
+        if ($container->getParameter('kernel.debug')) {
+            $container->removeDefinition('serializer.mapping.cache_class_metadata_factory');
+        }
+
         // compat with Symfony < 6.3
         if (!is_subclass_of(ProblemNormalizer::class, SerializerAwareInterface::class)) {
             $container->getDefinition('serializer.normalizer.problem')
@@ -1875,10 +1879,6 @@ class FrameworkExtension extends Extension
 
         $serializerLoaders = [];
         if (isset($config['enable_annotations']) && $config['enable_annotations']) {
-            if ($container->getParameter('kernel.debug')) {
-                $container->removeDefinition('serializer.mapping.cache_class_metadata_factory');
-            }
-
             $annotationLoader = new Definition(
                 AnnotationLoader::class,
                 [new Reference('annotation_reader', ContainerInterface::NULL_ON_INVALID_REFERENCE)]
@@ -2098,6 +2098,16 @@ class FrameworkExtension extends Extension
             $container->getDefinition('messenger.transport.beanstalkd.factory')->addTag('messenger.transport_factory');
         }
 
+        if ($config['stop_worker_on_signals'] && $this->hasConsole()) {
+            $container->getDefinition('console.command.messenger_consume_messages')
+                ->replaceArgument(8, $config['stop_worker_on_signals']);
+            $container->getDefinition('console.command.messenger_failed_messages_retry')
+                ->replaceArgument(6, $config['stop_worker_on_signals']);
+        }
+
+        if ($this->hasConsole() && $container->hasDefinition('messenger.listener.stop_worker_signals_listener')) {
+            $container->getDefinition('messenger.listener.stop_worker_signals_listener')->clearTag('kernel.event_subscriber');
+        }
         if ($config['stop_worker_on_signals']) {
             $container->getDefinition('messenger.listener.stop_worker_signals_listener')->replaceArgument(0, $config['stop_worker_on_signals']);
         }

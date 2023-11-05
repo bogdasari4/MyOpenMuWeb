@@ -2,11 +2,24 @@
 
 namespace App\Core\Template;
 
-use App\Util;
 use App\Core\PostgreSQL\Query;
+use App\Util;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class Block {
 
+    /**
+     * Summary of config
+     * @var string
+     */
+    private array $config = [];
+
+    /**
+     * Protected function: accountMenu
+     * Used in Body class.
+     * @return array
+     * We display the data of the authorization block or user menu.
+     */
     protected function accountMenu(): array {
         $data = [];
 
@@ -25,42 +38,57 @@ class Block {
     }
     
     /**
-     * Summary of serverInfo
+     * Protected function: serverInfo.
+     * Used in Body class.
      * @param array $config
+     * Get block configs.
+     * 
      * @return array
+     * We get information about the server from the GameServerDefinition and GameServerEndpoint table and check the status using the parseStatusServer function.
      */
     protected function serverInfo(array $config): array {
-        $cache = Util::readCache($config['cache']);
+        $this->config = [
+            'block' => $config
+        ];
 
-        if($cache[0][0] < time() - $config['cache']['lifetime']) {
-
-            $servers = [
-                'list' => Query::getRowAll(
-                        'SELECT "ServerID", "Description", "ExperienceRate", "GameConfigurationId"
-                        FROM config."GameServerDefinition"',
-                        []
-                ),
-                'status' => Util::parseStatusServer($config['parse'])
-            ];
-
-            foreach($servers['list'] as $key => $value) {
-                $data[$key] = array_merge($value, $servers['status'][$key]);
-            }
-
-            Util::writeCache($config['cache'], $data);
-        }
-
-        unset($cache[0]);
         $data = [
             'text' => __LANG['body']['block']['serverInfo'],
-            'row' => $cache ? $cache : $data
+            'row' => []
         ];
+        
+        $data['row'] = Util::cache()->get(
+            $this->config['block']['cache']['name'],
+            function(ItemInterface $item) {
+                $item->expiresAfter($this->config['block']['cache']['lifetime']);
+
+                $serverList = Query::getRowAll(
+                    'SELECT gameserverdefinition."ServerID", gameserverendpoint."NetworkPort", gameserverdefinition."Description", gameserverdefinition."ExperienceRate", gameserverdefinition."GameConfigurationId"
+                    FROM config."GameServerDefinition" gameserverdefinition, config."GameServerEndpoint" gameserverendpoint
+                    WHERE gameserverendpoint."GameServerDefinitionId" = gameserverdefinition."Id"
+                    GROUP BY gameserverdefinition."ServerID", gameserverendpoint."NetworkPort", gameserverdefinition."Description", gameserverdefinition."ExperienceRate", gameserverdefinition."GameConfigurationId"'
+                );
+        
+                foreach($serverList as $server) {
+                    $data[$server[0]] = [
+                        'serverid' => $server[0],
+                        'status' => Util::parseStatusServer($this->config['block']['parse'][$server[1]]) ? 1 : 0,
+                        'name' => $server[2],
+                        'experience' => $server[3],
+                        'configuration' => $server[4]
+                    ];
+                }
+
+                return $data;
+            }
+        );
 
         return $data;
     }
 
     /**
-     * Summary of siginForm
+     * Protected function siginForm.
+     * User Authorization Form.
+     * Used in Body class.
      * @return array
      */
     protected function siginForm(): array {
@@ -76,23 +104,70 @@ class Block {
     }
 
     /**
-     * Summary of rankingInfo
+     * Protected function rankingInfo
+     * Used in Body class.
      * @param array $config
+     * Get block configs.
+     * Reading the character ranking cache.
+     * 
      * @return array
+     * We get the first five lines.
      */
     protected function rankingInfo(array $config): array {
 
-        $cache = Util::readCache($config['cache']);
+        $this->config = [
+            'block' => $config,
+            'openmu' => Util::config('openmu')
+        ];
 
-        $data['text'] = __LANG['body']['block']['rankingInfo'];
+        $data = [
+            'text' => __LANG['body']['block']['rankingInfo'],
+            'row' => []
+        ];
 
-        $data['text']['lifetime'] = sprintf($data['text']['lifetime'], date('H:i', $cache[0][0]));
+        $cache = Util::cache($this->config['block']['cache']['subdir'])->get(
+            $this->config['block']['cache']['name'],
+            function(ItemInterface $item) {
+                $item->expiresAfter($this->config['block']['cache']['lifetime']);
+                
+                $this->config['body'] = Util::config('body');
 
-        unset($cache[0]);
-        if($cache) {
-            for($i = 1; $i < ($config['row'] + 1) ; $i++) {
-                $data['row'][$i] = $cache[$i];
+                $chars = Query::getRowAll(
+                    'SELECT c."Name" , c."CharacterClassId",
+                        COALESCE(r."Value", 0) AS resets,
+                        COALESCE(l."Value", 0) AS levels
+                     FROM data."Character" c
+                        left outer join "data"."StatAttribute" r ON c."Id" = r."CharacterId" AND r."DefinitionId" = :resets
+                        left outer join "data"."StatAttribute" l ON c."Id" = l."CharacterId" AND l."DefinitionId" = :level
+                    ORDER BY resets DESC, levels DESC
+                    LIMIT :limit
+                     ',
+                     [
+                        'resets' => $this->config['openmu']['attribute_definition']['resets'],
+                        'level' => $this->config['openmu']['attribute_definition']['level'],
+                        'limit' => $this->config['body']['page']['ranking']['character']['row']
+                     ]
+                );
+                $i = 1;
+                foreach($chars as $char) {
+                    $data[] = [
+                        'rank' => $i++,
+                        'name' => $char[0],
+                        'class' => [
+                            'name' => $this->config['openmu']['character']['class'][$char[1]]['name'],
+                            'id' => $this->config['openmu']['character']['class'][$char[1]]['number']
+                        ],
+                        'level' => $char[3],
+                        'reset' => $char[2],
+                    ];
+                }
+
+                return $data;
             }
+        );
+
+        for($i = 0; $i < $this->config['block']['row']; $i++) {
+            $data['row'][] = $cache[$i];
         }
         return $data;
     }

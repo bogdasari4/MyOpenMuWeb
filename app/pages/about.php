@@ -4,20 +4,30 @@ namespace App\Pages;
 
 use App\Util;
 use App\Core\PostgreSQL\Query;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class About {
 
     
     /**
-     * Summary of data
+     * An array of data prepared in this class.
      * @var array
      */
-    private $data = ['page' => []];
+    private array $data = ['page' => []];
 
     /**
-     * Summary of __get
+     * Array of configuration in this class.
+     * @var array
+     */
+    private array $config = [];
+
+    /**
+     * When the __get() magic method is called, data will be read from this class.
      * @param string $info
+     * The parameter takes the value 'page' automatically in the handler class.
+     * 
      * @return array
+     * We return an array of data.
      */
     public function __get(string $info): array {
         $this->setInfo();
@@ -25,68 +35,73 @@ class About {
     }
 
     /**
-     * Summary of getInfo
-     * @return About
-     */
-    public static function getInfo() {
-        $info = new About;
-        return $info;
-    }
-
-    /**
-     * Summary of setInfo
+     * Preparing a data array.
      * @return void
      */
     private function setInfo(): void {
 
 
-        $config = Util::config('body');
-
-        $cache['serverInfo'] = Util::readCache($config['block']['serverInfo']['cache']);
-        unset($cache['serverInfo'][0]);
-
+        $this->config = [
+            'body' => Util::config('body')
+        ];
+        
         $this->data['page'] = [
             'about' => [
                 'text' => __LANG['body']['page']['about'],
-                'serverInfo' => $cache['serverInfo']
+                'info' => []
             ]
         ];
 
-        $cache['about'] = Util::readCache($config['page']['about']['cache']);
-        if($cache['about'][0][0] < time() - $config['page']['about']['cache']['lifetime']) {
-            $gcID = $data = [];
-            $i = 1;
-            foreach($cache['serverInfo'] as $server) {
-                if(!in_array($server[3], $gcID)) {
-                    $gcID[] = $server[3];
-                    $gc[$server[3]] = Query::getRow(
-                    'SELECT "MaximumLevel", 
-                            "MaximumMasterLevel",
-                            "ExperienceRate",
-                            "MinimumMonsterLevelForMasterExperience",
-                            "MaximumInventoryMoney",
-                            "MaximumVaultMoney",
-                            "MaximumCharactersPerAccount",
-                            "MaximumPartySize",
-                            "ItemDropDuration"
-                    FROM config."GameConfiguration"
-                    WHERE "Id" = :id
-                    ', [
-                        'id' => $server[3]
-                    ]);
+        $this->data['page']['about']['info'] = Util::cache()->get(
+            $this->config['body']['page']['about']['cache']['name'],
+            function(ItemInterface $item) {
+                $item->expiresAfter($this->config['body']['page']['about']['cache']['lifetime']);
+
+                $gameServerID = $gameServer = $data = [];
+                $serverInfo = Util::cache()->getItem($this->config['body']['block']['serverInfo']['cache']['name']);
+
+                foreach($serverInfo->get() as $value) {
+
+                    $data[$value['serverid']] = $value;
+
+                    if(!in_array($value['configuration'], $gameServerID)) {
+                        $gameServerID[] = $value['configuration'];
+                        $gameConfiguration = Query::getRow(
+                            'SELECT "MaximumLevel", 
+                                    "MaximumMasterLevel",
+                                    "ExperienceRate",
+                                    "MinimumMonsterLevelForMasterExperience",
+                                    "MaximumInventoryMoney",
+                                    "MaximumVaultMoney",
+                                    "MaximumCharactersPerAccount",
+                                    "MaximumPartySize",
+                                    "ItemDropDuration"
+                            FROM config."GameConfiguration"
+                            WHERE "Id" = :id
+                            ', [
+                                'id' => $value['configuration']
+                            ]
+                        );
+
+                        $gameServer[$value['configuration']] = [
+                            'maxlevel' => $gameConfiguration[0],
+                            'maxmasterlevel' => $gameConfiguration[1],
+                            'experience' => $gameConfiguration[2],
+                            'minmoblevelformasterexp' => $gameConfiguration[3],
+                            'maxinvzen' => $gameConfiguration[4],
+                            'maxvaultzen' => $gameConfiguration[5],
+                            'maxcharacc' => $gameConfiguration[6],
+                            'maxpartysize' => $gameConfiguration[7],
+                            'itemdur' => $gameConfiguration[8]
+                        ];
+                    }
+
+                    $data[$value['serverid']]['configuration'] = $gameServer[$value['configuration']];
                 }
 
-                $data[$i++] = $gc[$server[3]];
+                return $data;
             }
-            Util::writeCache(
-                $config['page']['about']['cache'],
-                $data
-            );
-        }
-        
-        $this->data['page']['about']['text']['lifetime'] = sprintf($this->data['page']['about']['text']['lifetime'], date('H:i', $cache['about'][0][0]));
-        unset($cache['about'][0]);
-        $this->data['page']['about']['info'] = $cache['about'] ? $cache['about'] : $data;
+        );
     }
 
 }

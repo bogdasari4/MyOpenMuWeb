@@ -10,7 +10,7 @@
 <div class="bg-white rounded-2 p-3">
     <form autocomplete="on" method="post" name="sigin" action="/sigin">
         <div class="mb-3">
-            <label for="loginName" class="form-label">{{ template.block.siginForm.text.form.login }}</label>
+            <label for="loginName" class="form-label">{{ template.block.siginForm.text.form.username }}</label>
             <input type="text" id="loginName" name="sigin[loginName]" class="form-control" minlength="{{ template.block.siginForm.config.loginName.min_length }}" maxlength="{{ template.block.siginForm.config.loginName.max_length }}" pattern="^[A-Za-z0-9]+$" autocomplete="username" required>
         </div>
         <div class="mb-3">

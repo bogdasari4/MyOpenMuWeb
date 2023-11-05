@@ -1,19 +1,19 @@
 {% for server in template.block.serverInfo.row %}
 <div class="bg-white rounded-2 p-3 mb-2">
     <div class="d-flex justify-content-center server">
-        <div class="jewel-{{ server[0] }} m-auto">
+        <div class="jewel-{{ server.serverid }} m-auto">
         </div>
         <div class="info">
             <div class="d-flex justify-content-between border-bottom">
                 <div class="name">
-                    {{ server[1] }}
+                    {{ server.name }}
                 </div>
                 <div class="rate">
-                    x{{ server[2] }}
+                    x{{ server.experience }}
                 </div>
             </div>
             <div>
-                {% if server[4] %}
+                {% if server.status %}
                 <span style="color: #5dbe23">{{ template.block.serverInfo.text.status.online }}</span>
                 {% else %}
                 <span style="color:#fe4f4f">{{ template.block.serverInfo.text.status.offline }}</span>

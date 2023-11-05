@@ -12,7 +12,7 @@
 </ul>
 
 {% if ranking.config.subpage == 'character' %}
-<table class="table table-striped caption-buttom">
+<table class="table table-striped">
     <thead>
         <tr>
             <th scope="col" class="text-custom-1">{{ ranking.character.text.table.rank }}</th>
@@ -25,31 +25,30 @@
     <tbody>
         {% if ranking.character.row is empty %}
         <tr>
-            <td colspan="4" class="text-center"> {{ ranking.character.text.table.empty }}</td>
+            <td colspan="5" class="text-center"> {{ ranking.character.text.table.empty }}</td>
         </tr>
         {% else %}
-        {% for key, char in ranking.character.row %}
+        {% for char in ranking.character.row %}
         <tr class="ranking">
             <td class=" text-center rank">
-                {% if key == 1 or key == 2 or key == 3 %}
-                <span class=" d-block medal rank rank-{{ key }}"></span>
+                {% if char.rank == 1 or char.rank == 2 or char.rank == 3 %}
+                <span class=" d-block medal rank rank-{{ char.rank }}"></span>
                 {% else %}
-                {{ key }}.
+                {{ char.rank }}.
                 {% endif %}
             </td>
-            <td><a href="/character/{{ char[0] }}" class="text-decoration-none fw-bold" style="color: #587c95;">{{ char[0] }}</a></td>
-            <td class="class-{{ char[4] }}">{{ char[1] }}</td>
-            <td>{{ char[2] }} Lv.</td>
-            <td>{{ char[3] }}</td>
+            <td><a href="/character/{{ char.name }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ char.name }}</a></td>
+            <td class="class-{{ char.class.id }}">{{ char.class.name }}</td>
+            <td>{{ char.level }} Lv.</td>
+            <td>{{ char.reset }}</td>
         </tr>
         {% endfor %}
         {% endif %}
     </tbody>
-    <caption>{{ ranking.character.text.lifetime }}</caption>
 </table>
 {% elseif(ranking.config.subpage == 'guild') %}
 
-<table class="table table-striped caption-buttom">
+<table class="table table-striped">
     <thead>
         <tr>
             <th scope="col" class="text-custom-1">{{ ranking.guild.text.table.rank }}</th>
@@ -64,22 +63,21 @@
             <td colspan="4" class="text-center"> {{ ranking.guild.text.empty }}</td>
         </tr>
         {% else %}
-        {% for key, guild in ranking.guild.row %}
+        {% for guild in ranking.guild.row %}
         <tr class="ranking">
             <td class=" text-center rank">
-                {{ key }}.
+                {{ guild.rank }}.
             </td>
             <td>
-                <a href="/guild/{{ guild[0] }}" class="text-decoration-none fw-bold d-flex align-items-center gap-2" style="color: #587c95;">
-                    {{ guild[1]|raw }} {{ guild[0] }}
+                <a href="/guild/{{ guild.name }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                    {{ guild.logo|raw }} {{ guild.name }}
                 </a>
             </td>
-            <td class="class-{{ guild[3] }}">{{ guild[2] }}</td>
-            <td>{{ guild[3] }}</td>
+            <td>{{ guild.score }}</td>
+            <td>{{ guild.guildmember }}</td>
         </tr>
         {% endfor %}
         {% endif %}
     </tbody>
-    <caption>{{ ranking.guild.text.lifetime }}</caption>
 </table>
 {% endif %}
