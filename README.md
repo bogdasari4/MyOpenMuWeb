@@ -6,30 +6,29 @@ MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/O
 > This project is currently **under development**. You can try the current state using the available git image. Для получения дополнительной информации посетите канал [MyOpenMuWeb в Telegram](https://t.me/myopenmuweb)
 
 Что уже готово на сегодняшний день:
-- [ ] Страницы сайта
-  - [x] Регистрация
-    - [ ] Верификация аккаунта
-  - [x] Авторизация
-    - [ ] Напомнить пароль 
-  - [ ] Забыл пароль
-  - [x] Личный кабинет
-    - [x] Информация
-    - [x] Сменить пароль
-    - [x] Ресет
-    - [x] Распределить статы
-    - [x] Телепорт
-  - [x] Рейтинг
-    - [x] Персонажи (топ %) [^1]
-    - [x] Гильдии (топ %) [^1]
-  - [x] О персонаже
-  - [x] О гильдии
-  - [x] Загрузки
-  - [x] О сервере
-- [x] Движок
-  - [x] Смена языка
-    - [x] Русский
+- [ ] Site pages
+  - [x] SignUp
+    - [ ] Account verification
+  - [x] SigIn
+    - [ ] Forgot your password
+  - [x] Personal Area
+    - [x] Information
+    - [x] Change password
+    - [x] Rests
+    - [x] Add stats
+    - [x] Teleport
+  - [x] Rankings
+    - [x] Characters (top %) [^1]
+    - [x] Guilds (top %) [^1]
+  - [x] About the character
+  - [x] About the guild
+  - [x] Downloads
+  - [x] About
+- [x] Engine
+  - [x] Switch language
+    - [x] Russian
     - [x] English (Google Translate)
-  - [x] Кеширование страниц [^2] 
+  - [x] Page caching [^2] 
 
 ### Requirements
 - Apache mod_rewrite
@@ -47,7 +46,7 @@ MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/O
   - [Bootstrap](https://getbootstrap.com/)
 
 ### API modification example
-Go to the src\Web\Admin Panel\API directory and replace the old method with the new one below:
+Go to the `src\Web\Admin Panel\API` directory and replace the old method with the new one below:
 ```
 [HttpGet]
 [Route("status")]
