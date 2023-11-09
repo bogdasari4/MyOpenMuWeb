@@ -5,7 +5,7 @@ MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/O
 ## Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image. Для получения дополнительной информации посетите канал [MyOpenMuWeb в Telegram](https://t.me/myopenmuweb)
 
-Что уже готово на сегодняшний день:
+What is ready for today:
 - [ ] Site pages
   - [x] SignUp
     - [ ] Account verification
