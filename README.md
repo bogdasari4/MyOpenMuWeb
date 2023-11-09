@@ -1,9 +1,9 @@
 # MyOpenMuWeb
 ![2](https://i.imgur.com/sz3odHC.png)
 
-MyOpenMuWeb - это система управления контентом (CMS) с открытым исходным кодом для сервера [MUnique/OpenMU](https://github.com/MUnique/OpenMU) на базе PostgreSQL.
-## Текущее состояние проекта
-> В настоящее время этот проект **находится в стадии разработки**. Вы можете попробовать текущее состояние, используя доступный git образ. Для получения дополнительной информации посетите канал [MyOpenMuWeb в Telegram](https://t.me/myopenmuweb)
+MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
+## Current status of the project
+> This project is currently **under development**. You can try the current state using the available git image. Для получения дополнительной информации посетите канал [MyOpenMuWeb в Telegram](https://t.me/myopenmuweb)
 
 Что уже готово на сегодняшний день:
 - [ ] Страницы сайта
@@ -31,11 +31,11 @@ MyOpenMuWeb - это система управления контентом (CMS
     - [x] English (Google Translate)
   - [x] Кеширование страниц [^2] 
 
-### Требования
+### Requirements
 - Apache mod_rewrite
-- PHP 8.1 или выше
-  - Расширения: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
-  - Модули: *json*, *session*, *cookie*, *libxml(используется для парсинга новостей rss ленты)*
+- PHP 8.2 or higher
+  - Extensions: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
+  - Modules: *json*, *session*, *cookie*, *libxml(used for parsing RSS news feeds)*
   - [Composer](https://getcomposer.org/)
     - [Symfony](https://symfony.com/)
       - [Uid/Uuid](https://symfony.com/doc/current/components/uid.html)
@@ -43,20 +43,56 @@ MyOpenMuWeb - это система управления контентом (CMS
       - [Twig](https://twig.symfony.com/)
         - intl-extra
         - extra-bundle
-- [HTML5](https://html.spec.whatwg.org/multipage/) (*Базовый шаблон OpenMu*)
+- [HTML5](https://html.spec.whatwg.org/multipage/) (*Basic OpenMu template*)
   - [Bootstrap](https://getbootstrap.com/)
 
-### Скриншоты
-> Адаптация шаблона для настольного компьютера (кликни чтобы увеличить)
+### API modification example
+Go to the src\Web\Admin Panel\API directory and replace the old method with the new one below:
+```
+[HttpGet]
+[Route("status")]
+public IActionResult ServerState()
+{
+    var result = new Object[_gameServers.Values.Count];
 
-![Адаптация шаблона для настольного компьютера](https://i.imgur.com/EYHAUnm.png)
-![Адаптация шаблона для настольного компьютера](https://i.imgur.com/hIrQOvz.jpg)
-> Адаптация шаблона для смартфонов (кликни чтобы увеличить)
+    _gameServers.Values.ForEach(async item =>
+    {
+        var server = item as GameServer;
+        if (server is not null)
+        {
 
-![Адаптация шаблона для смартфонов](https://i.imgur.com/HjOQtzM.jpg)
+            var list = new List<string>();
+            await server.Context.ForEachPlayerAsync(player =>
+            {
+                list.Add(player.GetName());
+                return Task.CompletedTask;
+            }).ConfigureAwait(false);
 
-### На кофе :coffee:
-Благодарность разрабу :relaxed:
+            result[server.Id] = new {
+                status = server.ServerState > 0 ? true : false,
+                currentConnections = server.MaximumConnections,
+                playerCount = server.Context.PlayerCount,
+                playersList = list
+            };
+
+        };
+    });
+
+    return Ok(JsonSerializer.Serialize(result));
+}
+```
+
+### Screenshots
+> Adaptation of the template for a desktop computer (click to enlarge)
+
+![Adaptation of the template for a desktop computer](https://i.imgur.com/EYHAUnm.png)
+![Adaptation of the template for a desktop computer](https://i.imgur.com/hIrQOvz.jpg)
+> Adaptation of the template for smartphones (click to enlarge)
+
+![Adaptation of the template for smartphones](https://i.imgur.com/HjOQtzM.jpg)
+
+### For coffee :coffee:
+Thanks to the developer :relaxed:
 
 :small_blue_diamond: Toncoin: UQCAP5ywtqtW0Vz5PX9hhsZeHhJ0XN00FiP3qBs92KlW05oq
 
@@ -64,5 +100,5 @@ MyOpenMuWeb - это система управления контентом (CMS
 
 :moneybag: BTC: 1NzHox3KdeHVtgXaQQWpqi1WJQ29Mf81eM
 
-[^1]: Количество строк в запросе, *устанавливается пользователем*.
-[^2]: Только страницы использующие запросы в базу данных. Время жизни кэша *устанавливаются пользователем* для каждой страницы.
+[^1]: Number of lines in the request, *set by user*.
+[^2]: Only pages that use database queries. Cache lifetime *set by user* for each page.
