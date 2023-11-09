@@ -14,7 +14,12 @@
             </div>
             <div>
                 {% if server.status %}
-                <span style="color: #5dbe23">{{ template.block.serverInfo.text.status.online }}</span>
+                <div class="d-flex justify-content-between">
+                    <span style="color: #5dbe23">{{ template.block.serverInfo.text.status.online }}</span>
+                    {% if template.config.body.block.serverInfo.apiParse %}
+                    <span style="color: #5dbe23">{{ server.playerCount }}</span>
+                    {% endif %}
+                </div>
                 {% else %}
                 <span style="color:#fe4f4f">{{ template.block.serverInfo.text.status.offline }}</span>
                 {% endif %}

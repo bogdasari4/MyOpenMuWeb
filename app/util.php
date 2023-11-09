@@ -97,7 +97,7 @@ class Util {
     }
 
     /**
-     * Summary of cache
+     * Public static function: cache
      * @param string $subdir
      * A string used as the subdirectory of the root cache directory, 
      * where cache items will be stored.
@@ -120,5 +120,22 @@ class Util {
         (string) $directory = __ROOT . 'app/cache/';
 
         return new FilesystemAdapter($subdir, $expires, $directory);
+    }
+
+    /**
+     * Public static function: parseAPIServer
+     * @return array|bool
+     * Uses a modified api `http://localhost/api/status` to parse detailed information about servers.
+     * More information and example: 
+     * https://github.com/bogdasari4/MyOpenMuWeb/tree/main#api-modification-example
+     */
+    public static function parseAPIServer(): array|bool {
+        $config['body'] = self::config('body');
+        if($apiString = file_get_contents($config['body']['block']['serverInfo']['api']['url'])) {
+            $data = json_decode($apiString, true);
+            return $data;
+        }
+
+        return false;
     }
 }

@@ -44,7 +44,8 @@ class Block {
      * Get block configs.
      * 
      * @return array
-     * We get information about the server from the GameServerDefinition and GameServerEndpoint table and check the status using the parseStatusServer function.
+     * We get information about the server from the GameServerDefinition and GameServerEndpoint table 
+     * and check the status using the parseStatusServer or parseAPIServer function.
      */
     protected function serverInfo(array $config): array {
         $this->config = [
@@ -67,21 +68,27 @@ class Block {
                     WHERE gameserverendpoint."GameServerDefinitionId" = gameserverdefinition."Id"
                     GROUP BY gameserverdefinition."ServerID", gameserverendpoint."NetworkPort", gameserverdefinition."Description", gameserverdefinition."ExperienceRate", gameserverdefinition."GameConfigurationId"'
                 );
-        
+                
+                if($this->config['block']['apiParse']) {
+                    $apiStats = Util::parseAPIServer();
+                }
+
                 foreach($serverList as $server) {
-                    $data[$server[0]] = [
-                        'serverid' => $server[0],
-                        'status' => Util::parseStatusServer($this->config['block']['parse'][$server[1]]) ? 1 : 0,
-                        'name' => $server[2],
-                        'experience' => $server[3],
-                        'configuration' => $server[4]
-                    ];
+                    if($this->config['block']['apiParse'] && $apiStats) {
+                        $data[$server[0]] = $apiStats[$server[0]];
+                    } else {
+                        $data[$server[0]]['status'] = Util::parseStatusServer($this->config['block']['parse'][$server[1]]) ? 1 : 0;
+                    }
+
+                    $data[$server[0]]['serverid'] = $server[0];
+                    $data[$server[0]]['name'] = $server[2];
+                    $data[$server[0]]['experience'] = $server[3];
+                    $data[$server[0]]['configuration'] = $server[4];
                 }
 
                 return $data;
             }
         );
-
         return $data;
     }
 

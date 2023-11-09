@@ -1,6 +1,6 @@
 <?php
 
-$modules = ['intl', 'pdo_pgsql', 'pgsql', 'zip', 'session', 'gd'];
+$modules = ['intl', 'pdo_pgsql', 'pgsql', 'zip', 'session', 'gd', 'xml'];
 
 
 foreach($modules as $module) {

@@ -102,6 +102,7 @@ class Character {
                             'SELECT guild."Name", guild."Logo"::TEXT
                             FROM guild."GuildMember" guildmember, guild."Guild" guild
                             WHERE guildmember."Id" = :id
+                            AND guild."Id" = guildmember."GuildId"
                             ',
                             [
                                 'id' => $charData[0]

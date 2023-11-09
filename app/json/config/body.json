@@ -27,6 +27,10 @@
         },
         "serverInfo": {
             "status": true,
+            "apiParse": true,
+            "api": {
+                "url": "http://localhost/api/status"
+            },
             "parse": {
                 "55901": {
                     "host": "127.0.0.1",
@@ -227,9 +231,9 @@
                     },
                     {
                         "level": 400,
-                        "reset": 51,
-                        "resetmax": 100,
-                        "zen": 20000000,
+                        "reset": 0,
+                        "resetmax": 50,
+                        "zen": 10000000,
                         "resetstats": true,
                         "addpoints": true,
                         "pointsforclass": {
