@@ -1,11 +1,26 @@
 <?php
 
+namespace App\Interface;
+
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
+interface Util {
+    public static function trimSChars(string $string, int|null $flag = 0): string;
+    public static function config(string $file = 'core', bool $associative = true): array|object;
+    public static function parseStatusServer(array $parse): bool;
+    public static function redirect(string $page = '/', int $time = 0): void;
+    public static function binaryToImageGuildLogo(string $binary, int $size = 40): string;
+    public static function cache(string $subdir = '', int $expires = 0): FilesystemAdapter;
+    public static function parseAPIServer(): array|bool;
+
+}
+
 namespace App;
 
 use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
-class Util {
+class Util implements \App\Interface\Util {
 
     /**
      * Public static function: trimSChars

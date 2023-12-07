@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Interface;
 
-use App\Util;
-use Exception;
-use App\Core\Template\Body;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use Twig\Extra\Intl\IntlExtension;
-
-interface THandler {
+interface Handler {
     public function getLanguage(): bool;
     public function renderPage(): void;
 }
 
-class Handler implements THandler {
+namespace App\Core;
+
+use App\Util;
+use App\Core\Template\Body;
+
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Extra\Intl\IntlExtension;
+
+use Exception;
+
+class Handler implements \App\Core\Interface\Handler {
 
     /**
      * @var string
