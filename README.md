@@ -69,7 +69,7 @@ public IActionResult ServerState()
 
             result[server.Id] = new {
                 status = server.ServerState > 0 ? true : false,
-                currentConnections = server.MaximumConnections,
+                maximumConnections = server.MaximumConnections,
                 playerCount = server.Context.PlayerCount,
                 playersList = list
             };
