@@ -93,6 +93,8 @@ public IActionResult ServerState()
 ### For coffee :coffee:
 Thanks to the developer :relaxed:
 
+:credit_card: [donationalerts.com/r/bogdasar](https://www.donationalerts.com/r/bogdasar)
+
 :small_blue_diamond: Toncoin: UQCAP5ywtqtW0Vz5PX9hhsZeHhJ0XN00FiP3qBs92KlW05oq
 
 :dollar: USDT: TH6QEamrEcQArqfpWUV3PPz6TVXpNnSvbv
