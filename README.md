@@ -3,7 +3,7 @@
 
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
 ## Current status of the project
-> This project is currently **under development**. You can try the current state using the available git image. For more information, visit the [MyOpenMuWeb Telegram channel](https://t.me/myopenmuweb)
+> This project is currently **under development**. You can try the current state using the available git image. For more information, visit the [MyOpenMuWeb Discord channel](https://discord.com/invite/h4xBgxtNHw)
 
 What is ready for today:
 - [ ] Site pages
