@@ -1,9 +1,11 @@
 # MyOpenMuWeb
 ![2](https://i.imgur.com/sz3odHC.png)
 
+[![Discord](https://img.shields.io/discord/1193794951071399956?style=for-the-badge&logo=discord&label=MyOpenMuWeb)](https://discord.gg/h4xBgxtNHw)
+
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
 ## Current status of the project
-> This project is currently **under development**. You can try the current state using the available git image. For more information, visit the [MyOpenMuWeb Discord channel](https://discord.com/invite/h4xBgxtNHw)
+> This project is currently **under development**. You can try the current state using the available git image.
 
 What is ready for today:
 - [ ] Site pages
