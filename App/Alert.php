@@ -1,7 +1,16 @@
 <?php
+/**
+ * MyOpenMuWeb
+ * @see https://github.com/bogdasari4/MyOpenMuWeb
+ */
 
 namespace App;
 
+/**
+ * A notification class that uses an extending exception class.
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
+ */
 final class Alert extends \Exception
 {
     private string $hexcode;
@@ -10,6 +19,17 @@ final class Alert extends \Exception
 
     private array $alertList;
 
+    /**
+     * Summary of __construct
+     * @param int $hexcode
+     * Alert code.
+     * @param string $type
+     * Message type.
+     * `info`, `success`, `warning`, `danger`.
+     * @param string $redirect
+     * Redirect to page.
+     * @param \Throwable|null $previous
+     */
     public function __construct(int $hexcode, string $type = '', string $redirect = '', \Throwable $previous = null)
     {
         parent::__construct('', 0, $previous);
@@ -36,6 +56,10 @@ final class Alert extends \Exception
         }
     }
 
+    /**
+     * We display a ready-made HTML/CSS alert template with a message.
+     * @return string
+     */
     public function getCalloutTemplate(): string
     {
         $type = match ($this->type) {
@@ -53,6 +77,11 @@ final class Alert extends \Exception
         return $callout;
     }
 
+    /**
+     * Return the message string. 
+     * If there is no starkey in the array, return `hexcode`.
+     * @return string
+     */
     public function getRawMessage(): string
     {
         if ($this->alertList && isset($this->alertList[$this->hexcode]))
@@ -60,11 +89,20 @@ final class Alert extends \Exception
         return $this->hexcode;
     }
 
+    /**
+     * Return `hexcode`.
+     * @return string
+     */
     public function getRawCode(): string
     {
         return $this->hexcode;
     }
 
+    /**
+     * Return the message type.
+     * `info`, `success`, `warning`, `danger`.
+     * @return string
+     */
     public function getRawType(): string
     {
         return $this->type;
