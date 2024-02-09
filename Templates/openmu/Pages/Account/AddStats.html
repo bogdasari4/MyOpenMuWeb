@@ -1,0 +1,30 @@
+{% include 'Pages/Account.html' %}
+<div class="row justify-content-center">
+    <div class="col col-md-8 mt-2">
+        <form method="post" name="addstats" autocomplete="off">
+            <div class="mb-3">
+                <table class="table table-borderless align-middle">
+                    <thead>
+                        <tr class="text-end">
+                            <th colspan="2" class="bg-light">{{ page.account.text.form.table.leveluppoints|format(page.account.addstats.character.point|format_number) }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, stat in page.account.addstats.character.stats %}
+                        <tr>
+                            <td class="bg-light w-50">{{ page.account.text.form.table[key]|format(stat|format_number) }}</td>
+                            <td class="w-50"><input type="number" name="addstats[{{ key }}]" class="form-control" value="0" step="1" min="0" max="{{ page.account.addstats.config.max[key] }}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-3">
+                <button class="w-50 mb-2 btn rounded-3 btn btn-secondary" type="submit">
+                    {{ page.account.text.form.button.submit }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="d-flex justify-content-between">
+    <h4 class="title">{{ page.ranking.text.title }}</h4>
+    <span>{{ page.ranking.text.subtitle }}</span>
+</div>
+
+<ul class="nav nav-tabs justify-content-center">
+{% for nav in page.ranking.nav %}
+<li class="nav-item">
+    <a class="nav-link {{ nav.active }} text-decoration-none fw-bold" style="color: #587c95;" aria-current="page" href="{{ nav.link }}">{{ nav.name }}</a>
+</li>
+{% endfor %}
+</ul>

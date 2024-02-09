@@ -1,44 +1,41 @@
 <?php
+/**
+ * MyOpenMuWeb
+ * @see https://github.com/bogdasari4/MyOpenMuWeb
+ */
 
 namespace App\Pages;
 
-use App\Util;
+use App\Core\Adapter\PageAdapter;
 
-class Downloads {
-
+/**
+ * The page displays a list of files to download.
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
+ */
+final class Downloads extends PageAdapter
+{
     /**
-     * An array of data prepared in this class.
-     * @var array
-     */
-    private array $data = ['page' => []];
-
-    /**
-     * When the __get() magic method is called, data will be read from this class.
-     * @param string $info
-     * The parameter takes the value 'page' automatically in the handler class.
-     * 
+     * The public function `getInfo()` provides data for rendering pages.
      * @return array
      * We return an array of data.
      */
-    public function __get(string $info): array {
-        $this->setInfo();
-        return $this->data[$info];
+    public function getInfo(): array
+    {
+        return $this->setInfo();
     }
 
     /**
-     * Preparing a data array.
-     * @return void
+     * The private function `setInfo()` collects information into a data array.
+     * @return array
+     * We return an array of data.
      */
-    private function setInfo(): void {
+    private function setInfo(): array
+    {
+        $data['text'] = __LANG['body']['page']['downloads'];
+        $data['files'] = $this->config['files'];
 
-        $config = Util::config('body');
-
-        $this->data['page'] = [
-            'downloads' => [
-                'text' => __LANG['body']['page']['downloads'],
-                'files' => $config['page']['downloads']['files']
-            ]
-        ];
+        return $data;
     }
 
 }

@@ -1,0 +1,20 @@
+{% include 'Pages/Account.html' %}
+<div class="row justify-content-center">
+    <div class="col col-md-8 mt-2">
+        <form method="post" name="teleport" autocomplete="off">
+            <div class="mb-3">
+                <select class="form-select" name="teleport[map]">
+                    {% for gamemap in page.account.teleport.gamemap %}
+                    <option value="{{ gamemap.id }}">{{ gamemap.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <button class="w-50 mb-2 btn rounded-3 btn btn-secondary" type="submit">
+                    {{ page.account.text.form.button.submit }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

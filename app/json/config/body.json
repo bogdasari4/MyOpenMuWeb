@@ -6,7 +6,6 @@
                 {
                     "information": {
                         "link": "/account"
-    
                     },
                     "changepass": {
                         "link": "/account/changepass"
@@ -21,7 +20,7 @@
                     },
                     "teleport": {
                         "link": "/account/teleport"
-                    } 
+                    }
                 }
             ]
         },
@@ -49,7 +48,7 @@
                 }
             },
             "cache": {
-                "name": "cache.server",
+                "setName": "cache.server",
                 "lifetime": 1800
             }
         },
@@ -60,37 +59,42 @@
             "status": true,
             "row": 5,
             "cache": {
-                "subdir": "ranking",
-                "name": "cache.character",
+                "subdir": "Ranking",
+                "setName": "cache.character",
                 "lifetime": 900
             }
         }
     },
     "page": {
         "main": {
-            "url": "https://munique.net/rss/"
+            "url": "https://munique.net/rss/",
+            "cache": {
+                "setName": "cache.main",
+                "lifetime": 900
+            }
         },
         "ranking": {
             "character": {
                 "row": 50,
                 "cache": {
-                    "subdir": "ranking",
-                    "name": "cache.character",
-                    "lifetime":900
+                    "subdir": "Ranking",
+                    "setName": "cache.character",
+                    "lifetime": 900
                 }
             },
             "guild": {
                 "row": 50,
                 "cache": {
-                    "subdir": "ranking",
-                    "name": "cache.guild",
-                    "lifetime":900
+                    "subdir": "Ranking",
+                    "setName": "cache.guild",
+                    "lifetime": 900
                 }
             }
         },
         "about": {
             "cache": {
-                "name": "cache.about",
+                "getName": "cache.server",
+                "setName": "cache.about",
                 "lifetime": 43200
             }
         },
@@ -113,61 +117,59 @@
         "character": {
             "cache": {
                 "subdir": "character",
-                "name": "cache.%s",
+                "setName": "cache.%s",
                 "lifetime": 900
             }
         },
         "guild": {
             "cache": {
                 "subdir": "guild",
-                "name": "cache.%s",
-                "lifetime":900
+                "setName": "cache.%s",
+                "lifetime": 900
             }
         },
         "signup": {
             "validator": {
                 "loginName": {
-                    "min_length": 4,
-                    "max_length": 10
+                    "minLength": 4,
+                    "maxLength": 10
                 },
                 "password": {
-                    "min_length": 4,
-                    "max_length": 10
+                    "minLength": 4,
+                    "maxLength": 10
                 },
                 "email": {
-                    "max_length": 50
+                    "minLength": 6,
+                    "maxLength": 50
                 }
             }
         },
         "sigin": {
             "validator": {
                 "loginName": {
-                    "min_length": 4,
-                    "max_length": 10
+                    "minLength": 4,
+                    "maxLength": 10
                 },
                 "password": {
-                    "min_length": 4,
-                    "max_length": 10
+                    "minLength": 4,
+                    "maxLength": 10
                 }
             }
         },
         "account": {
-            "information": {
-                
-            },
             "changepass": {
                 "validator": {
                     "password": {
-                        "min_length": 4,
-                        "max_length": 10
+                        "minLength": 4,
+                        "maxLength": 10
                     }
-                }  
+                }
             },
             "reset": {
-                "requirements":[
+                "requirements": [
                     {
                         "level": 400,
-                        "reset": 0,
+                        "resetmin": 0,
                         "resetmax": 50,
                         "zen": 10000000,
                         "resetstats": true,
@@ -231,8 +233,8 @@
                     },
                     {
                         "level": 400,
-                        "reset": 0,
-                        "resetmax": 50,
+                        "resetmin": 51,
+                        "resetmax": 100,
                         "zen": 10000000,
                         "resetstats": true,
                         "addpoints": true,

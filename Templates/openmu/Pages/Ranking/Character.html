@@ -1,0 +1,29 @@
+{% include 'Pages/Ranking.html' %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.rank }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.character }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.class }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.level }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.reset }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for char in page.ranking.character %}
+        <tr class="ranking">
+            <td class=" text-center rank">
+                {{ char.rank }}.
+            </td>
+            <td><a href="/character/{{ char.name }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ char.name }}</a></td>
+            <td class="class-{{ char.class.id }}">{{ char.class.name }}</td>
+            <td>{{ char.level }} Lv.</td>
+            <td>{{ char.reset }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center"> {{ page.ranking.text.table.empty }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

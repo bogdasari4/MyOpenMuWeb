@@ -1,0 +1,43 @@
+{% include 'Pages/Account.html' %}
+<div class="row justify-content-center">
+    <div class="col col-md-8">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.account.text.loginName }}
+                </span>
+                <span class="fw-bold">
+                    {{ page.account.information.loginName }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.account.text.email }}
+                </span>
+                <span>
+                    {{ page.account.information.email }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.account.text.registrationDate }}
+                </span>
+                <span>
+                    {{ page.account.information.registrationDate|format_datetime() }}
+                </span>
+            </li>
+            {% if page.account.information.chars %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.account.text.allcharacter }}
+                </span>
+                <div class="w-50 text-end">
+                    {% for char in page.account.information.chars %}
+                    <a href="/account/getchar/{{ char }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ char }}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

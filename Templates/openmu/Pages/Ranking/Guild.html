@@ -1,0 +1,31 @@
+{% include 'Pages/Ranking.html' %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.rank }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.name }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.score }}</th>
+            <th scope="col" class="text-custom-1">{{ page.ranking.text.table.members }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for guild in page.ranking.guild %}
+        <tr class="ranking">
+            <td class=" text-center rank">
+                {{ guild.rank }}.
+            </td>
+            <td>
+                <a href="/guild/{{ guild.name }}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                    {{ guild.logo|raw }} {{ guild.name }}
+                </a>
+            </td>
+            <td>{{ guild.score }}</td>
+            <td>{{ guild.guildmember }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center"> {{ page.ranking.text.table.empty }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,53 +1,26 @@
 <?php
 
-namespace App\Core\Interface;
-
-interface Handler {
-    public function getLanguage(): bool;
-    public function renderPage(): void;
-}
-
 namespace App\Core;
 
+use App\Alert;
+use App\Core\Adapter\HandlerAdapter;
+use App\Assistant;
 use App\Util;
-use App\Core\Template\Body;
 
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 use Twig\Extra\Intl\IntlExtension;
+use Twig\Loader\FilesystemLoader;
 
-use Exception;
-
-class Handler implements \App\Core\Interface\Handler {
-
-    /**
-     * @var string
-     * A formatted string containing the name page.
-     */
-    private string $page = '';
-
-    /**
-     * Public function: getLanguage
-     * Language handler.
-     * @return bool
-     */
-    public function getLanguage(): bool {
-
-        $code = 0;
-
-        if(!$code) $code = isset($_COOKIE['language_code']) ? $_COOKIE['language_code'] : __CONFIG['langugage']['default'];
-
-        $langFile = __ROOT . 'app/json/language/' . $code . '/main.json';
-        if(file_exists($langFile)) {
-            $lang = json_decode(file_get_contents($langFile), true);
-            if($lang) {
-                define('__LANG', $lang);
-                return true;
-            }
-        }
-
-        return false;
+final class Handler extends HandlerAdapter
+{
+    use Assistant {
+        spotGET as private render;
+        spotGET as organize;
+        spotGET as catchPage;
+        requireFile as getPageData;
     }
+
+    private string $pageName;
 
     /**
      * Public function: renderPage
@@ -55,53 +28,19 @@ class Handler implements \App\Core\Interface\Handler {
      * @return void
      * Render the page before output.
      */
-    public function renderPage(): void {
-        switch(access) {
+    public function render(): void
+    {
+        // $a = mt_rand(100, 1000);
+        // dump([$a, dechex($a)]);
+
+        // dump(get_defined_constants(true)['user']);
+
+        switch (access) {
             case 'index':
-                $this->page = (isset($_GET['page']) && $_GET['page'] != '') ? $_GET['page'] : 'main';
-                $this->page = strtolower($this->page);
-                $this->page = Util::trimSChars($this->page);
-
-                if($this->page == 'getlang') {
-                    if(isset($_GET['subpage']) && $_GET['subpage'] != '' && is_numeric($_GET['subpage'])) {
-                        $code = Util::trimSChars($_GET['subpage']);
-                        if(isset(__CONFIG['langugage']['code'][$code])) {
-                            if((isset($_COOKIE['language_code']) && $_COOKIE['language_code'] != $code) || __CONFIG['langugage']['default'] != $code) {
-                                setcookie('language_code', $code, time() + __CONFIG['langugage']['expires'], '/');
-                            }
-        
-                            Util::redirect();
-                        }
-                    }
-                }
-
-                $templateData = Body::getInfo()->core;
-
-                $pageData = $this->getPageData();
+                $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
                 
-                if(!@file_exists(__ROOT . 'templates/' . __CONFIG['other']['template'])) throw new Exception(sprintf(__LANG['exception']['handler']['template'], __CONFIG['other']['template']));
-                $pageHTML = new FilesystemLoader(__ROOT . 'templates/' . __CONFIG['other']['template']);
-                $twig = new Environment($pageHTML, ['charset' => 'utf-8']);
-                $twig->addExtension(new IntlExtension());
-
-                if(!@file_exists(__ROOT . 'templates/' . __CONFIG['other']['template'] . '/' . $this->page . '.html')) throw new Exception(sprintf(__LANG['exception']['handler']['page'], $this->page));
-
-                if(isset($templateData['template']['config']['body']['block']['siginForm']) && ($this->page == 'sigin') || $templateData['template']['session']['isLogin']) {
-                    $templateData['template']['config']['body']['block']['siginForm']['status'] = false;
-                }
-                if(!isset($_SESSION['user']['isLogin'])) {
-                    $templateData['template']['config']['body']['block']['accountMenu']['status'] = false;
-                }
-
-                $templateHTML = $twig->load('body.html');
-                $templateHTML->display(
-                    array_merge(
-                        $templateData, 
-                        [
-                            'content' => $twig->render($this->page . '.html', $pageData)
-                        ]
-                    )
-                );
+                $this->catchPage();
+                $this->organize();
                 break;
 
             case 'api':
@@ -109,26 +48,102 @@ class Handler implements \App\Core\Interface\Handler {
         }
     }
 
-    /**
-     * Private function: getPageData
-     * Used only within its class.
-     * @throws \Exception
-     * @return array
-     * We generate the page data.
-     */
-    private function getPageData(): array {
-        
-        if(!isset(__CONFIG['pages'][$this->page])) throw new Exception(__LANG['exception']['handler']['key']); 
+    private function organize(): void
+    {
+        $this->getLanguage();
 
-            
-        if(!@include_once(__ROOT . 'app/pages/' . $this->page . '.php')) throw new Exception(sprintf(__LANG['exception']['handler']['include'], $this->page));
-        if(!@class_exists(__CONFIG['pages'][$this->page])) throw new Exception(sprintf(__LANG['exception']['handler']['class'], __CONFIG['pages'][$this->page]));
-        $pageClass =__CONFIG['pages'][$this->page];
-        $pageClass = new $pageClass;
-        $pageData = $pageClass->__get('page');
-        if(!@is_array($pageData)) throw new Exception(__LANG['exception']['handler']['is_array']);
- 
-        return $pageData;
+        try {
+            $FSLoader = new FilesystemLoader(__ROOT_TEMP_ACTIVE);
+
+            if (!isset($this->controller('PagesController')->{$this->pageName})) {
+                throw new Alert(0x23b, 'info', '/');
+            }
+
+            $pageController = $this->controller('PagesController')->{$this->pageName};
+            $pageData['page'][$this->pageName] = $this->getPageData($pageController);
+            $addPath = 'pages';
+
+            if (isset($this->controller('SubPagesController')->{$this->pageName})) {
+                $subPageController = $this->controller('SubPagesController')->{$this->pageName};
+                $subPage = $this->spotGET('subpage', array_key_first($subPageController));
+                if (!isset($subPageController[$subPage])) {
+                    throw new Alert(0x23b, 'info', '/' . $this->pageName . '/' . array_key_first($subPageController));
+                }
+
+                $pageController = $subPageController[$subPage];
+                $pageData['page'][$this->pageName][$subPage] = $this->getPageData($pageController);
+                $addPath = $this->pageName;
+
+            }
+
+            $FSLoader->addPath($pageController['template']['path'], $addPath);
+
+            $content = ['path' => '@' . $addPath . DIRECTORY_SEPARATOR . $pageController['template']['name'], 'data' => $pageData];
+
+            http_response_code(200);
+
+        } catch (Alert $e) {
+            $content = $e->getCalloutTemplate();
+        }
+
+        $twig = new Environment($FSLoader, ['debug' => false, 'charset' => 'UTF-8', 'autoescape' => 'html']);
+        $twig->addExtension(new IntlExtension());
+        $template = $twig->load('Body.html');
+        $template->display(array_merge($this->body->getData(), ['content' => is_array($content) ? $twig->render($content['path'], $content['data']) : $content]));
+    }
+
+    private function getPageData(array $pageData): array
+    {
+        $this->requireFile($pageData['namespace'], $pageData['file']);
+        $pageClass = new $pageData['namespace']($this->app, $this->body->getPageConfig($this->pageName));
+        return $pageClass->getInfo();
+    }
+
+    private function catchPage(): void
+    {
+        switch ($this->pageName) {
+            case '':
+                break;
+
+            case 'account':
+                if ($this->spotGET('subpage', '') == 'getchar') {
+                    $this->ready()->getAccountInfo()->getCharacter($this->spotGET('request', '', false));
+                    Util::redirect('/account');
+                }
+                break;
+
+            case 'getlang':
+                $this->getLanguage($this->spotGET('subpage', __CONFIG_LANGUAGE_SET));
+                Util::redirect();
+                break;
+        }
+    }
+
+    /**
+     * Public function: getLanguage
+     * Language handler.
+     * @return bool
+     */
+    private function getLanguage(?int $languageCode = null): void
+    {
+        if (is_null($languageCode)) {
+            $languageCode = isset($_COOKIE['LanguageCode']) ? $_COOKIE['LanguageCode'] : __CONFIG_LANGUAGE_SET;
+
+            $languageFile = __ROOT_APP_JSON_LANG . $languageCode . DIRECTORY_SEPARATOR . 'Main.json';
+            if (file_exists($languageFile)) {
+                $language = json_decode(file_get_contents($languageFile), true);
+                if ($language != null) {
+                    define('__LANG', $language);
+                    return;
+                }
+            }
+        }
+
+        if (is_int($languageCode)) {
+            if (__CONFIG_LANGUAGE_SET != $languageCode || (isset($_COOKIE['LanguageCode']) && $_COOKIE['LanguageCode'] != $languageCode)) {
+                setcookie('LanguageCode', $languageCode, time() + __CONFIG_LANGUAGE_EXPIRES, '/');
+            }
+        }
     }
 }
 

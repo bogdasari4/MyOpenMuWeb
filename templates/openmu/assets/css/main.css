@@ -264,21 +264,6 @@ li, table, td, th, caption {
     width: 22px;
     height: 22px;
 }
-.ranking .rank-1 {
-    background-image: url('/templates/openmu/assets/images/medal/rank-1.png');
-    background-repeat: no-repeat;
-    background-size: 22px;
-}
-.ranking .rank-2 {
-    background-image: url('/templates/openmu/assets/images/medal/rank-2.png');
-    background-repeat: no-repeat;
-    background-size: 22px;
-}
-.ranking .rank-3 {
-    background-image: url('/templates/openmu/assets/images/medal/rank-3.png');
-    background-repeat: no-repeat;
-    background-size: 22px;
-}
 .char .avatar-0, .char .avatar-2, .char .avatar-3 {
     background-image: url('/templates/openmu/assets/images/character/0.jpg');
     background-repeat: no-repeat;

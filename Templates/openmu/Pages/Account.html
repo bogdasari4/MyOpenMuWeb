@@ -1,0 +1,12 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="title mb-0">{{ page.account.text.title }}</h4>
+    <span>{{ page.account.text.subtitle }}</span>
+</div>
+
+<ul class="nav nav-tabs justify-content-center">
+    {% for nav in page.account.nav %}
+    <li class="nav-item">
+        <a class="nav-link {{ nav.active }} text-decoration-none fw-bold" style="color: #587c95;" aria-current="page" href="{{ nav.link }}">{{ nav.name }}</a>
+    </li>
+    {% endfor %}
+</ul>

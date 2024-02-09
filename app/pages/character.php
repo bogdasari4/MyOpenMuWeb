@@ -1,132 +1,60 @@
 <?php
+/**
+ * MyOpenMuWeb
+ * @see https://github.com/bogdasari4/MyOpenMuWeb
+ */
 
 namespace App\Pages;
 
 use App\Util;
-use APP\Core\PostgreSQL\Query;
-use Symfony\Contracts\Cache\ItemInterface;
+use App\Assistant;
+use App\Core\Adapter\PageAdapter;
 
-class Character {
-
-    /**
-     * An array of data prepared in this class.
-     * @var array
-     */
-    private array $data = ['page' => []];
-
-    /**
-     * Array of configuration in this class.
-     * @var array
-     */
-    private array $config = [];
+/**
+ * Page for displaying information about the character.
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
+ */
+final class Character extends PageAdapter
+{
+    use Assistant {
+        spotGET as private setInfo;
+    }
 
     /**
-     * When the __get() magic method is called, data will be read from this class.
-     * @param string $info
-     * The parameter takes the value 'page' automatically in the handler class.
-     * 
+     * The public function `getInfo()` provides data for rendering pages.
      * @return array
      * We return an array of data.
      */
-    public function __get(string $info): array {
-        $this->setInfo();
-        return $this->data[$info];
+    public function getInfo(): array
+    {
+        return $this->setInfo();
     }
 
     /**
-     * Preparing a data array.
-     * @return void
+     * The private function `setInfo()` collects information into a data array.
+     * @return array
+     * We return an array of data.
      */
-    private function setInfo(): void {
-
-        if(!isset($_GET['subpage']) || $_GET['subpage'] == '') Util::redirect('/ranking');
-
-        $this->config = [
-            'body' => Util::config('body'),
-            'openmu' => Util::config('openmu')
-        ];
-        
-        $this->data['page'] = [
-            'character' => [
-                'text' => __LANG['body']['page']['character'],
-                'info' => []
-            ]
-        ];
-
-        $this->data['page']['character']['info'] = Util::cache($this->config['body']['page']['character']['cache']['subdir'])->get(
-            sprintf($this->config['body']['page']['character']['cache']['name'], Util::trimSChars($_GET['subpage'])),
-            function(ItemInterface $item) {
-                $item->expiresAfter($this->config['body']['page']['character']['cache']['lifetime']);
-
-                if($charData = Query::getRow(
-                    'SELECT "Id", "Name", "CharacterClassId", "CurrentMapId", "PositionX", "PositionY"
-                    FROM data."Character"
-                    WHERE "Name" = :name
-                    ',
-                    [
-                        'name' => Util::trimSChars($_GET['subpage'])
-                    ]
-                )) {
-                    if($charStat = Query::getRowAll(
-                        'SELECT "DefinitionId", "Value"
-                        FROM data."StatAttribute"
-                        WHERE "CharacterId" = :id
-                        ',
-                        [
-                            'id' => $charData[0]
-                        ]
-                    )) {
-                        $data = [
-                            'name' => $charData[1],
-                            'class' => [
-                                'id' => $this->config['openmu']['character']['class'][$charData[2]]['number'],
-                                'name' => $this->config['openmu']['character']['class'][$charData[2]]['name']
-                            ],
-                            'location' => [
-                                'map' => $this->config['openmu']['game_map'][$charData[3]]['name'],
-                                'x' => $charData[4],
-                                'y' => $charData[5]
-                            ],
-                            'guild' => false
-                        ];
-
-                        foreach($this->config['openmu']['attribute_definition'] as $key => $attr) {
-                            foreach($charStat as $stat) {
-                                if($attr == $stat[0]) {
-                                    $data['stats'][$key] = $stat[1];
-                                }
-                            }
-                        }
-
-                        if($charGuild = Query::getRow(
-                            'SELECT guild."Name", guild."Logo"::TEXT
-                            FROM guild."GuildMember" guildmember, guild."Guild" guild
-                            WHERE guildmember."Id" = :id
-                            AND guild."Id" = guildmember."GuildId"
-                            ',
-                            [
-                                'id' => $charData[0]
-                            ]
-                        )) {
-                            $data['guild'] = [
-                                'name' => $charGuild[0],
-                                'logo' => Util::binaryToImageGuildLogo($charGuild[1], 16)
-                            ];
-                        }
-
-                    }
-
-                    return $data;
-                }
-            }
-        );
-
-        if($this->data['page']['character']['info'] == null) {
-            Util::cache($this->config['body']['page']['character']['cache']['subdir'])->deleteItem(sprintf($this->config['body']['page']['character']['cache']['name'], Util::trimSChars($_GET['subpage'])));
+    private function setInfo(): array
+    {
+        $charName = $this->spotGET('subpage', '', false);
+        if ($charName == '')
             Util::redirect('/ranking');
-        }
-    }
 
+        $this->config['cache']['setName'] = sprintf($this->config['cache']['setName'], $charName);
+
+        $data['text'] = __LANG['body']['page']['character'];
+        $data['info'] = $this->cache()->get(function (array $config) {
+            return $this->ready()->getCharacterInfo(substr($config['cache']['setName'], 6));
+        });
+
+        if (!$data['info'])
+            Util::redirect('/ranking');
+
+
+        return $data;
+    }
 }
 
 ?>

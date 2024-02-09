@@ -1,0 +1,20 @@
+{% include 'Pages/Account.html' %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 mb-3 mt-2">
+        <p class="mb-0">{{ page.account.text.requirementsforreset }}</p>
+        <ul>
+            <li>{{ page.account.text.resetforreset|format(page.account.reset.requirements.resetmin, page.account.reset.character.stats.resets) }}</li>
+            <li>{{ page.account.text.levelforreset|format(page.account.reset.requirements.level, page.account.reset.character.stats.level) }}</li>
+            <li>{{ page.account.text.zenforreset|format(page.account.reset.requirements.zen|format_number, page.account.reset.character.zen|format_number) }}</li>
+        </ul>
+    </div>
+    <div class="col-12 col-md-8">
+        <form method="post" name="reset">
+            <div class="mb-3">
+                <button class="w-50 mb-2 btn rounded-3 btn btn-secondary" type="submit" name="reset">
+                    {{ page.account.text.form.button.submit }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

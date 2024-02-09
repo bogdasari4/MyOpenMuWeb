@@ -1,77 +1,63 @@
 <?php
+/**
+ * MyOpenMuWeb
+ * @see https://github.com/bogdasari4/MyOpenMuWeb
+ */
 
 namespace App\Pages;
 
+use App\Alert;
+use App\Core\Adapter\PageAdapter;
 use App\Util;
-use App\Core\Auth\Validation;
-use \Exception;
 
-class SigIn extends \App\Core\Auth\SigIn {
-    
-     /**
-     * An array of data prepared in this class.
-     * @var array
-     */
-    private array $data = ['page' => []];
-    
+/**
+ * User login page.
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
+ */
+final class SigIn extends PageAdapter
+{
     /**
-     * When the __get() magic method is called, data will be read from this class.
-     * @param string $info
-     * The parameter takes the value 'page' automatically in the handler class.
-     * 
+     * The public function `getInfo()` provides data for rendering pages.
      * @return array
      * We return an array of data.
      */
-    public function __get(string $info): array {
-        $this->setInfo();
-        return $this->data[$info];
+    public function getInfo(): array
+    {
+        return $this->setInfo();
     }
 
     /**
-     * Preparing a data array.
-     * @throws Exception
-     * @return void
+     * The private function `setInfo()` collects information into a data array.
+     * @return array
+     * We return an array of data.
      */
-    private function setInfo(): void {
-        
-        if(isset($_SESSION['user']['isLogin'])) Util::redirect('/account');
+    private function setInfo(): array
+    {
+        if (isset($this->session->user))
+            Util::redirect();
 
-        $config = Util::config('body');
 
-        $this->data['page'] = [
-            'sigin' => [
-                'alert' => '',
-                'text' => __LANG['body']['page']['sigin'],
-                'config' => $config['page']['sigin']['validator']
-            ]
-        ];
+        $data['text'] = __LANG['body']['page']['sigin'];
+        $data['config'] = $this->config;
 
-        if(isset($_POST['submit'])) {
-            try {
+        if (isset($_POST['sigin'])) {
+            $sigin = $_POST['sigin'];
 
-                $data = $_POST['sigin'];
-
-                $data['loginName'] = Util::trimSChars($data['loginName']);
-                if(!Validation::LoginName($data['loginName'], $config['page']['sigin']['validator']['loginName'])) throw new Exception(__LANG['body']['page']['sigin']['form']['loginName']['alert'], 2);
-
-                $data['password'] = Util::trimSChars($data['password']);
-                if(!Validation::password($data['password'], $config['page']['sigin']['validator']['password'])) throw new Exception(__LANG['body']['page']['sigin']['form']['password']['alert'], 2);
-
-                if(!$this->authorization($data)) throw new Exception(__LANG['body']['page']['sigin']['form']['alert']['loginFailed'], 2);
-                throw new Exception(__LANG['body']['page']['sigin']['form']['alert']['signingIn'], 1);
-                
-            } catch(Exception $alert) {
-                $this->data['page']['sigin']['alert'] = str_replace(
-                    ['{{ str_message }}', '{{ code_message }}'],
-                    [$alert->getMessage(), $alert->getCode()],
-                    file_get_contents(__ROOT . 'templates/' . __CONFIG['other']['template'] . '/alert.html')
-                );
-                if($alert->getCode() == 1) {
-                    Util::redirect('/account', 2);
+            foreach ($sigin as $key => $value) {
+                if (!$this->auth()->validation()->regularExpression($value) || !$this->auth()->validation()->stringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength'])) {
+                    throw new Alert(0x2ee, 'warning', '/sigin');
                 }
             }
+
+            if ($this->ready()->authorization($sigin)) {
+                throw new Alert(0x2f5, 'success', '/account');
+            }
+
+            throw new Alert(0x1ac, 'warning', '/sigin');
         }
 
+        return $data;
     }
 
 }

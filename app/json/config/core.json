@@ -1,30 +1,23 @@
 {
-    "pages": {
-        "main": "App\\Pages\\Main",
-        "ranking": "App\\Pages\\Ranking",
-        "about": "App\\Pages\\About",
-        "downloads": "App\\Pages\\Downloads",
-        "character": "App\\Pages\\Character",
-        "guild": "App\\Pages\\Guild",
-        "signup": "App\\Pages\\SignUp",
-        "sigin": "App\\Pages\\SigIn",
-        "account": "App\\Pages\\Account",
-        "logout": "App\\Pages\\LogOut"
-    },
-    "langugage": {
-        "code": {
+    "LANGUAGE": {
+        "CODE": {
             "570": {
-                "iso": "rus"
+                "ISO": "rus"
             },
             "45": {
-                "iso": "eng"
+                "ISO": "eng"
             }
         },
-        "default": 570,
-        "expires": 2419200
+        "SET": 570,
+        "EXPIRES": 2419200
     },
-    "other": {
-        "default_timezone": "Europe/Moscow",
-        "template": "openmu"
+    "DEFAULT": {
+        "TIMEZONE": "Europe/Moscow",
+        "DATABASE": "postgresql",
+        "PAGE": "main",
+        "TEMPLATE": "openmu",
+        "CACHE": {
+            "LIFETIME": 900
+        }
     }
 }

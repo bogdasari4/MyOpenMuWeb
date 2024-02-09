@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-between">
+    <h4 class="title">{{ page.guild.text.title }}</h4>
+    <span>{{ page.guild.info.name }}</span>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="img-thumbnail">
+        {{ page.guild.info.logo|raw }}
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.guild.text.info.name }}
+                </span>
+                <span class="fw-bold">
+                    {{ page.guild.info.name }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.guild.text.info.master }}
+                </span>
+                <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/character/{{ page.guild.info.members[0].name }}">
+                    {{ page.guild.info.master }}
+                </a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.guild.text.info.members }}
+                </span>
+                <span class="fw-bold">
+                    {{ page.guild.info.members|length }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.guild.text.info.score }}
+                </span>
+                <span class="fw-bold">
+                    {{ page.guild.info.score }}
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<h6 class="fw-bold">{{ page.guild.text.member_guild }}</h6>
+<table class="table table-striped caption-buttom">
+    <thead>
+        <tr>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.rank }}</th>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.character }}</th>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.class }}</th>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.level }}</th>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.reset }}</th>
+            <th scope="col" class="text-custom-1">{{ page.guild.text.table.status }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for info in page.guild.info.members %}
+        <tr>
+            <td>
+                {{ info.rank }}
+            </td>
+            <td>
+                <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/character/{{ info.name }}">
+                    {{ info.name }}
+                </a>
+            </td>
+            <td>
+                <span class="class-{{ info.class.id }}">{{ info.class.name }}</span>
+            </td>
+            <td>
+                {{ info.stats.level }}
+            </td>
+            <td>
+                {{ info.stats.reset }}
+            </td>
+            <td>
+                {{ info.status }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

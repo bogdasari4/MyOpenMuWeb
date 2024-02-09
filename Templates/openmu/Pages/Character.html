@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-between">
+    <h4 class="title">
+        {{ page.character.text.title }}
+    </h4>
+    <span>
+        {{ page.character.info.name }}
+    </span>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-6 d-flex justify-content-center">
+        <div class="d-flex flex-column justify-content-center align-self-start text-center char">
+            <div class="rounded-circle border border-dark avatar-{{ page.character.info.class.id }}"></div>
+            <span class="fw-bold font-monospace">
+                {{ page.character.info.location.map }}
+            </span>
+            <span class="font-monospace">
+                {{ 'x:' ~ page.character.info.location.x ~ ' y:' ~ page.character.info.location.y }}
+            </span>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.name }}
+                </span>
+                <span class="fw-bold">
+                    {{ page.character.info.name }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.class }}
+                </span>
+                <span class="class-{{ character.info.class.id }}">
+                    {{ page.character.info.class.name }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <div>
+                    {{ page.character.text.guild }}
+                </div>
+                <div>
+                    {% if page.character.info.guild %}
+                    {{ page.character.info.guild.logo|raw }}
+                    <a href="/guild/{{ page.character.info.guild.name }}"
+                        class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                        {{ page.character.info.guild.name }}
+                    </a>
+                    {% else %}
+                    <span class="text-secondary">
+                        {{ page.character.text.noguild }}
+                    </span>
+                    {% endif %}
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.resets }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.resets }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.level }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.level }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.strength }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.strength|format_number }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.agility }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.agility|format_number }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.vitality }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.vitality|format_number }}
+                </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.energy }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.energy|format_number }}
+                </span>
+            </li>
+            {% if page.character.info.stats.leadership %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    {{ page.character.text.leadership }}
+                </span>
+                <span>
+                    {{ page.character.info.stats.leadership|format_number }}
+                </span>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

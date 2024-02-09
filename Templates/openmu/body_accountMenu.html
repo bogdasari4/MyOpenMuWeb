@@ -1,0 +1,44 @@
+<div class="bg-white p-3 mb-2 d-flex align-items-baseline rounded-2" style="justify-content: space-between">
+    <h5 class="block-title mb-0 text-uppercase">
+        {{ template.body.main.block.accountMenu.text.title }}
+    </h4>
+    <span class="text-secondary">
+        {{ template.body.main.block.accountMenu.text.characterSelect }}
+    </span>
+</div>
+
+
+<div class="bg-white rounded-2 p-3">
+    <ul class="nav flex-column">
+        {% for user in template.body.main.block.accountMenu.nav.user %}
+        <li class="nav-item">
+            <a class="nav-link link-secondary" aria-current="page" href="{{ user.link }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                </svg>
+                {{ user.name }}
+            </a>
+        </li>
+        {% endfor %}
+
+        {% for character in template.body.main.block.accountMenu.nav.character %}
+        <li class="nav-item">
+            <a class="nav-link link-secondary" aria-current="page" href="{{ character.link }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                </svg>
+                {{ character.name }}
+            </a>
+        </li>
+        {% endfor %}
+
+        <li class="nav-item">
+            <a class="nav-link link-danger fw-bold" aria-current="page" href="/logout">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                </svg>
+                {{ template.body.main.block.accountMenu.text.logout }}
+            </a>
+        </li>
+    </ul>
+</div>
