@@ -30,11 +30,6 @@ final class Handler extends HandlerAdapter
      */
     public function render(): void
     {
-        // $a = mt_rand(100, 1000);
-        // dump([$a, dechex($a)]);
-
-        // dump(get_defined_constants(true)['user']);
-
         switch (access) {
             case 'index':
                 $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
