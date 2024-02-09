@@ -4,7 +4,7 @@
 [![Discord](https://img.shields.io/discord/1193794951071399956?style=for-the-badge&logo=discord&label=MyOpenMuWeb)](https://discord.gg/h4xBgxtNHw)
 
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
-## Current status of the project
+### Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image.
 
 What is ready for today:
@@ -35,7 +35,7 @@ What is ready for today:
 ### Requirements
 - Apache mod_rewrite
 - PHP 8.2 or higher
- - Extensions: *intl*, *pdo_pgsql*, *pgsql*, *zip(использует composer)*, *gd*
+ - Extensions: *intl*, *pdo_pgsql*, *pgsql*, *zip(uses composer)*, *gd*
  - Modules: *json*, *session*, *cookie*, *libxml(used for parsing RSS news feeds)*
   - [Composer](https://getcomposer.org/)
     - [Symfony](https://symfony.com/)
