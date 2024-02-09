@@ -8,6 +8,8 @@ namespace App;
 
 /**
  * The assistant class combines several functions into one.
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
  */
 trait Assistant
 {
