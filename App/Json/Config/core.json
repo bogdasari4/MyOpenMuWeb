@@ -1,0 +1,23 @@
+{
+    "LANGUAGE": {
+        "CODE": {
+            "570": {
+                "ISO": "rus"
+            },
+            "45": {
+                "ISO": "eng"
+            }
+        },
+        "SET": 570,
+        "EXPIRES": 2419200
+    },
+    "DEFAULT": {
+        "TIMEZONE": "Europe/Moscow",
+        "DATABASE": "postgresql",
+        "PAGE": "main",
+        "TEMPLATE": "openmu",
+        "CACHE": {
+            "LIFETIME": 900
+        }
+    }
+}
