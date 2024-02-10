@@ -1,0 +1,345 @@
+body {
+    background-image: url('/templates/openmu/assets/images/background.jpg');
+    background-repeat: no-repeat;
+    background-position: 80% top;
+    background-color: #ededed;
+    background-attachment: scroll;
+
+    font-family: 'Candara', Arial, sans-serif;
+    font-size: 14px;
+    color: #6d819c !important;
+    
+}
+li, table, td, th, caption {
+    color: #6d819c !important;
+}
+.alert-1 {
+    --bs-alert-color: var(--bs-success-text-emphasis);
+    --bs-alert-bg: var(--bs-success-bg-subtle);
+    --bs-alert-border-color: var(--bs-success-border-subtle);
+    --bs-alert-link-color: var(--bs-success-text-emphasis);
+}
+.alert-2 {
+    --bs-alert-color: var(--bs-warning-text-emphasis);
+    --bs-alert-bg: var(--bs-warning-bg-subtle);
+    --bs-alert-border-color: var(--bs-warning-border-subtle);
+    --bs-alert-link-color: var(--bs-warning-text-emphasis);
+}
+.alert-3 {
+    --bs-alert-color: var(--bs-danger-text-emphasis);
+    --bs-alert-bg: var(--bs-danger-bg-subtle);
+    --bs-alert-border-color: var(--bs-danger-border-subtle);
+    --bs-alert-link-color: var(--bs-danger-text-emphasis);
+}
+.logo {
+    background-image: url('/templates/openmu/assets/images/logo.png');   
+    background-repeat: no-repeat;
+    background-size: 70px 70px;
+    width: 100px;
+    height: 70px;
+}
+.logo-2 {
+    background-image: url('/templates/openmu/assets/images/logo.png');
+    background-repeat: no-repeat;
+    background-size: 200px;
+    display: block;
+    width: 200px;
+    height: 200px;
+}
+.text-custom-1 {
+    color: #b09fcb !important;
+}
+.btn-custom-1 {
+    --bs-btn-color: #74667a;
+    --bs-btn-bg: #c7ede6;
+    --bs-btn-border-color: #c7ede6;
+    --bs-btn-hover-color: #b09fcb;
+    --bs-btn-hover-bg: #d1ebe6;
+    --bs-btn-hover-border-color: #c7ede6;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-bg: #c7ede6;
+    --bs-btn-active-border-color: #c7ede6;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #c7ede6;
+    --bs-btn-disabled-border-color: #c7ede6;
+}
+.btn-custom-2 {
+    --bs-btn-color: #c7ede6;
+    --bs-btn-bg: #b09fcb;
+    --bs-btn-border-color: #b09fcb;
+    --bs-btn-hover-color: #d2f1ec;
+    --bs-btn-hover-bg: #b3a6c9;
+    --bs-btn-hover-border-color: #b3a6c9;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-bg: #b09fcb;
+    --bs-btn-active-border-color: #b09fcb;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #b09fcb;
+    --bs-btn-disabled-border-color: #b09fcb;
+}
+.title {
+    color: #b09fcb;
+    margin-bottom: 30px;
+}
+.block-title {
+    color: #b09fcb;
+    font-size: 16px;
+    font-weight: bold;
+}
+.menu .nav-item {
+    margin: 0px 16px 0px 16px;
+}
+.menu .nav-item:first-child {
+    margin: 0px 16px 0px 0px;
+}
+.menu .nav-item:last-child a:after {
+    display: none;
+}
+.menu .nav-item .nav-link {
+    position: relative;
+}
+.menu .nav-item a:hover {
+    color: var(--bs-white);
+}
+.menu .nav-item .nav-link:hover:before {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background: #b09fcb;
+    top: 30px;
+    left: 0;
+    box-shadow: 0px 3px 8px 0px rgba(176, 159, 203, 0.8);
+}
+.menu .nav-item .nav-link::before {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 0%;
+    top: 30px;
+    left: -20px;
+    box-shadow: 0px 3px 8px 0px rgba(176, 159, 203, 0.8);
+    transition: all 0.6s ease;
+}
+.menu .nav-item .nav-link:after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 15px;
+    background: var(--bs-secondary);
+    top: 10px;
+    right: -17px;
+}
+.server .name {
+    font-weight: bold;
+    color: #587c95;
+    text-transform: uppercase;
+}
+
+.server {
+    justify-content: space-between !important;
+}
+.server .info {
+    width: 250px;
+}
+.server .jewel-0 {
+    background-image: url('/templates/openmu/assets/images/server0.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 48px 48px;
+    width: 120px;
+    height: 48px;
+}
+.server .jewel-1 {
+    background-image: url('/templates/openmu/assets/images/server1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 48px 48px;
+    width: 120px;
+    height: 48px;
+}
+.server .jewel-2 {
+    background-image: url('/templates/openmu/assets/images/server2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 48px 48px;
+    width: 120px;
+    height: 48px;
+}
+.server .info .name {
+    font-weight: bold;
+    color: #587c95;
+    text-transform: uppercase;
+}
+
+.news .item {
+    align-items: center !important;
+    justify-content: space-between;
+}
+
+.news .image {
+    width: 124px;
+}
+.news .image img {
+    width: 120px;
+    height: 120px;
+}
+.news .link {
+    transition: all 0.3s ease;
+    color: #b09fcb;
+}
+
+.news .link:hover {
+    color: #c5bed1;
+}
+
+.news .description {
+    line-height: 1.3;
+}
+/* Ranking */
+.class-7 {
+    color: maroon !important;
+    font-weight: 700;
+}
+.class-6 {
+    color: #c41e3a !important;
+}
+.class-4 {
+    color: #cd5c5c !important;
+}
+.class-3 {
+    color: #1a4780 !important;
+    font-weight: 700;
+}
+.class-2 {
+    color: #3a75c4 !important;
+}
+.class-0 {
+    color: #7fc7ff !important;
+}
+.class-8 {
+    color: #a5e7b8 !important;
+}
+.class-10 {
+    color: #17b544 !important;
+}
+.class-11 {
+    color: #0d6124 !important;
+    font-weight: 700;
+}
+.class-12 {
+    color: #f93 !important;
+}
+.class-13 {
+    color: #7a3600 !important;
+    font-weight: 700;
+}
+.class-16 {
+    color: #7b7b7b !important;
+}
+.class-17 {
+    color: #515151 !important;
+    font-weight: 700;
+}
+.class-20 {
+    color: #96c !important;
+}
+.class-22 {
+    color: #7d40a3 !important;
+}
+.class-23 {
+    color: #57316f !important;
+    font-weight: 700;
+}
+.class-24 {
+    color: #5cd5db !important;
+}
+.class-25 {
+    color: #1d9399 !important;
+    font-weight: 700;
+}
+.ranking .rank {
+    width: 22px;
+    height: 22px;
+}
+.char .avatar-0, .char .avatar-2, .char .avatar-3 {
+    background-image: url('/templates/openmu/assets/images/character/0.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-4, .char .avatar-6, .char .avatar-7 {
+    background-image: url('/templates/openmu/assets/images/character/1.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-8, .char .avatar-10, .char .avatar-11 {
+    background-image: url('/templates/openmu/assets/images/character/2.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-12, .char .avatar-13 {
+    background-image: url('/templates/openmu/assets/images/character/3.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-16, .char .avatar-17 {
+    background-image: url('/templates/openmu/assets/images/character/4.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-20, .char .avatar-22, .char .avatar-23 {
+    background-image: url('/templates/openmu/assets/images/character/5.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+.char .avatar-24, .char .avatar-25 {
+    background-image: url('/templates/openmu/assets/images/character/6.jpg');
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: top center;
+    width: 230px;
+    height: 230px;
+}
+/* Language Start */
+.lang {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.lang .rus {
+    background-image: url('/templates/openmu/assets/images/language/rus.webp');
+    background-repeat: no-repeat;
+    background-size: 26px 19px;
+    width: 26px;
+    height: 19px;
+}
+.lang .eng {
+    background-image: url('/templates/openmu/assets/images/language/eng.webp');
+    background-repeat: no-repeat;
+    background-size: 26px 19px;
+    width: 26px;
+    height: 19px;
+}
+/* Language End */
