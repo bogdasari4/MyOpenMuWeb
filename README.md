@@ -11,7 +11,7 @@ MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/O
 ![Packagist Version](https://img.shields.io/packagist/v/twig/intl-extra?label=twig%2Fintl-extra)
 ![Packagist Version](https://img.shields.io/packagist/v/twig/extra-bundle?label=twig%2Fextra-bundle)
 ![Packagist Version](https://img.shields.io/packagist/v/phpmailer/phpmailer?label=phpmailer%2Fphpmailer)
-![Discord](https://img.shields.io/discord/1193794951071399956?logo=discord)
+[![Discord](https://img.shields.io/discord/1193794951071399956?logo=discord)](https://discord.gg/h4xBgxtNHw)
 
 ### Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image.
