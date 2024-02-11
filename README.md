@@ -1,5 +1,4 @@
 # MyOpenMuWeb
-[![Discord](https://img.shields.io/discord/1193794951071399956?style=for-the-badge&logo=discord&label=Discord)](https://discord.gg/h4xBgxtNHw)
 
 ![2](https://i.imgur.com/sz3odHC.png)
 
