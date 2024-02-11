@@ -1,9 +1,18 @@
 # MyOpenMuWeb
+[![Discord](https://img.shields.io/discord/1193794951071399956?style=for-the-badge&logo=discord&label=Discord)](https://discord.gg/h4xBgxtNHw)
+
 ![2](https://i.imgur.com/sz3odHC.png)
 
-[![Discord](https://img.shields.io/discord/1193794951071399956?style=for-the-badge&logo=discord&label=MyOpenMuWeb)](https://discord.gg/h4xBgxtNHw)
-
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
+
+![Static Badge](https://img.shields.io/badge/8.2-8_2?label=php-version)
+![Packagist Version](https://img.shields.io/packagist/v/symfony/cache?label=symfony%2Fcache)
+![Packagist Version](https://img.shields.io/packagist/v/twig/twig?label=twig%2Ftwig)
+![Packagist Version](https://img.shields.io/packagist/v/twig/intl-extra?label=twig%2Fintl-extra)
+![Packagist Version](https://img.shields.io/packagist/v/twig/extra-bundle?label=twig%2Fextra-bundle)
+![Packagist Version](https://img.shields.io/packagist/v/phpmailer/phpmailer?label=phpmailer%2Fphpmailer)
+![Discord](https://img.shields.io/discord/1193794951071399956?logo=discord)
+
 ### Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image.
 
@@ -32,24 +41,9 @@ What is ready for today:
     - [x] English (Google Translate)
   - [x] Page caching [^2] 
 
-### Requirements
-- Apache mod_rewrite
-- PHP 8.2 or higher
- - Extensions: *intl*, *pdo_pgsql*, *pgsql*, *zip(uses composer)*, *gd*
- - Modules: *json*, *session*, *cookie*, *libxml(used for parsing RSS news feeds)*
-  - [Composer](https://getcomposer.org/)
-    - [Symfony](https://symfony.com/)
-      - [Uid/Uuid](https://symfony.com/doc/current/components/uid.html)
-      - [Cache](https://symfony.com/doc/current/cache.html)
-      - [Twig](https://twig.symfony.com/)
-        - intl-extra
-        - extra-bundle
-- [HTML5](https://html.spec.whatwg.org/multipage/) (*Basic OpenMu template*)
-  - [Bootstrap](https://getbootstrap.com/)
-
 ### API modification example
 Go to the `src\Web\Admin Panel\API` directory and replace the old method with the new one below:
-```
+```C#
 [HttpGet]
 [Route("status")]
 public IActionResult ServerState()
