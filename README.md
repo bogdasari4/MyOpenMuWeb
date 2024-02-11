@@ -15,7 +15,9 @@ MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/O
 ### Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image.
 
-What is ready for today:
+<details>
+<summary>What is ready for today! (click to expand)</summary>
+  
 - [ ] Site pages
   - [x] SignUp
     - [ ] Account verification
@@ -39,6 +41,10 @@ What is ready for today:
     - [x] Russian
     - [x] English (Google Translate)
   - [x] Page caching [^2] 
+</details>
+
+### Quick setup
+Open the `App\Json\Config\cdb.json` file and configure a connection to the `PostgreSQL` database.
 
 ### API modification example
 Go to the `src\Web\Admin Panel\API` directory and replace the old method with the new one below:
@@ -77,13 +83,18 @@ public IActionResult ServerState()
 ```
 
 ### Screenshots
-> Adaptation of the template for a desktop computer (click to enlarge)
+<details>
+<summary>Adaptation of the template for a desktop computer (click to expand)</summary>
 
 ![Adaptation of the template for a desktop computer](https://i.imgur.com/EYHAUnm.png)
 ![Adaptation of the template for a desktop computer](https://i.imgur.com/hIrQOvz.jpg)
-> Adaptation of the template for smartphones (click to enlarge)
 
+</details>
+<details>
+<summary>Adaptation of the template for smartphones (click to expand)</summary>
+  
 ![Adaptation of the template for smartphones](https://i.imgur.com/HjOQtzM.jpg)
+</details>
 
 ### For coffee :coffee:
 Thanks to the developer :relaxed:
