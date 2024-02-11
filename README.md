@@ -4,6 +4,7 @@
 
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
 
+![Crates.io License](https://img.shields.io/crates/l/mit)
 ![Static Badge](https://img.shields.io/badge/8.2-8_2?label=php-version)
 ![Packagist Version](https://img.shields.io/packagist/v/symfony/cache?label=symfony%2Fcache)
 ![Packagist Version](https://img.shields.io/packagist/v/twig/twig?label=twig%2Ftwig)
