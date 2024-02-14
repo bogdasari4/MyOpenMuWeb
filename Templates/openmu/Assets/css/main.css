@@ -13,24 +13,6 @@ body {
 li, table, td, th, caption {
     color: #6d819c !important;
 }
-.alert-1 {
-    --bs-alert-color: var(--bs-success-text-emphasis);
-    --bs-alert-bg: var(--bs-success-bg-subtle);
-    --bs-alert-border-color: var(--bs-success-border-subtle);
-    --bs-alert-link-color: var(--bs-success-text-emphasis);
-}
-.alert-2 {
-    --bs-alert-color: var(--bs-warning-text-emphasis);
-    --bs-alert-bg: var(--bs-warning-bg-subtle);
-    --bs-alert-border-color: var(--bs-warning-border-subtle);
-    --bs-alert-link-color: var(--bs-warning-text-emphasis);
-}
-.alert-3 {
-    --bs-alert-color: var(--bs-danger-text-emphasis);
-    --bs-alert-bg: var(--bs-danger-bg-subtle);
-    --bs-alert-border-color: var(--bs-danger-border-subtle);
-    --bs-alert-link-color: var(--bs-danger-text-emphasis);
-}
 .logo {
     background-image: url('/templates/openmu/assets/images/logo.png');   
     background-repeat: no-repeat;
