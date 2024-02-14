@@ -5,8 +5,8 @@
     "body": {
         "template": {
             "header": {
-                "menu": {
-                    "home": "Home",
+                "nav": {
+                    "main": "Home",
                     "account": "Account",
                     "ranking": "Ranking",
                     "downloads": "Downloads",
@@ -28,28 +28,16 @@
         "block": {
             "accountMenu": {
                 "title": "Personal Area",
-                "menu": {
-                    "0": {
-                        "header": "Account",
-                        "information": {
-                            "name": "Information"
-                        },
-                        "changepass": {
-                            "name": "Change password"
-                        }
+                "charNotSelect": "No characters",
+                "nav": {
+                    "user": {
+                        "information": "Information",
+                        "changepass":"Change password"
                     },
-                    "1": {
-                        "header": "Character",
-                        "noСharacters": "No characters",
-                        "reset": {
-                            "name": "Reset"
-                        },
-                        "addstats": {
-                            "name": "Add stats"
-                        },
-                        "teleport": {
-                            "name": "Teleport"
-                        }
+                    "character": {
+                        "reset": "Reset",
+                        "addstats": "Add stats",
+                        "teleport": "Teleport"
                     }
                 },
                 "logout": "Exit"
@@ -226,25 +214,15 @@
                 }
             },
             "account": {
-                "menu": {
-                    "0": {
-                        "information": {
-                            "name": "Information"
-                        },
-                        "changepass": {
-                            "name": "Change password"
-                        }
+                "nav": {
+                    "user": {
+                        "information": "Information",
+                        "changepass": "Change password"
                     },
-                    "1": {
-                        "reset": {
-                            "name": "Reset"
-                        },
-                        "addstats": {
-                            "name": "Distribute stats"
-                        },
-                        "teleport": {
-                            "name": "Teleport"
-                        }
+                    "character": {
+                        "reset": "Reset",
+                        "addstats": "Distribute stats",
+                        "teleport": "Teleport"
                     }
                 },
                 "information": {
@@ -273,16 +251,6 @@
                         },
                         "button": {
                             "submit": "Change password"
-                        },
-                        "alert": {
-                            "passwordincorrect": "The current password was entered incorrectly!",
-                            "newpasswordincorrect": "The new password was entered incorrectly!",
-                            "renewpasswordincorrect": "Repeat new password entered incorrectly!",
-                            "newpasswordsdonotmatch": "New passwords don't match!",
-                            "oldpasswordsmatch": "The new password matches the old one!",
-                            "getpasswordfailed": "Can't get password information!",
-                            "passwordfailed": "The account password is incorrect!",
-                            "passwordchanged": "You have successfully changed your account password to a new one!"
                         }
                     }
                 },
@@ -299,16 +267,7 @@
                     "form": {
                         "button": {
                             "submit": "Make a reset!"
-                        },
-                        "alert": {
-                            "errorresets": "Error performing reset.",
-                            "successfulreset": "The character reset is complete."
                         }
-                    },
-                    "alert": {
-                        "conditionsnotmet": "Conditions not met!",
-                        "characternotselected": "You cannot use this function because the character is not selected!",
-                        "nocharacter": "The selected character was not found!"
                     }
                 },
                 "addstats": {
@@ -326,16 +285,7 @@
                         },
                         "button": {
                             "submit": "Add stats"
-                        },
-                        "alert": {
-                            "successfuladdpoints": "Points are added to the character.",
-                            "statisticsarenotindicated": "The stats for distribution are not specified.",
-                            "noleveluppoints": "More points are indicated than the character has."
                         }
-                    },
-                    "alert": {
-                        "characternotselected": "You cannot use this function because the character is not selected!",
-                        "nocharacter": "The selected character was not found!"
                     }
                 },
                 "teleport": {
@@ -348,15 +298,7 @@
                         },
                         "button": {
                             "submit": "Move"
-                        },
-                        "alert": {
-                            "successfulteleport": "The character has been moved.",
-                            "charisgamemap": "The character is already on this map."
                         }
-                    },
-                    "alert": {
-                        "characternotselected": "You cannot use this function because the character is not selected!",
-                        "nocharacter": "The selected character was not found!"
                     }
                 }
             }

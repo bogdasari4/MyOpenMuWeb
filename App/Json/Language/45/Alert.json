@@ -1,0 +1,37 @@
+{
+    "3c9": "You cannot use this function because the character is not selected!",
+    
+    "14b": "Your new password must not be the same as your old password!",
+    "3b4": "New passwords don't match!",
+    "1af": "The new password was entered incorrectly!",
+    "25a": "The account password is incorrect!",
+    "2ae": "You have successfully changed your password!",
+
+    "118": "Conditions not met!",
+    "22f": "The selected character was not found!",
+    "254": "Error performing reset.",
+    "389": "No suitable conditions were found to perform a reset!",
+    "240": "Character reset completed!",
+
+    "3d7": "You are trying to allocate more points than the limit for each stat!",
+    "3a8": "You are trying to give away more points than the character has!",
+    "217": "The stats for distribution are not specified!",
+    "1ef": "Stats have been added to your character!",
+
+    "39d": "The move has been cancelled, the character is already on this map!",
+    "21c": "Character teleport completed!",
+
+    "655": "Can't find the character!",
+
+    "2f2": "Data entered incorrectly!",
+    "32b": "The specified username is already taken.",
+    "291": "The account has been created.",
+
+    "2ee": "The password or login was entered incorrectly!",
+    "1ac": "The username or password is incorrect.",
+    "2f5": "Authorized. Let's go to your personal account.",
+
+    "287": "Exit from your personal account.",
+
+    "23b": "Oh! We didn't find this page :( Try going back or going to the main project page."
+}
