@@ -227,7 +227,7 @@
                 },
                 "information": {
                     "title": "Information",
-                    "subtitle": "Character",
+                    "subtitle": "Account",
                     "loginName": "Username",
                     "email": "E-mail address",
                     "emailempty": "Not specified",
@@ -236,7 +236,7 @@
                 },
                 "changepass": {
                     "title": "Change password",
-                    "subtitle": "Character",
+                    "subtitle": "Account",
                     "form": {
                         "password": {
                             "label": "Current Password",
@@ -256,7 +256,7 @@
                 },
                 "reset": {
                     "title": "Reset",
-                    "subtitle": "Account",
+                    "subtitle": "Character",
                     "description": "When your character reaches the required level for Reset, he needs to reset the level. This will allow you to move on to the next stage of character development. With each reset, your character will become stronger and leveling up will be easier.",
                     "requirementsforreset": "To perform a reset, you must:",
                     "resetforreset": "Have reset %d (%d) or more;",
@@ -272,7 +272,7 @@
                 },
                 "addstats": {
                     "title": "Add stats",
-                    "subtitle": "Account",
+                    "subtitle": "Character",
                     "description": "The stat distribution makes it much easier for you to assign stats to your character. If you have a lot of free stats, then here you can immediately add them in the required quantity.",
                     "form": {
                         "table": {
@@ -290,7 +290,7 @@
                 },
                 "teleport": {
                     "title": "Teleport",
-                    "subtitle": "Account",
+                    "subtitle": "Character",
                     "description": "Using teleportation, you can transfer your character to any map that is available for movement.",
                     "form": {
                         "select": {
