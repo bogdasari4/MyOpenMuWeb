@@ -42,7 +42,7 @@ class Block extends TemplateAdapter
                 $data['nav'][$keyType][$keyValue] = [
                     'active' => $subpageName == $keyValue ? 'active' : '',
                     'link' => $value['link'],
-                    'name' => __LANG['body']['block']['accountMenu']['nav'][$keyType][$keyValue]
+                    'name' => (isset($value['name']) && $value['name'] != '') ? $value['name'] : __LANG['body']['block']['accountMenu']['nav'][$keyType][$keyValue]
                 ];
             }
 

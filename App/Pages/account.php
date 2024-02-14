@@ -56,7 +56,7 @@ final class Account extends PageAdapter
                     $data['nav'][$keyValue] = [
                         'active' => $subpageName == $keyValue ? 'active' : '',
                         'link' => $value['link'],
-                        'name' => __LANG['body']['page']['account']['nav'][$keyType][$keyValue]
+                        'name' => (isset($value['name']) && $value['name'] != '') ? $value['name'] : __LANG['body']['block']['accountMenu']['nav'][$keyType][$keyValue]
                     ];
                 }
                 break;
