@@ -46,7 +46,7 @@ final class Alert extends \Exception
 
     private function loadAlertFile(): void
     {
-        $languageCode = isset($_COOKIE['language_code']) ? $_COOKIE['language_code'] : __CONFIG_LANGUAGE_SET;
+        $languageCode = isset($_COOKIE['LanguageCode']) ? $_COOKIE['LanguageCode'] : __CONFIG_LANGUAGE_SET;
         $pathFile = __ROOT_APP_JSON_LANG . $languageCode . DIRECTORY_SEPARATOR . 'Alert.json';
         if (file_exists($pathFile)) {
             $alertFile = json_decode(file_get_contents($pathFile), true);
