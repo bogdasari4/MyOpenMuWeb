@@ -51,7 +51,7 @@ class Util
      */
     public static function config(string $file = 'core', bool $associative = true): array|object
     {
-        $configDir = __ROOT . 'app/json/config/' . $file . '.json';
+        $configDir = __ROOT . 'App/Json/Config/' . $file . '.json';
         if (!@file_exists($configDir))
             throw new Exception(sprintf('Cannot find %s configuration file.', $file));
 
