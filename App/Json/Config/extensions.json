@@ -4,6 +4,6 @@
         "author": "Bogdan Reva",
         "version": "023",
         "status": true,
-        "loadfile": "init.php"
+        "loadfile": "Init.php"
     }
 }
