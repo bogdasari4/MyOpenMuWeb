@@ -53,7 +53,7 @@ class Util
     {
         $configDir = __ROOT . 'App/Json/Config/' . $file . '.json';
         if (!@file_exists($configDir)) return false;
-            // throw new Exception(sprintf('Cannot find %s configuration file.', $file));
+            throw new Exception(sprintf('Cannot find %s configuration file.', $file));
 
         $config = json_decode(file_get_contents($configDir), $associative);
         return $config;
