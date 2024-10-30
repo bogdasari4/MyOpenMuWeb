@@ -52,23 +52,6 @@ class App
 
         $Handler = new App\Core\Handler();
         $Handler->switch($Handler::ACCESS_INDEX);
-
-        // $applicationClassMap = [
-        //     null => 'App/Packets/autoload.php',
-        //     '\\App\\Alert' => 'App/Alert.php',
-        //     '\\App\\Assistant' => 'App/Assistant.php',
-        //     '\\App\\Util' => 'App/Util.php',
-        //     '\\App\\Core' => 'App/Core/Core.php'
-        // ];
-
-        // foreach ($applicationClassMap as $namespace => $file) {
-        //     if (file_exists($file)) {
-        //         require_once($file);
-        //         if($namespace == '\\App\\Core') {
-        //             new $namespace;
-        //         }
-        //     }
-        // }
     }
 }
 ?>
