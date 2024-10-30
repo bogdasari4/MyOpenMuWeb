@@ -36,13 +36,24 @@ final class ConstantController
 
     public function __construct()
     {
-        $this->map['__CONFIG'] = Util::config('core');
+        $this->load_configuration_file();
+
         $this->defineConstant($this->map);
         
         $this->add(['ACTIVE' => __ROOT_TEMP . __CONFIG_DEFAULT_TEMPLATE . DIRECTORY_SEPARATOR], '__ROOT_TEMP');
         $this->add(['PAGES' => __ROOT_TEMP_ACTIVE . 'Pages/'], '__ROOT_TEMP_ACTIVE');
     }
 
+    /**
+     * The function loads the configuration file and checks the main constants for correct values.
+     * @return void
+     */
+    private function load_configuration_file(): void
+    {
+        $this->map['__CONFIG'] = Util::config('core');
+        if(!$this->map['__CONFIG']) Util::redirect('/install');
+    }
+    
     /**
      * The function declares a new constant taking an array of values. Where the key is the name of the constant.
      * @param array $defineData

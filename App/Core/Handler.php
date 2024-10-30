@@ -3,24 +3,33 @@
 namespace App\Core;
 
 use App\Alert;
-use App\Core\Adapter\HandlerAdapter;
 use App\Assistant;
 use App\Util;
+
+use App\Core\Template\Body;
+use App\Core\Database\PostgreSQL\ReadyStrings;
 
 use Twig\Environment;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 
-final class Handler extends HandlerAdapter
+final class Handler
 {
     use Assistant {
         spotGET as private render;
         spotGET as organize;
         spotGET as catchPage;
-        requireFile as getPageData;
     }
 
+    public const ACCESS_INDEX = 'index';
+
+    public const ACCESS_INSTALL = 'install';
+
     private string $pageName;
+
+    private object $app;
+
+    private object $body;
 
     /**
      * Public function: renderPage
@@ -28,38 +37,52 @@ final class Handler extends HandlerAdapter
      * @return void
      * Render the page before output.
      */
-    public function render(): void
+    public function switch(string $access): void
     {
-        switch (access) {
-            case 'index':
+        switch ($access) {
+            case self::ACCESS_INDEX:
+                $this->app = new \stdClass;
+
+                $controllers = ['ConstantController', 'MenuController', 'PagesController', 'SubPagesController'];
+                foreach($controllers as $controller)
+                {
+                    $namespace = 'App\\Core\\Controller\\' . $controller;
+                    $this->app->{mb_strtolower($controller)} = new $namespace;
+                }
+
+                $this->body = new Body($this->app);
                 $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
-                
+
                 $this->catchPage();
-                $this->organize();
+                $this->render();
                 break;
 
             case 'api':
                 break;
+            
+            case 'install':
+            default:
+                break;
         }
     }
 
-    private function organize(): void
+    private function render(): void
     {
         $this->getLanguage();
 
         try {
             $FSLoader = new FilesystemLoader(__ROOT_TEMP_ACTIVE);
 
-            if (!isset($this->controller('PagesController')->{$this->pageName})) {
+            if (!isset($this->app->pagescontroller->{$this->pageName})) {
                 throw new Alert(0x23b, 'info', '/');
             }
 
-            $pageController = $this->controller('PagesController')->{$this->pageName};
+            $pageController = $this->app->pagescontroller->{$this->pageName};
             $pageData['page'][$this->pageName] = $this->getPageData($pageController);
             $addPath = 'pages';
 
-            if (isset($this->controller('SubPagesController')->{$this->pageName})) {
-                $subPageController = $this->controller('SubPagesController')->{$this->pageName};
+            if (isset($this->app->subpagescontroller->{$this->pageName})) {
+                $subPageController = $this->app->subpagescontroller->{$this->pageName};
                 $subPage = $this->spotGET('subpage', array_key_first($subPageController));
                 if (!isset($subPageController[$subPage])) {
                     throw new Alert(0x23b, 'info', '/' . $this->pageName . '/' . array_key_first($subPageController));
@@ -89,7 +112,6 @@ final class Handler extends HandlerAdapter
 
     private function getPageData(array $pageData): array
     {
-        $this->requireFile($pageData['namespace'], $pageData['file']);
         $pageClass = new $pageData['namespace']($this->app, $this->body->getPageConfig($this->pageName));
         return $pageClass->getInfo();
     }
@@ -102,7 +124,8 @@ final class Handler extends HandlerAdapter
 
             case 'account':
                 if ($this->spotGET('subpage', '') == 'getchar') {
-                    $this->ready()->getAccountInfo()->getCharacter($this->spotGET('request', '', false));
+                    $readyStrings = new ReadyStrings;
+                    $readyStrings->getAccountInfo()->getCharacter($this->spotGET('request', '', false));
                     Util::redirect('/account');
                 }
                 break;

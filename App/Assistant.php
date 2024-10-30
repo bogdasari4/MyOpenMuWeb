@@ -14,25 +14,6 @@ namespace App;
 trait Assistant
 {
     /**
-     * Custom function checking and connecting a file to the engine with class checking.
-     * @param mixed|null $namespace
-     * Namespaces.
-     * @param string $file
-     * Full path to the file.
-     * @return void
-     */
-    function requireFile(?string $namespace, string $file): void
-    {
-        $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
-        if (file_exists($file)) {
-            require_once($file);
-            if (!is_null($namespace) && class_exists($namespace)) {
-                
-            }
-        }
-    }
-
-    /**
      * Get class name by namespace.
      * @param string $namespace
      * Namespaces.

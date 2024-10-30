@@ -6,29 +6,17 @@
 
 namespace App\Core\Adapter;
 
-use App\Core\Adapter\Interface\InterfacePage;
-use App\Core\Cache;
-use App\Core\Database\Ready;
-use App\Core\Entity\Auth;
 use App\Core\Session;
+use App\Core\Cache;
+
+use App\Core\Database\PostgreSQL\ReadyStrings;
+use App\Core\Auth;
 
 /**
  * @author Bogdan Reva <tip-bodya@yandex.com>
  */
-abstract class PageAdapter implements InterfacePage
+abstract class PageAdapter implements InterfacePageAdapter
 {
-    /**
-     * All core controllers.
-     * @var object
-     */
-    private object $app;
-
-    /**
-     * Configuration of the connected module or page.
-     * @var 
-     */
-    protected ?array $config;
-
     /**
      * Loading sessions.
      * @var Session
@@ -39,7 +27,7 @@ abstract class PageAdapter implements InterfacePage
      * Loading prepared queries to the database.
      * @var 
      */
-    private ?Ready $ready = null;
+    private ?object $ready = null;
 
     /**
      * Loading system cache.
@@ -60,28 +48,9 @@ abstract class PageAdapter implements InterfacePage
      * @param null|array $config
      * We pass the configuration through the `$config` variable.
      */
-    final public function __construct(object $core, ?array $config)
+    public function __construct(protected object $app, protected ?array $config)
     {
-        $this->app = $core;
-        $this->config = $config;
         $this->session = new Session;
-    }
-
-    /**
-     * Controller function.
-     * It is only used when you declare it.
-     * Makes it easier to access controllers.
-     * @param string $typeController
-     * Controller type.
-     * @return null|object
-     */
-    final protected function controller(string $typeController): ?object
-    {
-        if (isset($this->app->core['controller'][$typeController])) {
-            return $this->app->core['controller'][$typeController];
-        }
-
-        return null;
     }
 
     /**
@@ -94,10 +63,10 @@ abstract class PageAdapter implements InterfacePage
      * It is only used when you declare it.
      * @return Ready
      */
-    final protected function ready(): Ready
+    final protected function ready()
     {
         if (is_null($this->ready)) {
-            $this->ready = new Ready;
+            $this->ready = new ReadyStrings;
         }
 
         return $this->ready;

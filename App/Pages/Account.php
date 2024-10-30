@@ -46,7 +46,7 @@ final class Account extends PageAdapter
 
         $data['text'] = @__LANG['body']['page']['account'][$subpageName];
 
-        foreach ($this->controller('MenuController')->account as $keyType => $type) {
+        foreach ($this->app->menucontroller->account as $keyType => $type) {
             if (array_key_exists($subpageName, $type)) {
                 if ($keyType == 'character' && !isset($this->session->character)) {
                     throw new Alert(0x3c9, 'info');

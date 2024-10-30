@@ -49,11 +49,11 @@ class Util
      * @throws \Exception
      * @return array|object
      */
-    public static function config(string $file = 'core', bool $associative = true): array|object
+    public static function config(string $file = 'core', bool $associative = true): array|object|bool
     {
         $configDir = __ROOT . 'App/Json/Config/' . $file . '.json';
-        if (!@file_exists($configDir))
-            throw new Exception(sprintf('Cannot find %s configuration file.', $file));
+        if (!@file_exists($configDir)) return false;
+            // throw new Exception(sprintf('Cannot find %s configuration file.', $file));
 
         $config = json_decode(file_get_contents($configDir), $associative);
         return $config;

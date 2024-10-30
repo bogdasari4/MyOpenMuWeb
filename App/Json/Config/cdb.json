@@ -1,8 +1,8 @@
 {
-    "host": "localhost",
+    "host": "192.168.122.128",
     "port": 5432,
     "dbname": "openmu",
     "user": "postgres",
-    "password": 123321
+    "password": "admin"
     
 }

@@ -7,7 +7,6 @@
 namespace App\Core\Database;
 
 use App\Core\Database\Connect;
-use App\Core\Database\Interface\InterfaceQuery;
 use App\Util;
 use \PDO;
 

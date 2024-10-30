@@ -4,7 +4,7 @@
  * @see https://github.com/bogdasari4/MyOpenMuWeb
  */
 
-namespace App\Core\Database;
+namespace App\Core\Database\PostgreSQL;
 
 /**
  * Support class for the `PostgreSQL` database.

@@ -41,23 +41,34 @@ class App
         define('__BASE_URL', __SERVER_PROTOCOL . __HTTP_HOST . __RELATIVE_ROOT);
         define('__BASE_URL_ALT', __SERVER_PROTOCOL . __HTTP_HOST);
         define('__ACTUAL_URL', __SERVER_PROTOCOL . __HTTP_HOST . $_SERVER['REQUEST_URI']);
+        
+        if(!@include_once('App/Package/autoload.php'))
+            throw new \Exception('ERR AUTOLOAD COMPOSER');
 
-        $applicationClassMap = [
-            null => 'App/Packets/autoload.php',
-            '\\App\\Alert' => 'App/Alert.php',
-            '\\App\\Assistant' => 'App/Assistant.php',
-            '\\App\\Util' => 'App/Util.php',
-            '\\App\\Core' => 'App/Core/Core.php'
-        ];
+        if(!@include_once(__ROOT . 'App/Autoload.php'))
+            throw new \Exception('ERR AUTOLOAD');
 
-        foreach ($applicationClassMap as $namespace => $file) {
-            if (file_exists($file)) {
-                require_once($file);
-                if($namespace == '\\App\\Core') {
-                    new $namespace;
-                }
-            }
-        }
+        Autoload::Register();
+
+        $Handler = new App\Core\Handler();
+        $Handler->switch($Handler::ACCESS_INDEX);
+
+        // $applicationClassMap = [
+        //     null => 'App/Packets/autoload.php',
+        //     '\\App\\Alert' => 'App/Alert.php',
+        //     '\\App\\Assistant' => 'App/Assistant.php',
+        //     '\\App\\Util' => 'App/Util.php',
+        //     '\\App\\Core' => 'App/Core/Core.php'
+        // ];
+
+        // foreach ($applicationClassMap as $namespace => $file) {
+        //     if (file_exists($file)) {
+        //         require_once($file);
+        //         if($namespace == '\\App\\Core') {
+        //             new $namespace;
+        //         }
+        //     }
+        // }
     }
 }
 ?>

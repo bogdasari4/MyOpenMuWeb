@@ -42,7 +42,7 @@ final class Ranking extends PageAdapter
 
         $data['text'] = @__LANG['body']['page']['ranking'][$subpageName];
 
-        foreach ($this->controller('MenuController')->ranking as $key => $nav) {
+        foreach ($this->app->menucontroller->ranking as $key => $nav) {
             $data['nav'][$key] = [
                 'active' => $subpageName == $key ? 'active' : '',
                 'link' => $nav['link'],

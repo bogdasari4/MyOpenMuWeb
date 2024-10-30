@@ -21,6 +21,8 @@ class Connect
     public function __construct()
     {
         $config['cdb'] = Util::config('cdb');
+        if(!$config['cdb']) Util::redirect('/install');
+
         $connectString = match (__CONFIG_DEFAULT_DATABASE) {
             'postgresql' => 'pgsql:host=' . $config['cdb']['host'] . ' port=' . $config['cdb']['port'] . ' dbname=' . $config['cdb']['dbname'],
             'mssql' => 'sqlsrv:Server=' . $config['cdb']['host'] . ', ' . $config['cdb']['host'] . ';Database=' . $config['cdb']['dbname']

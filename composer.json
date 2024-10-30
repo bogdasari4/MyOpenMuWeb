@@ -16,13 +16,13 @@
         "php": "^8.0",
         "phpmailer/phpmailer": "^6.9",
         "symfony/cache":"^6.3",
-        "twig/twig": "^3.7",
+        "twig/twig": "^3.11",
         "twig/intl-extra": "^3.7",
         "twig/extra-bundle": "^3.7"
     },
 
     "config": {
-        "vendor-dir": "app/packets",
+        "vendor-dir": "App/Package",
         "optimize-autoloader": true,
         "allow-plugins": {
             "symfony/flex": true
