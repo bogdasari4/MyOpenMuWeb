@@ -50,6 +50,15 @@ final class Handler
                     $this->app->{mb_strtolower($controller)} = new $namespace;
                 }
 
+                foreach(Util::config('extensions', false) as $key => $value)
+                {
+                    if(!$value->status)
+                        continue;
+
+                    $extension = $key . '\\' . $value->loadfile;
+                    new $extension($this->app);
+                }
+
                 $this->body = new Body($this->app);
                 $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
 

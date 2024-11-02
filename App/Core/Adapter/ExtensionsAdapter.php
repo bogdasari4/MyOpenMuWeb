@@ -13,11 +13,12 @@ namespace App\Core\Adapter;
  */
 abstract class ExtensionsAdapter
 {
-    private object $app;
-
-    final public function __construct(object $core)
+    /**
+     * @param object $app
+     * Provides simplified access to controllers
+     */
+    final public function __construct(protected object $app)
     {
-        $this->app = $core;
         $this->load();
     }
 
@@ -26,21 +27,6 @@ abstract class ExtensionsAdapter
      * @return void
      */
     abstract protected function load(): void;
-
-    /**
-     * Provides simplified access to controllers.
-     * @param string $typeController
-     * Type of controller for output.
-     * @return null|object
-     */
-    final protected function controller(string $typeController): ?object
-    {
-        if (isset($this->app->core['controller'][$typeController])) {
-            return $this->app->core['controller'][$typeController];
-        }
-
-        return null;
-    }
 }
 
 ?>
