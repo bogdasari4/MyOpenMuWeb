@@ -18,9 +18,10 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 final class Cache
 {
+    /**
+     * Variable for working with the cache root directory using the `FilesystemAdapter` function.
+     */
     private  $FSAdapter;
-
-    private array $config;
 
     /**
      * Stores the cache item expiration and content as regular files in a collection of directories on a locally mounted filesystem.
@@ -31,18 +32,15 @@ final class Cache
      * `lifetime` The default lifetime (in seconds) for cache items that do not define their own lifetime, 
      * with a value 0 causing items to be stored indefinitely (i.e. until the files are deleted).
      */
-    public function __construct(array $config)
+    public function __construct(private array $config)
     {
         $default = ['subdir' => '', 'setName' => bin2hex(random_bytes(5)), 'lifetime' => __CONFIG_DEFAULT_CACHE_LIFETIME];
 
         foreach ($default as $key => $value) {
-            if (!isset($config['cache'][$key]) || (isset($config['cache'][$key]) && $config['cache'][$key] == '')) {
-                $config['cache'][$key] = $value;
+            if (!isset($this->config['cache'][$key]) || (isset($this->config['cache'][$key]) && $this->config['cache'][$key] == '')) {
+                $this->config['cache'][$key] = $value;
             }
         }
-        
-        $this->config = $config;
-        $config = null;
 
         $this->FSAdapter = new FilesystemAdapter($this->config['cache']['subdir'], __CONFIG_DEFAULT_CACHE_LIFETIME, __ROOT_APP_CACHE);
     }
