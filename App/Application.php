@@ -11,7 +11,7 @@ class App
      * 
      * @author Bogdan Reva <tip-bodya@yandex.com>
      */
-    public function getLoader()
+    public function loader()
     {
         /**
          * Sets which PHP errors are reported.
@@ -42,14 +42,28 @@ class App
         define('__BASE_URL_ALT', __SERVER_PROTOCOL . __HTTP_HOST);
         define('__ACTUAL_URL', __SERVER_PROTOCOL . __HTTP_HOST . $_SERVER['REQUEST_URI']);
         
+        /**
+         * For libraries that specify autoload information, Composer generates a _ROOT/App/Package/autoload.php file.
+         * Start using the classes that those libraries provide without any extra work.
+         * 
+         * @see https://getcomposer.org/doc/01-basic-usage.md#autoloading
+         */
         if(!@include_once('App/Package/autoload.php'))
-            throw new \Exception('ERR AUTOLOAD COMPOSER');
+            throw new \Exception('Can\'t find composer autoload file.');
 
+        /**
+         * This class using for autoload classes from file paths.
+         * 
+         * @see https://www.php-fig.org/psr/psr-4/
+         */
         if(!@include_once(__ROOT . 'App/Autoload.php'))
-            throw new \Exception('ERR AUTOLOAD');
+            throw new \Exception('Can\'t find engine autoload file.');
 
         Autoload::Register();
 
+        /**
+         * Switch the handler class to render the site template.
+         */
         $Handler = new App\Core\Handler();
         $Handler->switch($Handler::ACCESS_INDEX);
     }
