@@ -6,8 +6,8 @@
 
 namespace App\Core\Database;
 
-use App\Util;
 use \PDO;
+use App\Util;
 
 /**
  * A class for connecting to a database via `\PDO`, using a constant with a type key `__CONFIG_DEFAULT_DATABASE`.
@@ -25,9 +25,9 @@ class Connect
 
         $connectString = match (__CONFIG_DEFAULT_DATABASE) {
             'postgresql' => 'pgsql:host=' . $config['cdb']['host'] . ' port=' . $config['cdb']['port'] . ' dbname=' . $config['cdb']['dbname'],
-            'mssql' => 'sqlsrv:Server=' . $config['cdb']['host'] . ', ' . $config['cdb']['host'] . ';Database=' . $config['cdb']['dbname']
+            'mssql' => 'sqlsrv:Server=' . $config['cdb']['host'] . ';Database=' . $config['cdb']['dbname']
         };
-
+        
         $this->pdo = new PDO($connectString, $config['cdb']['user'], $config['cdb']['password']);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }

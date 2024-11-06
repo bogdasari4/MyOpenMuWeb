@@ -28,21 +28,21 @@
             "status": true,
             "apiParse": true,
             "api": {
-                "url": "http://localhost/api/status"
+                "url": "http://192.168.122.128/api/status"
             },
             "parse": {
                 "55901": {
-                    "host": "127.0.0.1",
+                    "host": "192.168.122.128",
                     "port": 55901,
                     "timeout": 5
                 },
                 "55902": {
-                    "host": "127.0.0.1",
+                    "host": "192.168.122.128",
                     "port": 55902,
                     "timeout": 5
                 },
                 "55903": {
-                    "host": "127.0.0.1",
+                    "host": "192.168.122.128",
                     "port": 55903,
                     "timeout": 5
                 }

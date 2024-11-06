@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MyOpenMuWeb
  * @see https://github.com/bogdasari4/MyOpenMuWeb
@@ -13,9 +14,8 @@ namespace App;
  */
 final class Alert extends \Exception
 {
-    private string $hexcode;
 
-    private string $type;
+    use Assistant;
 
     private array $alertList;
 
@@ -30,24 +30,24 @@ final class Alert extends \Exception
      * Redirect to page.
      * @param \Throwable|null $previous
      */
-    public function __construct(int $hexcode, string $type = '', string $redirect = '', \Throwable $previous = null)
+    public function __construct(private int $hexcode, private string $type = '', string $redirect = '', \Throwable $previous = null)
     {
         parent::__construct('', 0, $previous);
 
-        if (defined('__CONFIG_LANGUAGE_SET') && defined('__ROOT_APP_JSON_LANG')) {
+        if (defined('__CONFIG_LANGUAGE_SET') && defined('__ROOT_APP_JSON_LANG'))
             $this->loadAlertFile();
-        }
 
-        $this->hexcode = dechex($hexcode);
-        $this->type = $type;
+
         if ($redirect)
             header('Refresh:3; url=' . $redirect);
     }
 
+    /**
+     * loading alert sheet.
+     */
     private function loadAlertFile(): void
     {
-        $languageCode = isset($_COOKIE['LanguageCode']) ? $_COOKIE['LanguageCode'] : __CONFIG_LANGUAGE_SET;
-        $pathFile = __ROOT_APP_JSON_LANG . $languageCode . DIRECTORY_SEPARATOR . 'Alert.json';
+        $pathFile = __ROOT_APP_JSON_LANG . $this->getLanguageCode() . DIRECTORY_SEPARATOR . 'Alert.json';
         if (file_exists($pathFile)) {
             $alertFile = json_decode(file_get_contents($pathFile), true);
             if ($alertFile != null) {
@@ -84,9 +84,10 @@ final class Alert extends \Exception
      */
     public function getRawMessage(): string
     {
-        if ($this->alertList && isset($this->alertList[$this->hexcode]))
-            return $this->alertList[$this->hexcode];
-        return $this->hexcode;
+        $hexcode = $this->getRawCode();
+        if ($this->alertList && isset($this->alertList[$hexcode]))
+            return $this->alertList[$hexcode];
+        return $hexcode;
     }
 
     /**
@@ -95,7 +96,7 @@ final class Alert extends \Exception
      */
     public function getRawCode(): string
     {
-        return $this->hexcode;
+        return dechex($this->hexcode);
     }
 
     /**
