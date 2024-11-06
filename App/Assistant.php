@@ -51,5 +51,14 @@ trait Assistant
         
         return $pageName;
     }
+
+    /**
+     * We get the current language code.
+     * @return int
+     */
+    function getLanguageCode(): int
+    {
+        return $_COOKIE['LanguageCode'] ?? __CONFIG_LANGUAGE_SET;
+    }
 }
 ?>

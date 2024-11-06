@@ -1,9 +1,9 @@
 {
-    "\\App\\Extensions\\Vault": {
-        "name": "Vault",
+    "\\App\\Extensions\\Votes": {
+        "name": "Votes",
         "author": "Bogdan Reva",
-        "version": "023",
+        "version": "0.1",
         "status": true,
-        "loadfile": "Init.php"
+        "loadfile": "Init"
     }
 }

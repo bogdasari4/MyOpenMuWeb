@@ -46,7 +46,7 @@ final class Ranking extends PageAdapter
             $data['nav'][$key] = [
                 'active' => $subpageName == $key ? 'active' : '',
                 'link' => $nav['link'],
-                'name' => __LANG['body']['page']['ranking'][$key]['subtitle']
+                'name' => $nav['title'] ?? __LANG['body']['page']['ranking'][$key]['subtitle']
             ];
         }
 

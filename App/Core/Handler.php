@@ -15,14 +15,13 @@ use Twig\Loader\FilesystemLoader;
 
 final class Handler
 {
-    use Assistant {
-        spotGET as private render;
-        spotGET as organize;
-        spotGET as catchPage;
-    }
+    use Assistant;
 
+    /**
+     * We specify access constants.
+     */
     public const ACCESS_INDEX = 'index';
-
+    
     public const ACCESS_INSTALL = 'install';
 
     private string $pageName;
@@ -32,10 +31,10 @@ final class Handler
     private object $body;
 
     /**
-     * Public function: renderPage
-     * @throws \Exception
+     * We change the operating mode of the handler.
+     * @param string $access
+     * Access type: example [ACCESS_INDEX], [ACCESS_INSTALL]
      * @return void
-     * Render the page before output.
      */
     public function switch(string $access): void
     {
@@ -43,21 +42,13 @@ final class Handler
             case self::ACCESS_INDEX:
                 $this->app = new \stdClass;
 
-                $controllers = ['ConstantController', 'MenuController', 'PagesController', 'SubPagesController'];
-                foreach($controllers as $controller)
+                foreach(['ConstantController', 'MenuController', 'PagesController', 'SubPagesController'] as $controller)
                 {
                     $namespace = 'App\\Core\\Controller\\' . $controller;
                     $this->app->{mb_strtolower($controller)} = new $namespace;
-                }
+                } 
 
-                foreach(Util::config('extensions', false) as $key => $value)
-                {
-                    if(!$value->status)
-                        continue;
-
-                    $extension = $key . '\\' . $value->loadfile;
-                    new $extension($this->app);
-                }
+                $this->loadExtensions();
 
                 $this->body = new Body($this->app);
                 $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
@@ -75,6 +66,14 @@ final class Handler
         }
     }
 
+    /**
+     * The main function is to render the page and display it using the Twig 3.x extension package.
+     * @see https://twig.symfony.com/doc/3.x/
+     * Uses 'FilesystemLoader' to load a template from the file system.
+     * @throws Alert
+     * Used for notifications.
+     * @return void
+     */
     private function render(): void
     {
         $this->getLanguage();
@@ -119,12 +118,22 @@ final class Handler
         $template->display(array_merge($this->body->getData(), ['content' => is_array($content) ? $twig->render($content['path'], $content['data']) : $content]));
     }
 
+    /**
+     * We declare the page class and get the information to render the page block.
+     * @param array $pageData
+     * We receive page data.
+     * @return array
+     */
     private function getPageData(array $pageData): array
     {
         $pageClass = new $pageData['namespace']($this->app, $this->body->getPageConfig($this->pageName));
         return $pageClass->getInfo();
     }
 
+    /**
+     * For some changes, we intercept the page before it is rendered.
+     * @return void
+     */
     private function catchPage(): void
     {
         switch ($this->pageName) {
@@ -147,14 +156,17 @@ final class Handler
     }
 
     /**
-     * Public function: getLanguage
-     * Language handler.
-     * @return bool
+     * Function for reading a language file using the language code. 
+     * If '$languageCode' is specified, we enter the data into cookies and work with the cookie code 'LanguageCode'.
+     * @param null|int $languageCode
+     * Specifies which language code we will work with.
+     * @example [English: 45], [Belorussian: 90], [German: 481], [Russian: 570], [Ukrainian: 720]
+     * @return void
      */
     private function getLanguage(?int $languageCode = null): void
     {
         if (is_null($languageCode)) {
-            $languageCode = isset($_COOKIE['LanguageCode']) ? $_COOKIE['LanguageCode'] : __CONFIG_LANGUAGE_SET;
+            $languageCode = $this->getLanguageCode();
 
             $languageFile = __ROOT_APP_JSON_LANG . $languageCode . DIRECTORY_SEPARATOR . 'Main.json';
             if (file_exists($languageFile)) {
@@ -170,6 +182,22 @@ final class Handler
             if (__CONFIG_LANGUAGE_SET != $languageCode || (isset($_COOKIE['LanguageCode']) && $_COOKIE['LanguageCode'] != $languageCode)) {
                 setcookie('LanguageCode', $languageCode, time() + __CONFIG_LANGUAGE_EXPIRES, '/');
             }
+        }
+    }
+
+    /**
+     * The function declares extension classes from the 'extensions.json' list.
+     * @return void
+     */
+    private function loadExtensions(): void
+    {
+        foreach(Util::config('extensions', false) as $key => $value)
+        {
+            if(!$value->status)
+                continue;
+
+            $extension = $key . '\\' . $value->loadfile;
+            new $extension($this->app);
         }
     }
 }

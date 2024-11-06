@@ -19,15 +19,15 @@ final class SubpagesController {
      */
     private array $map = [
         'ranking' => [
-            'character' => ['namespace' => 'App\\Pages\\Ranking\\Character', 'file' => __ROOT_APP_PAGE . 'Ranking/Character.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Ranking/', 'name' => 'Character.html']],
-            'guild' => ['namespace' => 'App\\Pages\\Ranking\\Guild', 'file' => __ROOT_APP_PAGE . 'Ranking/Guild.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Ranking/', 'name' => 'Guild.html']]
+            'character' => ['namespace' => 'App\\Pages\\Ranking\\Character', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Ranking/', 'name' => 'Character.html']],
+            'guild' => ['namespace' => 'App\\Pages\\Ranking\\Guild', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Ranking/', 'name' => 'Guild.html']]
         ],
         'account' => [
-            'information' => ['namespace' => 'App\\Pages\\Account\\Information', 'file' => __ROOT_APP_PAGE . 'Account/Information.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Information.html']],
-            'changepass' => ['namespace' => 'App\\Pages\\Account\\ChangePass', 'file' => __ROOT_APP_PAGE . 'Account/ChangePass.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'ChangePass.html']],
-            'reset' => ['namespace' => 'App\\Pages\\Account\\Reset', 'file' => __ROOT_APP_PAGE . 'Account/Reset.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Reset.html']],
-            'addstats' => ['namespace' => 'App\\Pages\\Account\\AddStats', 'file' => __ROOT_APP_PAGE . 'Account/AddStats.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'AddStats.html']],
-            'teleport' => ['namespace' => 'App\\Pages\\Account\\Teleport', 'file' => __ROOT_APP_PAGE . 'Account/Teleport.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Teleport.html']]
+            'information' => ['namespace' => 'App\\Pages\\Account\\Information', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Information.html']],
+            'changepass' => ['namespace' => 'App\\Pages\\Account\\ChangePass', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'ChangePass.html']],
+            'reset' => ['namespace' => 'App\\Pages\\Account\\Reset', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Reset.html']],
+            'addstats' => ['namespace' => 'App\\Pages\\Account\\AddStats', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'AddStats.html']],
+            'teleport' => ['namespace' => 'App\\Pages\\Account\\Teleport', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES . 'Account/', 'name' => 'Teleport.html']]
         ]
     ];
 
@@ -41,7 +41,7 @@ final class SubpagesController {
      */
     public function __set(string $subPageName, array $information): void
     {
-        $this->map[$subPageName] = $information;
+        $this->map[$subPageName] = array_merge($this->map[$subPageName], $information);
     }
 
     /**

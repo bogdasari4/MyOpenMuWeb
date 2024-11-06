@@ -18,16 +18,16 @@ final class PagesController {
      * @var array
      */
     private array $map = [
-        'main' => ['namespace' => 'App\\Pages\\Main', 'file' => __ROOT_APP_PAGE . 'Main.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Main.html']],
-        'ranking' => ['namespace' => 'App\\Pages\\Ranking', 'file' => __ROOT_APP_PAGE . 'Ranking.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Ranking.html']],
-        'about' => ['namespace' => 'App\\Pages\\About', 'file' => __ROOT_APP_PAGE . 'About.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'About.html']],
-        'downloads' => ['namespace' => 'App\\Pages\\Downloads', 'file' => __ROOT_APP_PAGE . 'Downloads.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Downloads.html']],
-        'character' => ['namespace' => 'App\\Pages\\Character', 'file' => __ROOT_APP_PAGE . 'Character.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Character.html']],
-        'guild' => ['namespace' => 'App\\Pages\\Guild', 'file' => __ROOT_APP_PAGE . 'Guild.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Guild.html']],
-        'signup' => ['namespace' => 'App\\Pages\\SignUp', 'file' => __ROOT_APP_PAGE . 'SignUp.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'SignUp.html']],
-        'sigin' => ['namespace' => 'App\\Pages\\SigIn', 'file' => __ROOT_APP_PAGE . 'sigin.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'SigIn.html']],
-        'account' => ['namespace' => 'App\\Pages\\Account', 'file' => __ROOT_APP_PAGE . 'Account.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Account.html']],
-        'logout' => ['namespace' => 'App\\Pages\\LogOut', 'file' => __ROOT_APP_PAGE . 'LogOut.php', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'LogOut.html']]
+        'main' => ['namespace' => 'App\\Pages\\Main', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Main.html']],
+        'ranking' => ['namespace' => 'App\\Pages\\Ranking', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Ranking.html']],
+        'about' => ['namespace' => 'App\\Pages\\About', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'About.html']],
+        'downloads' => ['namespace' => 'App\\Pages\\Downloads', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Downloads.html']],
+        'character' => ['namespace' => 'App\\Pages\\Character', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Character.html']],
+        'guild' => ['namespace' => 'App\\Pages\\Guild', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Guild.html']],
+        'signup' => ['namespace' => 'App\\Pages\\SignUp', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'SignUp.html']],
+        'sigin' => ['namespace' => 'App\\Pages\\SigIn', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'SigIn.html']],
+        'account' => ['namespace' => 'App\\Pages\\Account', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'Account.html']],
+        'logout' => ['namespace' => 'App\\Pages\\LogOut', 'template' => ['path' => __ROOT_TEMP_ACTIVE_PAGES, 'name' => 'LogOut.html']]
     ];
 
     /**
