@@ -39,7 +39,7 @@ final class About extends PageAdapter
         $data['info'] = $this->cache()->get(function (array $config): array {
             $serverInfoCache = $this->cache()->getInfo();
             if(!$serverInfoCache->isHit()) {
-                $serverInfoCache->set($this->ready()->serverInfo());
+                $serverInfoCache->set($this->readyQueries()->serverInfo()->sideServerInfo());
                 $this->cache()->save($serverInfoCache);
             }
 
@@ -51,7 +51,7 @@ final class About extends PageAdapter
 
                 if (!in_array($value['configuration'], $gameServerID)) {
                     $gameServerID[] = $value['configuration'];
-                    $gameConfiguration[$value['configuration']] = $this->ready()->getServerInfo($value['configuration']);
+                    $gameConfiguration[$value['configuration']] = $this->readyQueries()->serverInfo()->serverConfigurationInfo($value['configuration']);
                 }
 
                 $data[$value['serverid']]['configuration'] = $gameConfiguration[$value['configuration']];

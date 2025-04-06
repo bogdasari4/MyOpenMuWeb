@@ -8,7 +8,7 @@ namespace App\Pages;
 
 use App\Alert;
 use App\Core\Adapter\PageAdapter;
-use App\Util;
+use App\Core\Component\RedirectTo;
 
 /**
  * This page ends sessions, redirects to the main page and stops executing the current script.
@@ -17,6 +17,8 @@ use App\Util;
  */
 final class LogOut extends PageAdapter
 {
+
+    use RedirectTo;
     
     /**
      * The public function `getInfo()` provides data for rendering pages.
@@ -30,7 +32,7 @@ final class LogOut extends PageAdapter
                 throw new Alert(0x287, 'success', '/');
         }
 
-        Util::redirect();
+        $this->redirectTo();
 
         return [];
     }

@@ -8,7 +8,7 @@ namespace App\Pages;
 
 use App\Alert;
 use App\Core\Adapter\PageAdapter;
-use App\Util;
+use App\Core\Component\{RedirectTo, Validations};
 
 /**
  * Registration processing page.
@@ -17,6 +17,9 @@ use App\Util;
  */
 final class SignUp extends PageAdapter
 {
+
+    use RedirectTo, Validations;
+
     /**
      * The public function `getInfo()` provides data for rendering pages.
      * @return array
@@ -35,7 +38,7 @@ final class SignUp extends PageAdapter
     private function setInfo(): array
     {
         if (isset($this->session->user))
-            Util::redirect();
+            $this->redirectTo();
 
         $data['text'] = __LANG['body']['page']['signup'];
         $data['config'] = $this->config;
@@ -45,17 +48,17 @@ final class SignUp extends PageAdapter
 
             foreach ($signup as $key => $value) {
                 if($key == 'email') {
-                    if (!$this->auth()->validation()->email($signup['email']) || !$this->auth()->validation()->stringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength']))
+                    if (!$this->validateEmail($signup['email']) || !$this->validateStringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength']))
                         throw new Alert(0x2f2, 'warning', '/signup');
                     continue;
                 }
 
-                if (!$this->auth()->validation()->regularExpression($value) || !$this->auth()->validation()->stringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength'])) {
+                if (!$this->validateRegularExpression($value) || !$this->validateStringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength'])) {
                     throw new Alert(0x2f2, 'warning', '/signup');
                 }
             }
 
-            if ($this->ready()->createAccount($signup)) {
+            if ($this->readyQueries()->auth()->createAccount($signup)) {
                 throw new Alert(0x291, 'success', '/');
             }
 

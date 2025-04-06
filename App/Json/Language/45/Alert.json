@@ -12,6 +12,7 @@
     "254": "Error performing reset.",
     "389": "No suitable conditions were found to perform a reset!",
     "240": "Character reset completed!",
+    "28f": "Unable to select a character, perhaps it has already been selected!",
 
     "3d7": "You are trying to allocate more points than the limit for each stat!",
     "3a8": "You are trying to give away more points than the character has!",

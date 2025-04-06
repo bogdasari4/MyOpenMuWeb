@@ -6,30 +6,67 @@
 
 namespace App\Core\Database;
 
-use \PDO;
-use App\Util;
+use App\Core\Component\ConfigLoader;
 
 /**
- * A class for connecting to a database via `\PDO`, using a constant with a type key `__CONFIG_DEFAULT_DATABASE`.
+ * And a class for connecting to the database.
  * 
  * @author Bogdan Reva <tip-bodya@yandex.com>
  */
 class Connect
 {
-    protected PDO $pdo;
+    use ConfigLoader;
+
+    /**
+     * Save the resulting PDO object to the protected $pdo variable.
+     */
+    protected $pdo;
+
+    /**
+     * $instance stores a single instance of the class.
+     */
+    private static $instance = null;
 
     public function __construct()
     {
-        $config['cdb'] = Util::config('cdb');
-        if(!$config['cdb']) Util::redirect('/install');
+        $config = $this->configLoader('cdb', false);
 
-        $connectString = match (__CONFIG_DEFAULT_DATABASE) {
-            'postgresql' => 'pgsql:host=' . $config['cdb']['host'] . ' port=' . $config['cdb']['port'] . ' dbname=' . $config['cdb']['dbname'],
-            'mssql' => 'sqlsrv:Server=' . $config['cdb']['host'] . ';Database=' . $config['cdb']['dbname']
-        };
-        
-        $this->pdo = new PDO($connectString, $config['cdb']['user'], $config['cdb']['password']);
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dsnString = 'pgsql:host=' . $config->host . ' port=' . $config->port . ' dbname=' . $config->dbname;
+
+        $this->pdo = new \PDO($dsnString, $config->user, $config->password);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_NUM);
+        $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+    }
+
+    /**
+     * Checks if an instance exists and creates it if it has not yet been created.
+     * @return
+     */
+    public static function getInstance(): QueryBuilder
+    {
+        if (self::$instance === null)
+            self::$instance = new QueryBuilder;
+
+        return self::$instance;
+    }
+
+    /**
+     * Disable object cloning
+     * @return void
+     */
+    public function __clone(): void
+    {
+        throw new \Exception('Cloning the "Connect" object is prohibited by the kernel.');
+    }
+
+    /**
+     * Prevents additional instances from being created via unserialize().
+     * @return void
+     */
+    public function __wakeup(): void
+    {
+        throw new \Exception('Deserialization of object "Connect" is prohibited by the kernel.');
     }
 }
 

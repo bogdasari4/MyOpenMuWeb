@@ -22,7 +22,7 @@ class App
          * 
          * @see https://www.php.net/manual/function.error-reporting.php
          */
-        error_reporting(E_ALL);
+        error_reporting(0);
 
         /**
          * @see https://www.php.net/manual/function.ini-set.php

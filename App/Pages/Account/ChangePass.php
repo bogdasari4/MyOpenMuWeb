@@ -7,8 +7,8 @@
 namespace App\Pages\Account;
 
 use App\Alert;
-use App\Util;
 use App\Core\Adapter\PageAdapter;
+use App\Core\Component\Validations;
 
 /**
  * The class controls password changes.
@@ -17,6 +17,9 @@ use App\Core\Adapter\PageAdapter;
  */
 final class ChangePass extends PageAdapter
 {
+
+    use Validations;
+
     /**
      * The public function `getInfo()` provides data for rendering pages.
      * @return array
@@ -38,7 +41,7 @@ final class ChangePass extends PageAdapter
 
         $data['config'] = $this->config['changepass'];
 
-        if (isset($_POST['changepass'])) {
+        if(isset($_POST['changepass'])) {
             $changepass = $_POST['changepass'];
 
             if ($changepass['password'] == $changepass['newpassword'])
@@ -47,15 +50,14 @@ final class ChangePass extends PageAdapter
             if ($changepass['newpassword'] != $changepass['renewpassword'])
                 throw new Alert(0x3b4, 'info', '/account/changepass');
 
-            if (!$this->auth()->validation()->regularExpression($changepass['newpassword']))
+            if (!$this->validateRegularExpression($changepass['newpassword']))
                 throw new Alert(0x1af, 'info', '/account/changepass');
 
-            if (!$this->auth()->validation()->stringLength($changepass['newpassword'], $this->config['changepass']['validator']['password']['minLength'], $this->config['changepass']['validator']['password']['maxLength']))
+            if (!$this->validateStringLength($changepass['newpassword'], $this->config['changepass']['validator']['password']['minLength'], $this->config['changepass']['validator']['password']['maxLength']))
                 throw new Alert(0x1af, 'info', '/account/changepass');
                 
-            if ($this->ready()->getAccountInfo()->changePass($changepass)) {
+            if ($this->readyQueries()->accountInfo()->changePass($changepass)) 
                 throw new Alert(0x2ae, 'success', '/logout');
-            }
 
             throw new Alert(0x25a, 'warning', '/account/changepass');
             

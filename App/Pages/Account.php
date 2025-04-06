@@ -7,9 +7,8 @@
 namespace App\Pages;
 
 use App\Alert;
-use App\Assistant;
 use App\Core\Adapter\PageAdapter;
-use App\Util;
+use App\Core\Component\{FormattedGet, RedirectTo};
 
 /**
  * Page for account management and menu provision.
@@ -18,9 +17,8 @@ use App\Util;
  */
 final class Account extends PageAdapter
 {
-    use Assistant {
-        spotGET as private setInfo;
-    }
+
+    use FormattedGet, RedirectTo;
 
     /**
      * The public function `getInfo()` provides data for rendering pages.
@@ -40,9 +38,9 @@ final class Account extends PageAdapter
     private function setInfo(): array
     {
         if (!isset($this->session->user))
-            Util::redirect();
+            $this->redirectTo();
 
-        $subpageName = $this->spotGET('subpage', 'information');
+        $subpageName = $this->formattedGet('subpage', 'information');
 
         $data['text'] = @__LANG['body']['page']['account'][$subpageName];
 

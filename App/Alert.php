@@ -7,6 +7,8 @@
 
 namespace App;
 
+use App\Core\Component\GetLanguageCode;
+
 /**
  * A notification class that uses an extending exception class.
  * 
@@ -14,8 +16,7 @@ namespace App;
  */
 final class Alert extends \Exception
 {
-
-    use Assistant;
+    use GetLanguageCode;
 
     private array $alertList;
 
@@ -30,7 +31,7 @@ final class Alert extends \Exception
      * Redirect to page.
      * @param \Throwable|null $previous
      */
-    public function __construct(private int $hexcode, private string $type = '', string $redirect = '', \Throwable $previous = null)
+    public function __construct(private int $hexcode, private string $type = '', string $redirect = '', ?\Throwable $previous = null)
     {
         parent::__construct('', 0, $previous);
 

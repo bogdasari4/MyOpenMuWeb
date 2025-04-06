@@ -6,8 +6,9 @@
 
 namespace App\Pages\Account;
 
+use App\Alert;
 use App\Core\Adapter\PageAdapter;
-use App\Core\Database\Uuid;
+use App\Core\Component\ConfigLoader;
 
 /**
  * The class controls the movement of the selected character.
@@ -16,6 +17,9 @@ use App\Core\Database\Uuid;
  */
 final class Teleport extends PageAdapter
 {
+
+    use ConfigLoader;
+
     /**
      * The public function `getInfo()` provides data for rendering pages.
      * @return array
@@ -33,12 +37,21 @@ final class Teleport extends PageAdapter
      */
     private function setInfo(): array
     {
-        $data = $this->ready()->getAccountInfo()->teleport();
+        $data = [];
 
-        if (isset($_POST['teleport'])) {
+        if(isset($_POST['teleport'])) {
             $teleport = $_POST['teleport'];
 
-            $this->ready()->getAccountInfo()->teleport($teleport);
+            if($this->readyQueries()->accountInfo()->teleport($teleport))
+                throw new Alert(0x21c, 'success', '/account/teleport');
+
+            throw new Alert(0x39d, 'info', '/account/teleport');
+        }
+
+        $gameMap = $this->configLoader('openmu.game_map');
+        foreach($gameMap as $id => $map) {
+            if($map['teleport']['status'])
+                $data['gamemap'][] = ['id' => $id, 'name' => $map['name']];
         }
 
         return $data;

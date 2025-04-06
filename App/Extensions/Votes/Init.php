@@ -2,14 +2,10 @@
 
 namespace App\Extensions\Votes;
 
-use App\Assistant;
 use App\Core\Adapter\ExtensionsAdapter;
 
 final class Init extends ExtensionsAdapter
 {
-
-    use Assistant;
-
     protected function load(): void
     {
 

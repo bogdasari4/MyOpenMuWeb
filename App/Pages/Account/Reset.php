@@ -32,7 +32,7 @@ final class Reset extends PageAdapter
      */
     private function setInfo(): array
     {
-        $data = $this->ready()->getAccountInfo()->reset($this->config['reset'], isset($_POST['reset']) ? true : false);
+        $data = $this->readyQueries()->accountInfo()->reset($this->config['reset'], isset($_POST['reset']) ? true : false);
 
         return $data;
     }

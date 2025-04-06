@@ -6,8 +6,7 @@
 
 namespace App\Pages;
 
-use App\Util;
-use App\Assistant;
+use App\Core\Component\{FormattedGet, RedirectTo};
 use App\Core\Adapter\PageAdapter;
 
 /**
@@ -17,9 +16,7 @@ use App\Core\Adapter\PageAdapter;
  */
 final class Character extends PageAdapter
 {
-    use Assistant {
-        spotGET as private setInfo;
-    }
+    use RedirectTo, FormattedGet;
 
     /**
      * The public function `getInfo()` provides data for rendering pages.
@@ -38,19 +35,19 @@ final class Character extends PageAdapter
      */
     private function setInfo(): array
     {
-        $charName = $this->spotGET('subpage', '', false);
+        $charName = $this->formattedGet('subpage', '', false);
         if ($charName == '')
-            Util::redirect('/ranking');
+            $this->redirectTo('/ranking');
 
         $this->config['cache']['setName'] = sprintf($this->config['cache']['setName'], $charName);
 
         $data['text'] = __LANG['body']['page']['character'];
         $data['info'] = $this->cache()->get(function (array $config) {
-            return $this->ready()->getCharacterInfo(substr($config['cache']['setName'], 6));
+            return $this->readyQueries()->characterInfo()->fullCharacterInfo(substr($config['cache']['setName'], 6));
         });
 
         if (!$data['info'])
-            Util::redirect('/ranking');
+            $this->redirectTo('/ranking');
 
 
         return $data;

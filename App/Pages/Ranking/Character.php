@@ -33,7 +33,7 @@ class Character extends PageAdapter
     private function setInfo(): array
     {
         $data = $this->cache($this->config['character'])->get(function (array $config) {
-            return $this->ready()->rankingInfo($config, 'character');
+            return $this->readyQueries()->rankingInfo()->character($config);
         });
 
 

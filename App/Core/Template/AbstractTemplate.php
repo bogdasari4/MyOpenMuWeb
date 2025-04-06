@@ -6,11 +6,9 @@
 
 namespace App\Core\Template;
 
-use App\Util;
-use App\Core\Session;
-
-use App\Core\Cache;
-use App\Core\Database\PostgreSQL\ReadyStrings;
+use App\Core\Component\ConfigLoader;
+use App\Core\Database\ReadyQueries;
+use App\Core\{Session, Cache};
 
 /**
  * An auxiliary class for working with blocks and the template body.
@@ -19,8 +17,9 @@ use App\Core\Database\PostgreSQL\ReadyStrings;
  */
 abstract class AbstractTemplate
 {
+    use ConfigLoader;
+
     protected object $session;
-    private ?object $ready = null;
     private ?object $cache = null;
     readonly protected array $config;
 
@@ -30,22 +29,18 @@ abstract class AbstractTemplate
         $this->session->start();
 
         $this->config = [
-            'body' => Util::config('body')
+            'body' => $this->configLoader('body')
         ];
     }
 
     /**
      * Ready function.
      * It is only used when you declare it.
-     * @return ReadyStrings
+     * @return ReadyQueries
      */
-    final protected function ready()
+    final protected function readyQueries(): ReadyQueries
     {
-        if (is_null($this->ready)) {
-            $this->ready = new ReadyStrings;
-        }
-
-        return $this->ready;
+        return new ReadyQueries;
     }
 
     /**

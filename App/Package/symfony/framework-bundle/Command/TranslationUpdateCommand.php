@@ -62,6 +62,10 @@ class TranslationUpdateCommand extends Command
         private array $enabledLocales = [],
     ) {
         parent::__construct();
+
+        if (!method_exists($writer, 'getFormats')) {
+            throw new \InvalidArgumentException(sprintf('The writer class "%s" does not implement the "getFormats()" method.', $writer::class));
+        }
     }
 
     protected function configure(): void
@@ -113,9 +117,6 @@ EOF
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $errorIo = $output instanceof ConsoleOutputInterface ? new SymfonyStyle($input, $output->getErrorOutput()) : $io;
-
         $io = new SymfonyStyle($input, $output);
         $errorIo = $io->getErrorStyle();
 

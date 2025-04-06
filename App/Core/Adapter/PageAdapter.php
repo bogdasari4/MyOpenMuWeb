@@ -6,16 +6,13 @@
 
 namespace App\Core\Adapter;
 
-use App\Core\Session;
-use App\Core\Cache;
-
-use App\Core\Database\PostgreSQL\ReadyStrings;
-use App\Core\Auth;
+use App\Core\Database\ReadyQueries;
+use App\Core\{Session, Cache};
 
 /**
  * @author Bogdan Reva <tip-bodya@yandex.com>
  */
-abstract class PageAdapter implements InterfacePageAdapter
+abstract class PageAdapter extends DBAdapter implements InterfacePageAdapter
 {
     /**
      * Loading sessions.
@@ -24,22 +21,10 @@ abstract class PageAdapter implements InterfacePageAdapter
     protected Session $session;
 
     /**
-     * Loading prepared queries to the database.
-     * @var 
-     */
-    private ?object $ready = null;
-
-    /**
      * Loading system cache.
      * @var 
      */
     private ?Cache $cache = null;
-
-    /**
-     * Loading helper classes to control authorization and verify user data.
-     * @var 
-     */
-    private ?Auth $auth = null;
 
     /**
      * We transfer controllers, configuration and declare a session.
@@ -59,17 +44,13 @@ abstract class PageAdapter implements InterfacePageAdapter
     abstract public function getInfo(): array;
 
     /**
-     * Ready function.
-     * It is only used when you declare it.
-     * @return Ready
+     * readyQueries function.
+     * Prepared queries to the database.
+     * @return ReadyQueries
      */
-    final protected function ready()
+    final protected function readyQueries(): ReadyQueries
     {
-        if (is_null($this->ready)) {
-            $this->ready = new ReadyStrings;
-        }
-
-        return $this->ready;
+        return new ReadyQueries;
     }
 
     /**
@@ -84,19 +65,5 @@ abstract class PageAdapter implements InterfacePageAdapter
         }
 
         return $this->cache;
-    }
-
-    /**
-     * Auth function.
-     * It is only used when you declare it.
-     * @return Auth
-     */
-    final protected function auth(): Auth
-    {
-        if (is_null($this->auth)) {
-            $this->auth = new Auth;
-        }
-
-        return $this->auth;
     }
 }

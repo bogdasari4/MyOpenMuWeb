@@ -6,7 +6,7 @@
 
 namespace App\Core\Controller;
 
-use App\Util;
+use App\Core\Component\ConfigLoader;
 
 /**
  * Main controller for storing and declaring all the main constants.
@@ -15,6 +15,9 @@ use App\Util;
  */
 final class ConstantController
 {
+
+    use ConfigLoader;
+
     /**
      * An array of system constants.
      * @var array
@@ -50,8 +53,7 @@ final class ConstantController
      */
     private function load_configuration_file(): void
     {
-        $this->map['__CONFIG'] = Util::config('core');
-        if(!$this->map['__CONFIG']) Util::redirect('/install');
+        $this->map['__CONFIG'] = $this->configLoader('core');
     }
     
     /**
@@ -72,7 +74,7 @@ final class ConstantController
     {
         foreach ($defineData as $key => $path) {
             if (is_array($path)) {
-                $this->DefineConstant($path, $desiredKey ? implode('_', [$desiredKey, $key]) : $key);
+                $this->defineConstant($path, $desiredKey ? implode('_', [$desiredKey, $key]) : $key);
                 continue;
             }
 

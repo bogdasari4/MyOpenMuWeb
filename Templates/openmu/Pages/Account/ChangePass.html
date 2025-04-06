@@ -8,8 +8,8 @@
                 </label>
                 <input type="password" id="password" name="changepass[password]" class="form-control"
                     aria-describedby="passwordHelp"
-                    minlength="{{ account.config.validator.password.minLength }}"
-                    maxlength="{{ account.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
+                    minlength="{{ page.account.changepass.config.validator.password.minLength }}"
+                    maxlength="{{ page.account.changepass.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
                     autocomplete="current-password" required>
                 <div id="passwordHelp" class="form-text">
                     {{ page.account.text.form.password.help }}
@@ -23,8 +23,8 @@
                     {{ page.account.text.form.newpassword.label }}
                 </label>
                 <input type="password" id="newpassword" name="changepass[newpassword]" class="form-control"
-                    minlength="{{ page.account.config.validator.password.minLength }}"
-                    maxlength="{{ page.account.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
+                    minlength="{{ page.account.changepass.config.validator.password.minLength }}"
+                    maxlength="{{ page.account.changepass.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
                     autocomplete="off" required>
             </div>
 
@@ -34,11 +34,11 @@
                 </label>
                 <input type="password" id="renewpassword" name="changepass[renewpassword]" class="form-control"
                     aria-describedby="renewpasswordHelp"
-                    minlength="{{ page.account.config.validator.password.minLength }}"
-                    maxlength="{{ page.account.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
+                    minlength="{{ page.account.changepass.config.validator.password.minLength }}"
+                    maxlength="{{ page.account.changepass.config.validator.password.maxLength }}" pattern="^[A-Za-z0-9]+$"
                     autocomplete="off" required>
                 <div id="renewpasswordHelp" class="form-text">
-                    {{ page.account.text.form.renewpassword.help|format(page.account.config.validator.password.minLength, page.account.config.validator.password.maxLength) }}
+                    {{ page.account.text.form.renewpassword.help|format(page.account.changepass.config.validator.password.minLength, page.account.changepass.config.validator.password.maxLength) }}
                 </div>
             </div>
 

@@ -8,7 +8,7 @@ namespace App\Pages;
 
 use App\Alert;
 use App\Core\Adapter\PageAdapter;
-use App\Util;
+use App\Core\Component\{RedirectTo, Validations};
 
 /**
  * User login page.
@@ -17,6 +17,8 @@ use App\Util;
  */
 final class SigIn extends PageAdapter
 {
+    use RedirectTo, Validations;
+
     /**
      * The public function `getInfo()` provides data for rendering pages.
      * @return array
@@ -35,7 +37,7 @@ final class SigIn extends PageAdapter
     private function setInfo(): array
     {
         if (isset($this->session->user))
-            Util::redirect();
+            $this->redirectTo();
 
 
         $data['text'] = __LANG['body']['page']['sigin'];
@@ -45,12 +47,12 @@ final class SigIn extends PageAdapter
             $sigin = $_POST['sigin'];
 
             foreach ($sigin as $key => $value) {
-                if (!$this->auth()->validation()->regularExpression($value) || !$this->auth()->validation()->stringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength'])) {
+                if (!$this->validateRegularExpression($value) || !$this->validateStringLength($value, $this->config['validator'][$key]['minLength'], $this->config['validator'][$key]['maxLength'])) {
                     throw new Alert(0x2ee, 'warning', '/sigin');
                 }
             }
 
-            if ($this->ready()->authorization($sigin)) {
+            if ($this->readyQueries()->auth()->authorization($sigin)) {
                 throw new Alert(0x2f5, 'success', '/account');
             }
 

@@ -3,11 +3,9 @@
 namespace App\Core;
 
 use App\Alert;
-use App\Assistant;
-use App\Util;
-
+use App\Core\Component\{ConfigLoader, RedirectTo, FormattedGet, GetLanguageCode};
+use App\Core\Database\ReadyQueries;
 use App\Core\Template\Body;
-use App\Core\Database\PostgreSQL\ReadyStrings;
 
 use Twig\Environment;
 use Twig\Extra\Intl\IntlExtension;
@@ -15,7 +13,7 @@ use Twig\Loader\FilesystemLoader;
 
 final class Handler
 {
-    use Assistant;
+    use ConfigLoader, RedirectTo, FormattedGet, GetLanguageCode;
 
     /**
      * We specify access constants.
@@ -51,9 +49,8 @@ final class Handler
                 $this->loadExtensions();
 
                 $this->body = new Body($this->app);
-                $this->pageName = $this->spotGET('page', __CONFIG_DEFAULT_PAGE);
+                $this->pageName = $this->formattedGet('page', __CONFIG_DEFAULT_PAGE);
 
-                $this->catchPage();
                 $this->render();
                 break;
 
@@ -81,6 +78,9 @@ final class Handler
         try {
             $FSLoader = new FilesystemLoader(__ROOT_TEMP_ACTIVE);
 
+            $content = [];
+            $this->catchPage();
+
             if (!isset($this->app->pagescontroller->{$this->pageName})) {
                 throw new Alert(0x23b, 'info', '/');
             }
@@ -91,7 +91,7 @@ final class Handler
 
             if (isset($this->app->subpagescontroller->{$this->pageName})) {
                 $subPageController = $this->app->subpagescontroller->{$this->pageName};
-                $subPage = $this->spotGET('subpage', array_key_first($subPageController));
+                $subPage = $this->formattedGet('subpage', array_key_first($subPageController));
                 if (!isset($subPageController[$subPage])) {
                     throw new Alert(0x23b, 'info', '/' . $this->pageName . '/' . array_key_first($subPageController));
                 }
@@ -103,19 +103,19 @@ final class Handler
             }
 
             $FSLoader->addPath($pageController['template']['path'], $addPath);
-
+            
             $content = ['path' => '@' . $addPath . DIRECTORY_SEPARATOR . $pageController['template']['name'], 'data' => $pageData];
 
             http_response_code(200);
 
         } catch (Alert $e) {
             $content = $e->getCalloutTemplate();
+        } finally {
+            $twig = new Environment($FSLoader, ['debug' => false, 'charset' => 'UTF-8', 'autoescape' => 'html']);
+            $twig->addExtension(new IntlExtension);
+            $template = $twig->load('Body.html');
+            $template->display(array_merge($this->body->getData(), ['content' => is_array($content) ? $twig->render($content['path'], $content['data']) : $content]));
         }
-
-        $twig = new Environment($FSLoader, ['debug' => false, 'charset' => 'UTF-8', 'autoescape' => 'html']);
-        $twig->addExtension(new IntlExtension());
-        $template = $twig->load('Body.html');
-        $template->display(array_merge($this->body->getData(), ['content' => is_array($content) ? $twig->render($content['path'], $content['data']) : $content]));
     }
 
     /**
@@ -137,20 +137,19 @@ final class Handler
     private function catchPage(): void
     {
         switch ($this->pageName) {
-            case '':
-                break;
-
             case 'account':
-                if ($this->spotGET('subpage', '') == 'getchar') {
-                    $readyStrings = new ReadyStrings;
-                    $readyStrings->getAccountInfo()->getCharacter($this->spotGET('request', '', false));
-                    Util::redirect('/account');
+                if($this->formattedGet('subpage', '') == 'getchar') {
+                    $readyQueries = new ReadyQueries;
+                    if($readyQueries->accountInfo()->changeCharacter($this->formattedGet('request', '', false)))
+                        $this->redirectTo('/account');
+                    
+                    throw new Alert(0x28f, 'info', '/account');
                 }
                 break;
 
             case 'getlang':
-                $this->getLanguage($this->spotGET('subpage', __CONFIG_LANGUAGE_SET));
-                Util::redirect();
+                $this->getLanguage($this->formattedGet('subpage', __CONFIG_LANGUAGE_SET));
+                $this->redirectTo();
                 break;
         }
     }
@@ -191,7 +190,7 @@ final class Handler
      */
     private function loadExtensions(): void
     {
-        foreach(Util::config('extensions', false) as $key => $value)
+        foreach($this->configLoader('extensions', false) as $key => $value)
         {
             if(!$value->status)
                 continue;

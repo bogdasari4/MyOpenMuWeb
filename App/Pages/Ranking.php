@@ -6,9 +6,8 @@
 
 namespace App\Pages;
 
-use App\Assistant;
 use App\Core\Adapter\PageAdapter;
-use App\Util;
+use App\Core\Component\FormattedGet;
 
 /**
  * Ranking page. Used to display the menu and all available ranking.
@@ -17,9 +16,7 @@ use App\Util;
  */
 final class Ranking extends PageAdapter
 {
-    use Assistant {
-        spotGET as private setInfo;
-    }
+    use FormattedGet;
 
     /**
      * The public function `getInfo()` provides data for rendering pages.
@@ -38,7 +35,7 @@ final class Ranking extends PageAdapter
      */
     private function setInfo(): array
     {
-        $subpageName = $this->spotGET('subpage', 'character');
+        $subpageName = $this->formattedGet('subpage', 'character');
 
         $data['text'] = @__LANG['body']['page']['ranking'][$subpageName];
 

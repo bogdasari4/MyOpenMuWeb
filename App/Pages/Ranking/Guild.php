@@ -33,7 +33,7 @@ class Guild extends PageAdapter
     private function setInfo(): array
     {
         $data = $this->cache($this->config['guild'])->get(function (array $config) {
-            return $this->ready()->rankingInfo($config, 'guild');
+            return $this->readyQueries()->rankingInfo()->guild($config);
         });
 
         return $data;

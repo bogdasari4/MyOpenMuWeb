@@ -140,7 +140,7 @@
                 },
                 "email": {
                     "minLength": 6,
-                    "maxLength": 50
+                    "maxLength": 64
                 }
             }
         },

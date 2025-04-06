@@ -6,8 +6,7 @@
 
 namespace App\Pages;
 
-use App\Util;
-use App\Assistant;
+use App\Core\Component\{FormattedGet, RedirectTo};
 use App\Core\Adapter\PageAdapter;
 
 /**
@@ -17,9 +16,7 @@ use App\Core\Adapter\PageAdapter;
  */
 final class Guild extends PageAdapter
 {
-    use Assistant {
-        spotGET as private setInfo;
-    }
+    use FormattedGet, RedirectTo;
 
     /**
      * The public function `getInfo()` provides data for rendering pages.
@@ -38,19 +35,19 @@ final class Guild extends PageAdapter
      */
     private function setInfo(): ?array
     {
-        $guildName = $this->spotGET('subpage', '', false);
+        $guildName = $this->formattedGet('subpage', '', false);
         if ($guildName == '')
-            Util::redirect('/ranking/guild');
+            $this->redirectTo('/ranking/guild');
 
-        $this->config['cache']['setName'] = sprintf($this->config['cache']['setName'], $this->spotGET('subpage', '', false));
+        $this->config['cache']['setName'] = sprintf($this->config['cache']['setName'], $this->formattedGet('subpage', '', false));
 
         $data['text'] = __LANG['body']['page']['guild'];
         $data['info'] = $this->cache()->get(function (array $config) {
-            return $this->ready()->getGuildInfo(substr($config['cache']['setName'], 6));
+            return $this->readyQueries()->guildInfo()->fullGuildInforamtion(substr($config['cache']['setName'], 6));
         });
 
         if (!$data['info'])
-            Util::redirect('/ranking/guild');
+            $this->redirectTo('/ranking/guild');
 
         return $data;
     }

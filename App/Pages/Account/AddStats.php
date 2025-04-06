@@ -32,7 +32,7 @@ final class AddStats extends PageAdapter
      */
     private function setInfo(): array
     {
-        $data = $this->ready()->getAccountInfo()->addStats($this->config['addstats'], isset($_POST['addstats']) ? $_POST['addstats'] : null);
+        $data = $this->readyQueries()->accountInfo()->addStats($this->config['addstats'], $_POST['addstats'] ?? null);
         $data['config'] = $this->config['addstats'];
 
         return $data;

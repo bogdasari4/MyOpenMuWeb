@@ -4,7 +4,7 @@ return [
     'Names' => [
         'aa' => 'Afar',
         'ab' => 'Abkhazian',
-        'ace' => 'Achinese',
+        'ace' => 'Acehnese',
         'ach' => 'Acoli',
         'ada' => 'Adangme',
         'ady' => 'Adyghe',
@@ -200,7 +200,6 @@ return [
         'gmh' => 'Middle High German',
         'gn' => 'Guarani',
         'goh' => 'Old High German',
-        'gom' => 'Goan Konkani',
         'gon' => 'Gondi',
         'gor' => 'Gorontalo',
         'got' => 'Gothic',
