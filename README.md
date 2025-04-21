@@ -4,15 +4,6 @@
 
 MyOpenMuWeb is an open source content management system (CMS) for the [MUnique/OpenMU](https://github.com/MUnique/OpenMU) server based on PostgreSQL.
 
-![Crates.io License](https://img.shields.io/crates/l/gnu)
-![Static Badge](https://img.shields.io/badge/8.2-8_2?label=php-version)
-![Packagist Version](https://img.shields.io/packagist/v/symfony/cache?label=symfony%2Fcache)
-![Packagist Version](https://img.shields.io/packagist/v/twig/twig?label=twig%2Ftwig)
-![Packagist Version](https://img.shields.io/packagist/v/twig/intl-extra?label=twig%2Fintl-extra)
-![Packagist Version](https://img.shields.io/packagist/v/twig/extra-bundle?label=twig%2Fextra-bundle)
-![Packagist Version](https://img.shields.io/packagist/v/phpmailer/phpmailer?label=phpmailer%2Fphpmailer)
-[![Discord](https://img.shields.io/discord/1193794951071399956?logo=discord)](https://discord.gg/h4xBgxtNHw)
-
 ### Current status of the project
 > This project is currently **under development**. You can try the current state using the available git image.
 
