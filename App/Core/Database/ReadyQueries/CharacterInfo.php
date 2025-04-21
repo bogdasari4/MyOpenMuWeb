@@ -113,6 +113,6 @@ final class CharacterInfo extends DBAdapter
      */
     private function binaryToImageGuildLogo(string $binary, int $size = 40): string
     {
-        return '<img src="/api/guildmark.php?data=' . $binary . '&size=' . urlencode($size) . '" width="' . $size . '" height="' . $size . '"/>';
+        return '<img src="/api/guildmark?data=' . $binary . '&size=' . urlencode($size) . '" width="' . $size . '" height="' . $size . '"/>';
     }
 }

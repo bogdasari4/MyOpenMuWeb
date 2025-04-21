@@ -2,16 +2,30 @@
 /**
  * MyOpenMuWeb
  * @see https://github.com/bogdasari4/MyOpenMuWeb
+ * 
+ * The initial class of the engine
+ * 
+ * @author Bogdan Reva <tip-bodya@yandex.com>
  */
 
-class App
+final class App
 {
     /**
+     * We specify access constants.
+     */
+    public const ACCESS_INDEX = 'index';
+
+    public const ACCESS_API = 'api';
+    
+    public const ACCESS_INSTALL = 'install';
+
+    /**
      * The initial class of the engine. We declare the first constants and set the php settings.
-     * 
+     * @param string $access
+     * Access type: example [ACCESS_INDEX], [ACCESS_API], [ACCESS_INSTALL]
      * @author Bogdan Reva <tip-bodya@yandex.com>
      */
-    public function loader()
+    public function loader(string $access = self::ACCESS_INDEX)
     {
         /**
          * Sets which PHP errors are reported.
@@ -22,7 +36,7 @@ class App
          * 
          * @see https://www.php.net/manual/function.error-reporting.php
          */
-        error_reporting(0);
+        error_reporting(E_ALL);
 
         /**
          * @see https://www.php.net/manual/function.ini-set.php
@@ -41,15 +55,6 @@ class App
         define('__BASE_URL', __SERVER_PROTOCOL . __HTTP_HOST . __RELATIVE_ROOT);
         define('__BASE_URL_ALT', __SERVER_PROTOCOL . __HTTP_HOST);
         define('__ACTUAL_URL', __SERVER_PROTOCOL . __HTTP_HOST . $_SERVER['REQUEST_URI']);
-        
-        /**
-         * For libraries that specify autoload information, Composer generates a _ROOT/App/Package/autoload.php file.
-         * Start using the classes that those libraries provide without any extra work.
-         * 
-         * @see https://getcomposer.org/doc/01-basic-usage.md#autoloading
-         */
-        if(!@include_once('App/Package/autoload.php'))
-            throw new \Exception('Can\'t find composer autoload file.');
 
         /**
          * This class using for autoload classes from file paths.
@@ -65,7 +70,7 @@ class App
          * Switch the handler class to render the site template.
          */
         $Handler = new App\Core\Handler();
-        $Handler->switch($Handler::ACCESS_INDEX);
+        $Handler->switch($access);
     }
 }
 ?>

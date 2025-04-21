@@ -1,7 +1,25 @@
 Options -Indexes
 
 RewriteEngine on
+RewriteBase /
 
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api.php?path=$1 [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ index.php?page=$1&subpage=$2&request=$3 [QSA]
 RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ index.php?page=$1&subpage=$2 [QSA]
 RewriteRule ^([a-zA-Z0-9]+)/?$ index.php?page=$1 [QSA]
+
+<FilesMatch "\.(json)$">
+    Require all denied
+</FilesMatch>
+
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "DENY"
+Header set X-XSS-Protection "1; mode=block"

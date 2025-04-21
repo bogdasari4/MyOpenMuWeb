@@ -26,14 +26,15 @@ trait FormattedGet
      * Return the formatted string.
      * @see https://www.php.net/manual/function.strtolower.php, https://www.php.net/manual/function.htmlspecialchars.php, https://www.php.net/manual/function.trim.php
      */
-    private function formattedGet(string $typeGet, int|string $pageName, bool $strtolower = true): string
+    private function formattedGet(string $typeGet, int|string $pageName = '', bool $strtolower = true): string
     {   
         if(isset($_GET[$typeGet]) && (is_string($_GET[$typeGet]) || is_int($_GET[$typeGet])) && $_GET[$typeGet] !== '') {
             $filteredInput = htmlspecialchars(trim($_GET[$typeGet]), ENT_QUOTES | ENT_HTML5, 'UTF-8', false);
-            if(strlen($filteredInput) < 30)
+            if(strlen($filteredInput) < 67)
                 $pageName = $filteredInput;
         }
 
         return $strtolower ? strtolower($pageName) : $pageName;
+        
     }
 }
